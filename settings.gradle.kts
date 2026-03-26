@@ -22,6 +22,41 @@
 //
 //rootProject.name = "RuleOfTheDay333"
 //include(":app")
+//pluginManagement {
+//    repositories {
+//        google()
+//        mavenCentral()
+//        gradlePluginPortal()
+//    }
+//}
+//
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//}
+//
+//rootProject.name = "RuleOfTheDay333"
+//include(":app")
+
+//pluginManagement {
+//    repositories {
+//        google()
+//        mavenCentral()
+//        gradlePluginPortal()
+//    }
+//}
+//
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//    }
+//}
+
 pluginManagement {
     repositories {
         google()
@@ -39,4 +74,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "RuleOfTheDay333"
+
 include(":app")

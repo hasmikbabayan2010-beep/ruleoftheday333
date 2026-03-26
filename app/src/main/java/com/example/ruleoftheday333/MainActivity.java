@@ -5,6 +5,12 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+
 import com.example.ruleoftheday333.fragments.AccountFragment;
 import com.example.ruleoftheday333.fragments.CalendarFragment;
 import com.example.ruleoftheday333.fragments.HomeFragment;

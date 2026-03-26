@@ -20,39 +20,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+<!--            <EditText-->
+<!--                android:hint="What goal do you want help achieving?"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+<!--            <EditText-->
+<!--                android:hint="How much time can you spend daily?"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+<!--            <EditText-->
+<!--                android:hint="Activity level?"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+<!--            <EditText-->
+<!--                android:hint="Are you working?"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+<!--            <EditText-->
+<!--                android:hint="Are you studying?"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+<!--            <EditText-->
+<!--                android:hint="Do you live alone or with family?"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
+
+<!--            <EditText-->
+<!--                android:hint="Do you have pets?"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
+
             <EditText
-                android:hint="What goal do you want help achieving?"
+                android:id="@+id/goalInput"
+                android:hint="Your goal (e.g. get fit)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <EditText
-                android:hint="How much time can you spend daily?"
+                android:id="@+id/habitInput"
+                android:hint="Your habits (e.g. lazy, active)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <EditText
-                android:hint="Activity level?"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:hint="Are you working?"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:hint="Are you studying?"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:hint="Do you live alone or with family?"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <EditText
-                android:hint="Do you have pets?"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/saveButton"
+                android:text="Save"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
