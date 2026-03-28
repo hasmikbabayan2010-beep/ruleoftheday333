@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/nav_home"
-        android:title="Home"
+        android:title="@string/nav_home"
         android:icon="@android:drawable/ic_menu_view" />
 
     <item
         android:id="@+id/nav_calendar"
-        android:title="Calendar"
+        android:title="@string/nav_calendar"
         android:icon="@android:drawable/ic_menu_my_calendar" />
 
     <item
         android:id="@+id/nav_account"
-        android:title="Account"
+        android:title="@string/nav_account"
         android:icon="@android:drawable/ic_menu_edit" />
 
     <item
         android:id="@+id/nav_settings"
-        android:title="Settings"
+        android:title="@string/nav_settings"
         android:icon="@android:drawable/ic_menu_preferences" />
 
 </menu>

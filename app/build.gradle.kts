@@ -27,18 +27,39 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
 
-    implementation("com.google.android.material:material:1.13.0")
+    // Material + UI
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
 
     // Google Services
     implementation("com.google.android.gms:play-services-auth:21.5.1")
 
-    // UI
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-
     // Other
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.guava:guava:32.1.2-android")
+    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
 }
+
+//dependencies {
+//    // Firebase
+//    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+//    implementation("com.google.firebase:firebase-auth")
+//    implementation("com.google.firebase:firebase-database")
+//
+//    implementation("com.google.android.material:material:1.13.0")
+//
+//    // Google Services
+//    implementation("com.google.android.gms:play-services-auth:21.5.1")
+//
+//    // UI
+//    implementation("androidx.appcompat:appcompat:1.6.1")
+//    implementation("com.google.android.material:material:1.11.0")
+//
+//    // Other
+//    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+//    implementation("com.google.guava:guava:32.1.2-android")
+////    implementation("com.prolificinteractive:material-calendarview:2.0.1")
+//    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
+//}
 
 //apply plugin: 'com.google.gms.google-services' // at the bottom

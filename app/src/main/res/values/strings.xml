@@ -141,6 +141,17 @@
     <string name="generate_rule_placeholder">Generate todays rule</string>
     <string name="generate_rule_button">Generate Rule</string>
 
+    <!-- Navbar -->
+    <string name="nav_home">Home</string>
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Buttons -->
+    <string name="btn_followed">Followed the rule ✅</string>
+    <string name="btn_not_followed">Did not follow ❌</string>
+    <string name="btn_generate_rule">Generate Rule</string>
+
 
 
 
@@ -149,5 +160,11 @@
 
 
     <!-- Google Sign-In -->
-    <string name="default_web_client_id">173962283423-k6i44hcqmlu4kq87tlfb5ppmc768ns6v.apps.googleusercontent.com.apps.googleusercontent.com</string>
+
+
+
+    <string name="default_web_client_id">
+173962283423-k6i44hcqmlu4kq87tlfb5ppmc768ns6v.apps.googleusercontent.com
+</string>
+<!--    <string name="default_web_client_id">173962283423-k6i44hcqmlu4kq87tlfb5ppmc768ns6v.apps.googleusercontent.com.apps.googleusercontent.com</string>-->
 </resources>

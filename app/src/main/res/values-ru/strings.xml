@@ -26,5 +26,15 @@
     <string name="toast_error">Ошибка: </string>
     <string name="generate_rule_placeholder">Сгенерируйте правило на сегодня</string>
     <string name="generate_rule_button">Сгенерировать правило</string>
+    <!-- Navbar -->
+    <string name="nav_home">Главная</string>
+    <string name="nav_calendar">Календарь</string>
+    <string name="nav_account">Аккаунт</string>
+    <string name="nav_settings">Настройки</string>
+
+    <!-- Buttons -->
+    <string name="btn_followed">Правило выполнено ✅</string>
+    <string name="btn_not_followed">Не выполнено ❌</string>
+    <string name="btn_generate_rule">Сгенерировать правило</string>
 
 </resources>

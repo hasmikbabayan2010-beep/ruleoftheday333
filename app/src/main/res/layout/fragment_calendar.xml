@@ -1,17 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<!--&lt;!&ndash;<?xml version="1.0" encoding="utf-8"?>&ndash;&gt;-->
+<!--&lt;!&ndash;<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
+<!--&lt;!&ndash;    xmlns:tools="http://schemas.android.com/tools"&ndash;&gt;-->
+<!--&lt;!&ndash;    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;    android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;    tools:context=".fragments.CalendarFragment">&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Optional: placeholder text, using strings.xml &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:text="@string/hello_blank_fragment" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <CalendarView&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="match_parent"/>&ndash;&gt;-->
+<!--&lt;!&ndash;</FrameLayout>&ndash;&gt;-->
+<!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView android:id="@+id/calendarView"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android" />-->
+
+<com.prolificinteractive.materialcalendarview.MaterialCalendarView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/calendarView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.CalendarFragment">
-
-    <!-- Optional: placeholder text, using strings.xml -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-    <CalendarView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</FrameLayout>
+    android:layout_height="match_parent"/>

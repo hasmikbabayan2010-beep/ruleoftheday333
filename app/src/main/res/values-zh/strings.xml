@@ -26,4 +26,14 @@
     <string name="toast_error">错误: </string>
     <string name="generate_rule_placeholder">生成今天的规则</string>
     <string name="generate_rule_button">生成规则</string>
+    <!-- Navbar -->
+    <string name="nav_home">主页</string>
+    <string name="nav_calendar">日历</string>
+    <string name="nav_account">账户</string>
+    <string name="nav_settings">设置</string>
+
+    <!-- Buttons -->
+    <string name="btn_followed">已遵守 ✅</string>
+    <string name="btn_not_followed">未遵守 ❌</string>
+    <string name="btn_generate_rule">生成规则</string>
 </resources>
