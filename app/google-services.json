@@ -12,7 +12,12 @@
           "package_name": "com.example.ruleoftheday333"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "173962283423-amcvdt1e9p14eh1s3s7qej9q3s9oaaof.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAj889AbC6oX4GlPMMWfnwbFm9FazZtKPk"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173962283423-amcvdt1e9p14eh1s3s7qej9q3s9oaaof.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

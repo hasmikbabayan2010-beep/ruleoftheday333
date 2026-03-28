@@ -1,0 +1,29 @@
+<resources>
+    <string name="start">开始</string>
+    <string name="stop">停止</string>
+    <string name="generate_rule">生成规则</string>
+    <string name="goal">目标</string>
+    <string name="habit">习惯</string>
+    <string name="frequency">频率</string>
+    <string name="priority">优先级</string>
+    <string name="enter_goal">输入你的目标</string>
+    <string name="enter_habit">输入一个习惯</string>
+    <string name="rule_drink_water">今天喝2升水</string>
+    <string name="rule_read_book">阅读30分钟</string>
+    <string name="rule_no_sugar">今天不吃糖</string>
+    <string name="rule_walk">去散步</string>
+    <string name="rule_journal">写日记</string>
+    <string name="feedback_well_done">干得好！</string>
+    <string name="feedback_keep_going">继续努力！</string>
+    <string name="feedback_try_again">明天再试</string>
+    <string name="hello_blank_fragment">你好，空白片段</string>
+    <string name="hint_goal">你的目标（例如：健身）</string>
+    <string name="hint_habit">你的习惯（例如：懒惰、活跃）</string>
+    <string name="save_button">保存</string>
+    <string name="toast_fill_fields">请填写所有字段</string>
+    <string name="toast_user_not_logged_in">用户未登录！</string>
+    <string name="toast_saved">个人资料已保存！</string>
+    <string name="toast_error">错误: </string>
+    <string name="generate_rule_placeholder">生成今天的规则</string>
+    <string name="generate_rule_button">生成规则</string>
+</resources>

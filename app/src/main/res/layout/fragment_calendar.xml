@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".fragments.CalendarFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Optional: placeholder text, using strings.xml -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />
-    <CalendarView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <CalendarView
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </FrameLayout>

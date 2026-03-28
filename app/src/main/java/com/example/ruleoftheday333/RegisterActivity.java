@@ -122,26 +122,36 @@ public class RegisterActivity extends AppCompatActivity {
             return;
 
         }
+        if (password.length() < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
 
-                    if(task.isSuccessful()){
+                    if(task.isSuccessful()) {
 
-                        Toast.makeText(this,"Registration Successful",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show();
 
                         startActivity(new Intent(this,
                                 com.example.ruleoftheday333.ui.login.LoginActivity.class));
 
                         finish();
 
-                    }else{
-
-                        Toast.makeText(this,
-                                "Registration Failed",
-                                Toast.LENGTH_SHORT).show();
-
-                    }
+//                    }else{
+//
+//                        Toast.makeText(this,
+//                                "Registration Failed",
+//                                Toast.LENGTH_SHORT).show();
+//
+//                    }
+                    } else {
+                            Exception e = task.getException();
+                            Toast.makeText(this,
+                                    "Registration Failed: " + (e != null ? e.getMessage() : "Unknown error"),
+                                    Toast.LENGTH_LONG).show();
+                        }
 
                 });
 

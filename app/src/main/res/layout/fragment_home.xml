@@ -1,3 +1,25 @@
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:orientation="vertical"-->
+<!--    android:padding="24dp"-->
+<!--    android:gravity="center"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/ruleText"-->
+<!--        android:text="Generate today's rule"-->
+<!--        android:textSize="20sp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/generateRule"-->
+<!--        android:text="Generate Rule"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+<!--</LinearLayout>-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="24dp"
@@ -7,7 +29,7 @@
 
     <TextView
         android:id="@+id/ruleText"
-        android:text="Generate today's rule"
+        android:text="@string/generate_rule_placeholder"
         android:textSize="20sp"
         android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
@@ -15,7 +37,7 @@
 
     <Button
         android:id="@+id/generateRule"
-        android:text="Generate Rule"
+        android:text="@string/generate_rule_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

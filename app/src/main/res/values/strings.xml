@@ -1,15 +1,153 @@
+<!--&lt;!&ndash;&lt;!&ndash;<resources>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="app_name">RuleOfTheDay333</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="title_activity_login">LoginActivity</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="prompt_email">Email</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="prompt_password">Password</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="action_sign_in">Sign in or register</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="action_sign_in_short">Sign in</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="welcome">"Welcome !"</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="invalid_username">Not a valid username</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="invalid_password">Password must be >5 characters</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="login_failed">"Login failed"</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="default_web_client_id">"d5:ee:a9:4d:53:6d:9a:01:71:2b:f6:b4:47:53:3a:c3:61:91:e0:66"</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    &lt;!&ndash; TODO: Remove or change this placeholder text &ndash;&gt;&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <string name="hello_blank_fragment">Hello blank fragment</string>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;</resources>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<resources>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="app_name">RuleOfTheDay</string>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Login &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="prompt_email">Enter your email</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="prompt_password">Enter your password</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="hello_blank_fragment">Hello Fragment</string>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Register &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="register_title">Create An Account</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="email_hint">Email</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="password_hint">Password</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="already_have_account">Already have an account? Login</string>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Home Fragment &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="generate_rule_text">Generate todays rule</string>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Settings &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="language">Language</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="theme">Theme</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="privacy">Privacy</string>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;    <string name="title_activity_login">Login</string>&ndash;&gt;-->
+<!--&lt;!&ndash;</resources>&ndash;&gt;-->
+<!--&lt;!&ndash;<resources>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="app_name">RuleOfTheDay</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="prompt_email">Enter your email</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="prompt_password">Enter your password</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="hello_blank_fragment">Hello Fragment</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="title_activity_login">Login</string>&ndash;&gt;-->
+<!--&lt;!&ndash;</resources>&ndash;&gt;-->
+<!--&lt;!&ndash;<resources>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="app_name">RuleOfTheDay</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="prompt_email">Enter your email</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="prompt_password">Enter your password</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="hello_blank_fragment">Hello Fragment</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="title_activity_login">Login</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="action_sign_in_short">Sign in</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="action_sign_in">Sign in</string>&ndash;&gt;-->
+<!--&lt;!&ndash;    <string name="login_failed">Login failed</string>&ndash;&gt;-->
+<!--&lt;!&ndash;</resources>&ndash;&gt;-->
+<!--<resources>-->
+<!--    <string name="app_name">RuleOfTheDay</string>-->
+<!--    <string name="prompt_email">Enter your email</string>-->
+<!--    <string name="prompt_password">Enter your password</string>-->
+<!--    <string name="hello_blank_fragment">Hello Fragment</string>-->
+<!--    <string name="title_activity_login">Login</string>-->
+<!--    <string name="action_sign_in_short">Sign in</string>-->
+<!--    <string name="action_sign_in">Sign in</string>-->
+<!--    <string name="login_failed">Login failed</string>-->
+<!--    <string name="invalid_username">Invalid username</string>-->
+<!--    <string name="invalid_password">Invalid password</string>-->
+<!--</resources>-->
 <resources>
-    <string name="app_name">RuleOfTheDay333</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <!-- App -->
+    <string name="app_name">RuleOfTheDay</string>
+
+    <!-- Login Activity -->
+    <string name="title_activity_login">Login</string>
+    <string name="prompt_email">Enter your email</string>
+    <string name="prompt_password">Enter your password</string>
+    <string name="login_empty_fields">Please enter email and password</string>
+    <string name="login_failed_generic">Login failed. Please try again.</string>
+    <string name="login_failed">Login failed</string>
+    <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <string name="default_web_client_id">"d5:ee:a9:4d:53:6d:9a:01:71:2b:f6:b4:47:53:3a:c3:61:91:e0:66"</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <!-- Validation -->
+    <string name="invalid_username">Invalid username</string>
+    <string name="invalid_password">Invalid password (min 6 chars)</string>
+
+    <!-- Home Fragment -->
+    <string name="hello_blank_fragment">Hello Fragment</string>
+    <string name="generate_rule_text">Generate today rule</string>
+
+    <!-- Register Activity -->
+    <string name="register_title">Create An Account</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="already_have_account">Already have an account? Login</string>
+
+    <!-- Settings Fragment, LANGUAGES -->
+    <string name="language">Language</string>
+    <string name="settings">Settings</string>
+    <string name="theme">Theme</string>
+    <string name="privacy">Privacy</string>
+
+
+    <string name="english">English</string>
+    <string name="russian">Русский</string>
+    <string name="chinese">中文</string>
+
+<!--    themes-->
+    <string name="light_mode">Light Mode</string>
+    <string name="dark_mode">Dark Mode</string>
+
+
+<!--    <string name="hello_blank_fragment">Hello Blank Fragment</string>-->
+    <string name="hint_goal">Your goal (e.g. get fit)</string>
+    <string name="hint_habit">Your habits (e.g. lazy, active)</string>
+    <string name="save_button">Save</string>
+    <string name="toast_fill_fields">Please fill all fields</string>
+    <string name="toast_user_not_logged_in">User not logged in!</string>
+    <string name="toast_saved">Profile saved!</string>
+    <string name="toast_error">Error: </string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="generate_rule">Generate Rule</string>
+    <string name="goal">Goal</string>
+    <string name="habit">Habit</string>
+    <string name="frequency">Frequency</string>
+    <string name="priority">Priority</string>
+    <string name="enter_goal">Enter your goal</string>
+    <string name="enter_habit">Enter a habit</string>
+    <string name="rule_drink_water">Drink 2 liters of water today</string>
+    <string name="rule_read_book">Read for 30 minutes</string>
+    <string name="rule_no_sugar">No sugar today</string>
+    <string name="rule_walk">Go for a walk</string>
+    <string name="rule_journal">Write in your journal</string>
+    <string name="feedback_well_done">Well done!</string>
+    <string name="feedback_keep_going">Keep going!</string>
+    <string name="feedback_try_again">Try again tomorrow</string>
+    <string name="generate_rule_placeholder">Generate todays rule</string>
+    <string name="generate_rule_button">Generate Rule</string>
+
+
+
+
+
+
+
+
+    <!-- Google Sign-In -->
+    <string name="default_web_client_id">173962283423-k6i44hcqmlu4kq87tlfb5ppmc768ns6v.apps.googleusercontent.com.apps.googleusercontent.com</string>
 </resources>

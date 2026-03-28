@@ -1,0 +1,30 @@
+<resources>
+    <string name="start">Начать</string>
+    <string name="stop">Остановить</string>
+    <string name="generate_rule">Сгенерировать правило</string>
+    <string name="goal">Цель</string>
+    <string name="habit">Привычка</string>
+    <string name="frequency">Частота</string>
+    <string name="priority">Приоритет</string>
+    <string name="enter_goal">Введите вашу цель</string>
+    <string name="enter_habit">Введите привычку</string>
+    <string name="rule_drink_water">Выпейте 2 литра воды сегодня</string>
+    <string name="rule_read_book">Читайте 30 минут</string>
+    <string name="rule_no_sugar">Сегодня без сахара</string>
+    <string name="rule_walk">Прогуляйтесь</string>
+    <string name="rule_journal">Напишите в дневник</string>
+    <string name="feedback_well_done">Отлично!</string>
+    <string name="feedback_keep_going">Продолжайте!</string>
+    <string name="feedback_try_again">Попробуйте завтра</string>
+    <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
+    <string name="hint_goal">Ваша цель (например, стать в форме)</string>
+    <string name="hint_habit">Ваши привычки (например, ленивый, активный)</string>
+    <string name="save_button">Сохранить</string>
+    <string name="toast_fill_fields">Пожалуйста, заполните все поля</string>
+    <string name="toast_user_not_logged_in">Пользователь не вошел в систему!</string>
+    <string name="toast_saved">Профиль сохранен!</string>
+    <string name="toast_error">Ошибка: </string>
+    <string name="generate_rule_placeholder">Сгенерируйте правило на сегодня</string>
+    <string name="generate_rule_button">Сгенерировать правило</string>
+
+</resources>
