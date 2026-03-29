@@ -763,6 +763,184 @@
 ////    }
 ////}
 
+//package com.example.ruleoftheday333.fragments;
+//
+//import android.os.Bundle;
+//import androidx.fragment.app.Fragment;
+//import android.view.LayoutInflater;
+//import android.view.View;
+//import android.view.ViewGroup;
+//import android.widget.Button;
+//import android.widget.TextView;
+//import android.widget.Toast;
+//
+//import com.example.ruleoftheday333.R;
+//import com.example.ruleoftheday333.UserProfile;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.database.*;
+//
+//import okhttp3.*;
+//import org.json.JSONObject;
+//
+//import java.io.IOException;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
+//import java.util.Locale;
+//
+//public class HomeFragment extends Fragment {
+//
+//    TextView ruleText;
+//    Button generateRule, btnFollowed, btnNotFollowed;
+//
+//    public HomeFragment() {}
+//
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//
+//        View view = inflater.inflate(R.layout.fragment_home, container, false);
+//
+//        ruleText = view.findViewById(R.id.ruleText);
+//        generateRule = view.findViewById(R.id.generateRule);
+//        btnFollowed = view.findViewById(R.id.btnFollowed);
+//        btnNotFollowed = view.findViewById(R.id.btnNotFollowed);
+//
+//        generateRule.setOnClickListener(v -> loadUserAndGenerateRule());
+//
+//        btnFollowed.setOnClickListener(v -> saveDayStatus("green"));
+//        btnNotFollowed.setOnClickListener(v -> saveDayStatus("red"));
+//
+//        return view;
+//    }
+//
+//    private void saveDayStatus(String status) {
+//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+//            Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//
+//        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//                .format(new Date());
+//
+//        DatabaseReference ref = FirebaseDatabase.getInstance()
+//                .getReference("users")
+//                .child(userId)
+//                .child("calendar")
+//                .child(today);
+//
+//        ref.setValue(status).addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                Toast.makeText(getContext(), "Saved for today ✅", Toast.LENGTH_SHORT).show();
+//
+//                // disable buttons after selection (nice UX)
+//                btnFollowed.setEnabled(false);
+//                btnNotFollowed.setEnabled(false);
+//            } else {
+//                Toast.makeText(getContext(), "Failed to save ❌", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    private void loadUserAndGenerateRule() {
+//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+//            ruleText.setText("Please log in first!");
+//            return;
+//        }
+//
+//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        DatabaseReference ref = FirebaseDatabase.getInstance()
+//                .getReference("users")
+//                .child(userId)
+//                .child("profile");
+//
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                if (snapshot.exists()) {
+//                    UserProfile profile = snapshot.getValue(UserProfile.class);
+//                    if (profile != null) {
+//                        String prompt = "User goal: " + profile.getGoal() +
+//                                ". Habits: " + profile.getHabit() +
+//                                ". Give ONE short, aesthetic, self-improvement rule.";
+//                        callGeminiAPI(prompt);
+//                    } else {
+//                        ruleText.setText("Profile data missing.");
+//                    }
+//                } else {
+//                    ruleText.setText("Profile not found.");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {
+//                ruleText.setText("Error: " + error.getMessage());
+//            }
+//        });
+//    }
+//
+//    private void callGeminiAPI(String prompt) {
+//        OkHttpClient client = new OkHttpClient();
+//
+//        String apiKey = "YOUR_API_KEY_HERE"; // ⚠️ move this to a secure place later
+//        String url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=" + apiKey;
+//
+//        try {
+//            JSONObject json = new JSONObject();
+//            JSONObject part = new JSONObject();
+//            part.put("text", prompt);
+//
+//            JSONObject content = new JSONObject();
+//            content.put("parts", new org.json.JSONArray().put(part));
+//
+//            json.put("contents", new org.json.JSONArray().put(content));
+//
+//            RequestBody body = RequestBody.create(
+//                    json.toString(),
+//                    MediaType.get("application/json; charset=utf-8")
+//            );
+//
+//            Request request = new Request.Builder()
+//                    .url(url)
+//                    .post(body)
+//                    .build();
+//
+//            client.newCall(request).enqueue(new Callback() {
+//                @Override
+//                public void onFailure(Call call, IOException e) {
+//                    requireActivity().runOnUiThread(() ->
+//                            ruleText.setText("Failed to generate rule"));
+//                }
+//
+//                @Override
+//                public void onResponse(Call call, Response response) throws IOException {
+//                    if (response.isSuccessful()) {
+//                        String res = response.body().string();
+//                        try {
+//                            JSONObject obj = new JSONObject(res);
+//                            String text = obj.getJSONArray("candidates")
+//                                    .getJSONObject(0)
+//                                    .getJSONObject("content")
+//                                    .getJSONArray("parts")
+//                                    .getJSONObject(0)
+//                                    .getString("text");
+//
+//                            requireActivity().runOnUiThread(() -> ruleText.setText(text));
+//                        } catch (Exception e) {
+//                            requireActivity().runOnUiThread(() ->
+//                                    ruleText.setText("Parsing error"));
+//                        }
+//                    }
+//                }
+//            });
+//
+//        } catch (Exception e) {
+//            ruleText.setText("Error creating request");
+//        }
+//    }
+//}
+
 package com.example.ruleoftheday333.fragments;
 
 import android.os.Bundle;
@@ -775,22 +953,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ruleoftheday333.R;
-import com.example.ruleoftheday333.UserProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
 
-import okhttp3.*;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
 
     TextView ruleText;
     Button generateRule, btnFollowed, btnNotFollowed;
+
+    // Hardcoded list of aesthetic self-improvement rules
+    private final String[] RULES = {
+            "Drink a glass of water first thing in the morning.",
+            "Spend 10 minutes journaling your thoughts.",
+            "Take a 15-minute walk outside.",
+            "Declutter one small area of your room.",
+            "Write down three things you're grateful for.",
+            "Avoid social media for one hour.",
+            "Read a page of a book you've been avoiding.",
+            "Compliment someone sincerely today.",
+            "Try a new healthy recipe.",
+            "Meditate for 5 minutes.",
+            "Stretch for 10 minutes.",
+            "Plan tomorrow before going to bed.",
+            "Listen to a song that makes you happy.",
+            "Smile at yourself in the mirror.",
+            "Learn one new word today."
+    };
 
     public HomeFragment() {}
 
@@ -805,12 +998,26 @@ public class HomeFragment extends Fragment {
         btnFollowed = view.findViewById(R.id.btnFollowed);
         btnNotFollowed = view.findViewById(R.id.btnNotFollowed);
 
-        generateRule.setOnClickListener(v -> loadUserAndGenerateRule());
+        generateRule.setOnClickListener(v -> generateRandomRule());
 
         btnFollowed.setOnClickListener(v -> saveDayStatus("green"));
         btnNotFollowed.setOnClickListener(v -> saveDayStatus("red"));
 
         return view;
+    }
+
+    private void generateRandomRule() {
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            ruleText.setText("Please log in first!");
+            return;
+        }
+
+        // Randomly pick a rule from the list
+        Random random = new Random();
+        int index = random.nextInt(RULES.length);
+        String selectedRule = RULES[index];
+
+        ruleText.setText(selectedRule);
     }
 
     private void saveDayStatus(String status) {
@@ -841,102 +1048,5 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "Failed to save ❌", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void loadUserAndGenerateRule() {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            ruleText.setText("Please log in first!");
-            return;
-        }
-
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance()
-                .getReference("users")
-                .child(userId)
-                .child("profile");
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    UserProfile profile = snapshot.getValue(UserProfile.class);
-                    if (profile != null) {
-                        String prompt = "User goal: " + profile.getGoal() +
-                                ". Habits: " + profile.getHabit() +
-                                ". Give ONE short, aesthetic, self-improvement rule.";
-                        callGeminiAPI(prompt);
-                    } else {
-                        ruleText.setText("Profile data missing.");
-                    }
-                } else {
-                    ruleText.setText("Profile not found.");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                ruleText.setText("Error: " + error.getMessage());
-            }
-        });
-    }
-
-    private void callGeminiAPI(String prompt) {
-        OkHttpClient client = new OkHttpClient();
-
-        String apiKey = "YOUR_API_KEY_HERE"; // ⚠️ move this to a secure place later
-        String url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=" + apiKey;
-
-        try {
-            JSONObject json = new JSONObject();
-            JSONObject part = new JSONObject();
-            part.put("text", prompt);
-
-            JSONObject content = new JSONObject();
-            content.put("parts", new org.json.JSONArray().put(part));
-
-            json.put("contents", new org.json.JSONArray().put(content));
-
-            RequestBody body = RequestBody.create(
-                    json.toString(),
-                    MediaType.get("application/json; charset=utf-8")
-            );
-
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .build();
-
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    requireActivity().runOnUiThread(() ->
-                            ruleText.setText("Failed to generate rule"));
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        String res = response.body().string();
-                        try {
-                            JSONObject obj = new JSONObject(res);
-                            String text = obj.getJSONArray("candidates")
-                                    .getJSONObject(0)
-                                    .getJSONObject("content")
-                                    .getJSONArray("parts")
-                                    .getJSONObject(0)
-                                    .getString("text");
-
-                            requireActivity().runOnUiThread(() -> ruleText.setText(text));
-                        } catch (Exception e) {
-                            requireActivity().runOnUiThread(() ->
-                                    ruleText.setText("Parsing error"));
-                        }
-                    }
-                }
-            });
-
-        } catch (Exception e) {
-            ruleText.setText("Error creating request");
-        }
     }
 }
