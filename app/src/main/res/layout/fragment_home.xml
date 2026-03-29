@@ -1,45 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F7F7F7">
 
-    <!-- Rule text -->
-    <TextView
-        android:id="@+id/ruleText"
-        android:text="@string/generate_rule_placeholder"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:layout_marginBottom="24dp"
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
 
-    <!-- Generate rule button -->
-    <Button
-        android:id="@+id/generateRule"
-        android:text="@string/generate_rule_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <!-- Title -->
+        <TextView
+            android:id="@+id/homeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Daily Rule"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#111111"
+            android:layout_marginBottom="16dp"/>
 
-    <!-- Spacing -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="30dp"/>
+        <!-- Rule Card -->
+        <TextView
+            android:id="@+id/ruleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/generate_rule_placeholder"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:background="#FFFFFF"
+            android:padding="20dp"
+            android:elevation="2dp"
+            android:layout_marginBottom="24dp"
+            android:textAlignment="center"/>
 
-    <!-- Followed / Not followed buttons -->
-    <Button
-        android:id="@+id/btnFollowed"
-        android:text="@string/btn_followed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <!-- Generate Button -->
+        <Button
+            android:id="@+id/generateRule"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/generate_rule_button"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginBottom="24dp"/>
 
-    <Button
-        android:id="@+id/btnNotFollowed"
-        android:text="@string/btn_not_followed"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <!-- Section label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Did you follow it today?"
+            android:textSize="16sp"
+            android:textColor="#555555"
+            android:layout_marginBottom="12dp"/>
 
-</LinearLayout>
+        <!-- Followed -->
+        <Button
+            android:id="@+id/btnFollowed"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/btn_followed"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Not Followed -->
+        <Button
+            android:id="@+id/btnNotFollowed"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/btn_not_followed"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#F44336"/>
+
+    </LinearLayout>
+
+</ScrollView>

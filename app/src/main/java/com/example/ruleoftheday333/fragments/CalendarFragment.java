@@ -180,9 +180,135 @@
 //    }
 //}
 
+//package com.example.ruleoftheday333.fragments;
+//
+//import android.content.Context;
+//import android.graphics.drawable.GradientDrawable;
+//import android.os.Bundle;
+//
+//import androidx.core.content.ContextCompat;
+//import androidx.fragment.app.Fragment;
+//
+//import android.view.LayoutInflater;
+//import android.view.View;
+//import android.view.ViewGroup;
+//
+//import com.example.ruleoftheday333.R;
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.database.DataSnapshot;
+//import com.google.firebase.database.DatabaseError;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.ValueEventListener;
+//import com.prolificinteractive.materialcalendarview.CalendarDay;
+//import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+//import com.prolificinteractive.materialcalendarview.DayViewFacade;
+//import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+//
+//import java.util.HashSet;
+//import java.util.Set;
+//
+//public class CalendarFragment extends Fragment {
+//
+//    private MaterialCalendarView calendarView;
+//
+//    public CalendarFragment() {}
+//
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+//
+//        calendarView = view.findViewById(R.id.calendarView);
+//
+//        loadCalendarData();
+//
+//        return view;
+//    }
+//
+//    private void loadCalendarData() {
+//        if (FirebaseAuth.getInstance().getCurrentUser() == null) return;
+//
+//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//
+//        DatabaseReference ref = FirebaseDatabase.getInstance()
+//                .getReference("users")
+//                .child(userId)
+//                .child("calendar");
+//
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot snapshot) {
+//                Set<CalendarDay> greenDays = new HashSet<>();
+//                Set<CalendarDay> redDays = new HashSet<>();
+//
+//                for (DataSnapshot daySnap : snapshot.getChildren()) {
+//                    String date = daySnap.getKey();
+//                    String status = daySnap.getValue(String.class);
+//
+//                    if (date == null || status == null) continue;
+//
+//                    String[] parts = date.split("-");
+//                    if (parts.length != 3) continue;
+//
+//                    try {
+//                        int year = Integer.parseInt(parts[0]);
+//                        int month = Integer.parseInt(parts[1]);
+//                        int day = Integer.parseInt(parts[2]);
+//
+//                        CalendarDay calendarDay = CalendarDay.from(year, month - 1, day);
+//
+//                        if (status.equals("green")) {
+//                            greenDays.add(calendarDay);
+//                        } else if (status.equals("red")) {
+//                            redDays.add(calendarDay);
+//                        }
+//                    } catch (NumberFormatException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                int greenColor = ContextCompat.getColor(requireContext(), R.color.green);
+//                int redColor = ContextCompat.getColor(requireContext(), R.color.red);
+//
+//                calendarView.addDecorator(new ColorDecorator(requireContext(), greenDays, greenColor));
+//                calendarView.addDecorator(new ColorDecorator(requireContext(), redDays, redColor));
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError error) {}
+//        });
+//    }
+//
+//    public static class ColorDecorator implements DayViewDecorator {
+//
+//        private final Set<CalendarDay> dates;
+//        private final GradientDrawable drawable;
+//
+//        public ColorDecorator(Context context, Set<CalendarDay> dates, int color) {
+//            this.dates = dates;
+//
+//            drawable = new GradientDrawable();
+//            drawable.setShape(GradientDrawable.OVAL);
+//            drawable.setColor(color);
+//            drawable.setSize(60, 60); // adjust circle size
+//        }
+//
+//        @Override
+//        public boolean shouldDecorate(CalendarDay day) {
+//            return dates.contains(day);
+//        }
+//
+//        @Override
+//        public void decorate(DayViewFacade view) {
+//            view.setBackgroundDrawable(drawable);
+//        }
+//    }
+//}
 package com.example.ruleoftheday333.fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
@@ -210,6 +336,21 @@ import java.util.Set;
 
 public class CalendarFragment extends Fragment {
 
+    public static class TodayDecorator implements DayViewDecorator {
+
+        private final CalendarDay today = CalendarDay.today();
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return day.equals(today);
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD));
+        }
+    }
+
     private MaterialCalendarView calendarView;
 
     public CalendarFragment() {}
@@ -217,11 +358,17 @@ public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         calendarView = view.findViewById(R.id.calendarView);
 
+        // 🔥 UI IMPROVEMENTS (PASTE HERE)
+        calendarView.setSelectionColor(Color.parseColor("#4CAF50")); // green selection
+//        calendarView.setTodayTextColor(Color.BLACK); // today text color
+
         loadCalendarData();
+        calendarView.addDecorator(new TodayDecorator());
 
         return view;
     }
@@ -239,6 +386,7 @@ public class CalendarFragment extends Fragment {
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+
                 Set<CalendarDay> greenDays = new HashSet<>();
                 Set<CalendarDay> redDays = new HashSet<>();
 
@@ -263,6 +411,7 @@ public class CalendarFragment extends Fragment {
                         } else if (status.equals("red")) {
                             redDays.add(calendarDay);
                         }
+
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
@@ -271,8 +420,8 @@ public class CalendarFragment extends Fragment {
                 int greenColor = ContextCompat.getColor(requireContext(), R.color.green);
                 int redColor = ContextCompat.getColor(requireContext(), R.color.red);
 
-                calendarView.addDecorator(new ColorDecorator(requireContext(), greenDays, greenColor));
-                calendarView.addDecorator(new ColorDecorator(requireContext(), redDays, redColor));
+                calendarView.addDecorator(new ColorDecorator(greenDays, greenColor));
+                calendarView.addDecorator(new ColorDecorator(redDays, redColor));
             }
 
             @Override
@@ -285,13 +434,13 @@ public class CalendarFragment extends Fragment {
         private final Set<CalendarDay> dates;
         private final GradientDrawable drawable;
 
-        public ColorDecorator(Context context, Set<CalendarDay> dates, int color) {
+        public ColorDecorator(Set<CalendarDay> dates, int color) {
             this.dates = dates;
 
             drawable = new GradientDrawable();
             drawable.setShape(GradientDrawable.OVAL);
             drawable.setColor(color);
-            drawable.setSize(60, 60); // adjust circle size
+            drawable.setSize(60, 60);
         }
 
         @Override

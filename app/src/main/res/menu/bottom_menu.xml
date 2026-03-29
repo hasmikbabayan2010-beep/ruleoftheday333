@@ -4,21 +4,25 @@
     <item
         android:id="@+id/nav_home"
         android:title="@string/nav_home"
-        android:icon="@android:drawable/ic_menu_view" />
+        android:icon="@android:drawable/ic_menu_view"
+        android:enabled="true" />
 
     <item
         android:id="@+id/nav_calendar"
         android:title="@string/nav_calendar"
-        android:icon="@android:drawable/ic_menu_my_calendar" />
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:enabled="true" />
 
     <item
         android:id="@+id/nav_account"
         android:title="@string/nav_account"
-        android:icon="@android:drawable/ic_menu_edit" />
+        android:icon="@android:drawable/ic_menu_edit"
+        android:enabled="true" />
 
     <item
         android:id="@+id/nav_settings"
         android:title="@string/nav_settings"
-        android:icon="@android:drawable/ic_menu_preferences" />
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:enabled="true" />
 
 </menu>

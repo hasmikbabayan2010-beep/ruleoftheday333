@@ -1,66 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SettingsFragment">
+    android:background="#F7F7F7">
 
     <LinearLayout
         android:orientation="vertical"
-        android:padding="20dp"
+        android:padding="24dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <!-- Use string resources instead of hardcoded text -->
+        <!-- TITLE -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="#111111"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- LANGUAGE SECTION -->
         <TextView
             android:text="@string/language"
-            android:textSize="18sp"
-            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:textColor="#555555"
+            android:layout_marginBottom="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/btn_english"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/english"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
             android:id="@+id/btn_russian"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/russian" />
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/russian"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"/>
 
         <Button
             android:id="@+id/btn_chinese"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/chinese" />
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/chinese"
+            android:textAllCaps="false"
+            android:layout_marginBottom="24dp"/>
 
-        <Button
-            android:id="@+id/btn_english"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/english" />
-
+        <!-- THEME SECTION -->
         <TextView
             android:text="@string/theme"
-            android:textSize="18sp"
-            android:layout_marginBottom="10dp"
+            android:textSize="16sp"
+            android:textColor="#555555"
+            android:layout_marginBottom="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btn_light_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/light_mode" />
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/light_mode"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"/>
 
         <Button
             android:id="@+id/btn_dark_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/dark_mode" />
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="@string/dark_mode"
+            android:textAllCaps="false"
+            android:layout_marginBottom="24dp"/>
 
-        <TextView
-            android:text="@string/privacy"
-            android:textSize="18sp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <!-- PRIVACY -->
+<!--        <TextView-->
+<!--            android:text="@string/privacy"-->
+<!--            android:textSize="16sp"-->
+<!--            android:textColor="#555555"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"/>-->
+
     </LinearLayout>
-</FrameLayout>
+
+</ScrollView>

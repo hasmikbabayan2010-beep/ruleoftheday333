@@ -82,13 +82,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F7F7F7"
     tools:context=".fragments.AccountFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -96,29 +91,51 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/titleAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Profile"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="#111111"
+                android:layout_marginBottom="24dp"/>
+
             <EditText
                 android:id="@+id/goalInput"
-                android:autofillHints=""
-                android:hint="@string/hint_goal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="56dp"
+                android:hint="@string/hint_goal"
+                android:padding="16dp"
+                android:background="@android:drawable/edit_text"
+                android:textColor="#000000"
+                android:textColorHint="#888888"
+                android:layout_marginBottom="16dp"/>
 
             <EditText
                 android:id="@+id/habitInput"
-                android:autofillHints=""
-                android:hint="@string/hint_habit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="56dp"
+                android:hint="@string/hint_habit"
+                android:padding="16dp"
+                android:background="@android:drawable/edit_text"
+                android:textColor="#000000"
+                android:textColorHint="#888888"
+                android:layout_marginBottom="24dp"/>
 
             <Button
                 android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
                 android:text="@string/save_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#4CAF50"/>
 
         </LinearLayout>
     </ScrollView>

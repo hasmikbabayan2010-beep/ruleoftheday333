@@ -7,29 +7,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
+    android:background="#F7F7F7"
     tools:context=".ui.login.LoginActivity">
 
     <TextView
         android:id="@+id/textHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello dear user!!"
-        android:textSize="22sp"
+        android:text="Welcome back"
+        android:textSize="28sp"
         android:textStyle="bold"
+        android:textColor="#111111"
         app:layout_constraintBottom_toTopOf="@id/username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"/>
+        app:layout_constraintVertical_bias="0.22"/>
 
     <EditText
         android:id="@+id/username"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
+        android:layout_height="56dp"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
-        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginTop="24dp"
+        android:textColor="#000000"
+        android:textColorHint="#888888"
         app:layout_constraintTop_toBottomOf="@id/textHello"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -37,41 +42,56 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
+        android:layout_height="56dp"
         android:hint="@string/prompt_password"
         android:inputType="textPassword"
-        android:layout_marginTop="12dp"
+        android:padding="16dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_marginTop="16dp"
+        android:textColor="#000000"
+        android:textColorHint="#888888"
         app:layout_constraintTop_toBottomOf="@id/username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/buttonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
         android:text="Login"
-        android:layout_marginTop="20dp"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#4CAF50"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@id/password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
+    <TextView
         android:id="@+id/buttonRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Don't have an account? Register"
-        android:layout_marginTop="12dp"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/buttonLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/buttonGoogle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign in with Google"
-        android:layout_marginTop="12dp"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:text="Continue with Google"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:textColor="#000000"
+        android:backgroundTint="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@id/buttonRegister"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -81,9 +101,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@id/buttonGoogle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
