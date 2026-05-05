@@ -1,4 +1,4 @@
-package com.example.ruleoftheday333.fragments.itunes;
+package com.example.ruleoftheday333.itunes;
 
 import java.util.List;
 

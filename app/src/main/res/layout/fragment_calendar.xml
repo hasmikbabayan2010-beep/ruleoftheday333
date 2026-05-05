@@ -1,35 +1,95 @@
-<!--&lt;!&ndash;<?xml version="1.0" encoding="utf-8"?>&ndash;&gt;-->
-<!--&lt;!&ndash;<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
-<!--&lt;!&ndash;    xmlns:tools="http://schemas.android.com/tools"&ndash;&gt;-->
-<!--&lt;!&ndash;    android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;    android:layout_height="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;    tools:context=".fragments.CalendarFragment">&ndash;&gt;-->
-
-<!--&lt;!&ndash;    &lt;!&ndash; Optional: placeholder text, using strings.xml &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;    <TextView&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_height="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:text="@string/hello_blank_fragment" />&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <CalendarView&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;        android:layout_height="match_parent"/>&ndash;&gt;-->
-<!--&lt;!&ndash;</FrameLayout>&ndash;&gt;-->
-<!--<com.prolificinteractive.materialcalendarview.MaterialCalendarView android:id="@+id/calendarView"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android" />-->
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F7F7"
-    android:padding="16dp">
+    android:background="#FCE4EC">
 
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/calendarView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- Mood label -->
+        <TextView
+            android:id="@+id/tvMoodLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌸 Loading your mood..."
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="#AD1457"
+            android:gravity="center"
+            android:paddingBottom="8dp"/>
+
+        <!-- Calendar -->
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="4dp"/>
+
+        <!-- Stats Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFFDD"
+            xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tvGreenCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="✅ 0 days"
+                        android:textColor="#388E3C"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"/>
+
+                    <TextView
+                        android:id="@+id/tvRedCount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="❌ 0 days"
+                        android:textColor="#C62828"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="end"/>
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="10dp"
+                    android:progressTint="#F48FB1"
+                    android:progressBackgroundTint="#FFCDD2"
+                    android:max="100"
+                    android:progress="0"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 </FrameLayout>

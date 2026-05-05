@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.example.ruleoftheday333"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.ruleoftheday333"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
     }
@@ -38,6 +38,36 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.guava:guava:32.1.2-android")
     implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
+
+    //SPOTIFY STUFF
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //SONGS COVERS
+//    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+    // Glide for album cover images
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+//    kapt("com.github.bumptech.glide:compiler:4.16.0")
+//    implementation 'com.github.bumptech.glide:glide:4.15.1'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.15.1'
+
+// ExoPlayer for 30-second previews
+//    implementation("com.google.android.exoplayer:exoplayer:2.20.0")
+
+    // REQUIRED
+//    implementation("androidx.media3:media3-exoplayer:1.9.2")
+//    implementation("androidx.media3:media3-common:1.9.2")
+    implementation("androidx.media3:media3-exoplayer:1.9.2")
+    implementation("androidx.media3:media3-ui:1.9.2")
+
+// OPTIONAL UI component if you want playback controls (e.g., a player view)
+    implementation("androidx.media3:media3-ui:1.9.2")
+
+    //AI
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+
+    implementation("com.google.guava:guava:32.1.3-android")
 }
 
 //dependencies {

@@ -1,989 +1,64 @@
-////////package com.example.ruleoftheday333.fragments;
-//////////
-//////////import android.os.Bundle;
-//////////
-//////////import androidx.fragment.app.Fragment;
-//////////
-//////////import android.view.LayoutInflater;
-//////////import android.view.View;
-//////////import android.view.ViewGroup;
-//////////import android.widget.Button;
-//////////import android.widget.TextView;
-//////////
-//////////import com.example.ruleoftheday333.R;
-//////////
-//////////import java.util.Random;
-//////////
-//////////public class HomeFragment extends Fragment {
-//////////
-//////////    TextView ruleText;
-//////////    Button generateRule;
-//////////
-//////////    String[] rules = {
-//////////            "Drink 2 liters of water today",
-//////////            "Go for a 20 minute walk",
-//////////            "Read 10 pages of a book",
-//////////            "Do 20 pushups",
-//////////            "Compliment someone",
-//////////            "Clean your workspace",
-//////////            "Avoid sugar today",
-//////////            "Meditate for 5 minutes"
-//////////    };
-//////////
-//////////    public HomeFragment() {
-//////////        // Required empty constructor
-//////////    }
-//////////
-//////////    @Override
-//////////    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//////////                             Bundle savedInstanceState) {
-//////////
-//////////        View view = inflater.inflate(R.layout.fragment_home, container, false);
-//////////
-//////////        ruleText = view.findViewById(R.id.ruleText);
-//////////        generateRule = view.findViewById(R.id.generateRule);
-//////////
-//////////        generateRule.setOnClickListener(v -> {
-//////////
-//////////            Random random = new Random();
-//////////            int index = random.nextInt(rules.length);
-//////////
-//////////            ruleText.setText(rules[index]);
-//////////        });
-//////////
-//////////        return view;
-//////////    }
-//////////}
-//////////package com.example.ruleoftheday333.fragments;
-//////////
-//////////import android.os.Bundle;
-//////////
-//////////import androidx.fragment.app.Fragment;
-//////////
-//////////import android.view.LayoutInflater;
-//////////import android.view.View;
-//////////import android.view.ViewGroup;
-//////////
-//////////import com.example.ruleoftheday333.R;
-//////////
-///////////**
-////////// * A simple {@link Fragment} subclass.
-////////// * Use the {@link HomeFragment#newInstance} factory method to
-////////// * create an instance of this fragment.
-////////// */
-//////////public class HomeFragment extends Fragment {
-//////////
-//////////    // TODO: Rename parameter arguments, choose names that match
-//////////    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//////////    private static final String ARG_PARAM1 = "param1";
-//////////    private static final String ARG_PARAM2 = "param2";
-//////////
-//////////    // TODO: Rename and change types of parameters
-//////////    private String mParam1;
-//////////    private String mParam2;
-//////////
-//////////    public HomeFragment() {
-//////////        // Required empty public constructor
-//////////    }
-//////////
-//////////    /**
-//////////     * Use this factory method to create a new instance of
-//////////     * this fragment using the provided parameters.
-//////////     *
-//////////     * @param param1 Parameter 1.
-//////////     * @param param2 Parameter 2.
-//////////     * @return A new instance of fragment HomeFragment.
-//////////     */
-//////////    // TODO: Rename and change types and number of parameters
-//////////    public static HomeFragment newInstance(String param1, String param2) {
-//////////        HomeFragment fragment = new HomeFragment();
-//////////        Bundle args = new Bundle();
-//////////        args.putString(ARG_PARAM1, param1);
-//////////        args.putString(ARG_PARAM2, param2);
-//////////        fragment.setArguments(args);
-//////////        return fragment;
-//////////    }
-//////////
-//////////    @Override
-//////////    public void onCreate(Bundle savedInstanceState) {
-//////////        super.onCreate(savedInstanceState);
-//////////        if (getArguments() != null) {
-//////////            mParam1 = getArguments().getString(ARG_PARAM1);
-//////////            mParam2 = getArguments().getString(ARG_PARAM2);
-//////////        }
-//////////    }
-//////////
-//////////    @Override
-//////////    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//////////                             Bundle savedInstanceState) {
-//////////        // Inflate the layout for this fragment
-//////////        return inflater.inflate(R.layout.fragment_home, container, false);
-//////////    }
-//////////}
-////////
-////////package com.example.ruleoftheday333.fragments;
-////////
-////////import android.app.DownloadManager;
-////////import android.os.Bundle;
-////////
-////////import androidx.fragment.app.Fragment;
-////////
-////////import android.telecom.Call;
-////////import android.view.LayoutInflater;
-////////import android.view.PixelCopy;
-////////import android.view.View;
-////////import android.view.ViewGroup;
-////////import android.widget.Button;
-////////import android.widget.TextView;
-////////
-////////import com.example.ruleoftheday333.R;
-////////import com.example.ruleoftheday333.UserProfile;
-////////import com.google.android.gms.common.api.Response;
-////////import com.google.common.net.MediaType;
-////////import com.google.firebase.auth.FirebaseAuth;
-////////import com.google.firebase.database.*;
-////////import com.google.firebase.database.FirebaseDatabase;
-////////import com.google.firebase.database.DatabaseReference;
-////////import com.google.firebase.database.ValueEventListener;
-////////import com.google.firebase.database.DataSnapshot;
-////////import com.google.firebase.database.DatabaseError;
-////////
-////////import okhttp3.*;
-////////import org.json.JSONObject;
-////////
-////////import java.io.IOException;
-////////
-////////import javax.security.auth.callback.Callback;
-////////
-////////public class HomeFragment extends Fragment {
-////////
-////////    TextView ruleText;
-////////    Button generateRule;
-////////
-////////    public HomeFragment() {}
-////////
-////////    @Override
-////////    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-////////                             Bundle savedInstanceState) {
-////////
-////////        View view = inflater.inflate(R.layout.fragment_home, container, false);
-////////
-////////        ruleText = view.findViewById(R.id.ruleText);
-////////        generateRule = view.findViewById(R.id.generateRule);
-////////
-////////        generateRule.setOnClickListener(v -> loadUserAndGenerateRule());
-////////
-////////        return view;
-////////    }
-////////
-////////    private void loadUserAndGenerateRule(){
-////////
-////////        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-////////
-////////        DatabaseReference ref = FirebaseDatabase.getInstance()
-////////                .getReference("users")
-////////                .child(userId)
-////////                .child("profile");
-////////
-////////        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-////////            @Override
-////////            public void onDataChange(DataSnapshot snapshot) {
-////////
-////////                UserProfile profile = snapshot.getValue(UserProfile.class);
-////////
-////////                if(profile != null){
-////////
-////////                    String prompt = "User goal: " + profile.goal +
-////////                            ". Habits: " + profile.habit +
-////////                            ". Give ONE short, aesthetic, self-improvement rule.";
-////////
-////////                    callGeminiAPI(prompt);
-////////
-////////                } else {
-////////                    ruleText.setText("Please fill your profile first.");
-////////                }
-////////            }
-////////
-////////            @Override
-////////            public void onCancelled(DatabaseError error) {}
-////////        });
-////////    }
-////////
-////////    private void callGeminiAPI(String prompt) {
-////////
-////////        OkHttpClient client = new OkHttpClient();
-////////
-////////        String apiKey = "YOUR_API_KEY_HERE";
-////////
-////////        String url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=" + apiKey;
-////////
-////////        try {
-////////            JSONObject json = new JSONObject();
-////////
-////////            JSONObject part = new JSONObject();
-////////            part.put("text", prompt);
-////////
-////////            JSONObject content = new JSONObject();
-////////            content.put("parts", new org.json.JSONArray().put(part));
-////////
-////////            json.put("contents", new org.json.JSONArray().put(content));
-////////
-////////            RequestBody body = RequestBody.create(
-////////                    json.toString(),
-////////                    MediaType.parse("application/json")
-////////            );
-////////
-////////            DownloadManager.Request request = new PixelCopy.Request.Builder()
-////////                    .url(url)
-////////                    .post(body)
-////////                    .build();
-////////
-////////            client.newCall(request).enqueue(new Callback() {
-////////
-////////                @Override
-////////                public void onFailure(Call call, IOException e) {
-////////                    e.printStackTrace();
-////////                }
-////////
-////////                @Override
-////////                public void onResponse(Call call, Response response) throws IOException {
-////////
-////////                    if (response.isSuccessful()) {
-////////
-////////                        String res = response.body().string();
-////////
-////////                        try {
-////////                            JSONObject obj = new JSONObject(res);
-////////
-////////                            String text = obj
-////////                                    .getJSONArray("candidates")
-////////                                    .getJSONObject(0)
-////////                                    .getJSONObject("content")
-////////                                    .getJSONArray("parts")
-////////                                    .getJSONObject(0)
-////////                                    .getString("text");
-////////
-////////                            requireActivity().runOnUiThread(() -> {
-////////                                ruleText.setText(text);
-////////                            });
-////////
-////////                        } catch (Exception e) {
-////////                            e.printStackTrace();
-////////                        }
-////////                    }
-////////                }
-////////            });
-////////
-////////        } catch (Exception e) {
-////////            e.printStackTrace();
-////////        }
-////////    }
-////////}
-////
-////package com.example.ruleoftheday333.fragments;
-////
-////import android.os.Bundle;
-////import androidx.fragment.app.Fragment;
-////import android.view.LayoutInflater;
-////import android.view.View;
-////import android.view.ViewGroup;
-////import android.widget.Button;
-////import android.widget.TextView;
-////import com.example.ruleoftheday333.R;
-////import com.example.ruleoftheday333.UserProfile;
-////import com.google.firebase.auth.FirebaseAuth;
-////import com.google.firebase.database.*;
-////
-////import okhttp3.*;
-////import org.json.JSONObject;
-////
-////import java.io.IOException;
-////
-////public class HomeFragment extends Fragment {
-////
-////    TextView ruleText;
-////    Button generateRule;
-////
-////    public HomeFragment() {}
-////
-////    @Override
-////    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-////                             Bundle savedInstanceState) {
-////
-////        View view = inflater.inflate(R.layout.fragment_home, container, false);
-////
-////        ruleText = view.findViewById(R.id.ruleText);
-////        generateRule = view.findViewById(R.id.generateRule);
-////
-////        generateRule.setOnClickListener(v -> loadUserAndGenerateRule());
-////
-////        return view;
-////    }
-////
-////    private void loadUserAndGenerateRule() {
-////        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-////            ruleText.setText("Please log in first!");
-////            return;
-////        }
-////        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-////
-////        DatabaseReference ref = FirebaseDatabase.getInstance()
-////                .getReference("users")
-////                .child(userId)
-////                .child("profile");
-////
-////        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(DataSnapshot snapshot) {
-////                UserProfile profile = snapshot.getValue(UserProfile.class);
-////
-////                if (profile != null) {
-////                    String prompt = "User goal: " + profile.goal +
-////                            ". Habits: " + profile.habit +
-////                            ". Give ONE short, aesthetic, self-improvement rule.";
-////                    callGeminiAPI(prompt);
-////                } else {
-////                    ruleText.setText("Please fill your profile first.");
-////                }
-////            }
-////
-////            @Override
-////            public void onCancelled(DatabaseError error) {}
-////        });
-////    }
-////
-////    private void callGeminiAPI(String prompt) {
-////
-////        OkHttpClient client = new OkHttpClient();
-////        String apiKey = "YOUR_API_KEY_HERE";
-////        String url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=" + apiKey;
-////
-////        try {
-////            JSONObject json = new JSONObject();
-////            JSONObject part = new JSONObject();
-////            part.put("text", prompt);
-////
-////            JSONObject content = new JSONObject();
-////            content.put("parts", new org.json.JSONArray().put(part));
-////
-////            json.put("contents", new org.json.JSONArray().put(content));
-////
-////            MediaType JSON = MediaType.get("application/json; charset=utf-8");
-////            RequestBody body = RequestBody.create(json.toString(), JSON);
-////
-////            Request request = new Request.Builder()
-////                    .url(url)
-////                    .post(body)
-////                    .build();
-////
-////            client.newCall(request).enqueue(new okhttp3.Callback() {
-////                @Override
-////                public void onFailure(Call call, IOException e) {
-////                    e.printStackTrace();
-////                }
-////
-////                @Override
-////                public void onResponse(Call call, Response response) throws IOException {
-////                    if (response.isSuccessful()) {
-////                        String res = response.body().string();
-////                        try {
-////                            JSONObject obj = new JSONObject(res);
-////                            String text = obj
-////                                    .getJSONArray("candidates")
-////                                    .getJSONObject(0)
-////                                    .getJSONObject("content")
-////                                    .getJSONArray("parts")
-////                                    .getJSONObject(0)
-////                                    .getString("text");
-////
-////                            requireActivity().runOnUiThread(() -> ruleText.setText(text));
-////                        } catch (Exception e) {
-////                            e.printStackTrace();
-////                        }
-////                    }
-////                }
-////            });
-////
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////        }
-////    }
-////}
-//package com.example.ruleoftheday333.fragments;
-//
-//import android.os.Bundle;
-//import androidx.fragment.app.Fragment;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.Button;
-//import android.widget.TextView;
-//import com.example.ruleoftheday333.R;
-//import com.example.ruleoftheday333.UserProfile;
-//import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.database.*;
-//import okhttp3.*;
-//import org.json.JSONObject;
-//import java.io.IOException;
-//import java.text.SimpleDateFormat;
-//import java.util.Date;
-//import java.util.Locale;
-//
-//public class HomeFragment extends Fragment {
-//
-//    TextView ruleText;
-//    Button generateRule;
-//    Button btnFollowed, btnNotFollowed;
-//
-//    public HomeFragment() {}
-//
-//    private void saveDayStatus(String status) {
-//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-//            ruleText.setText("Please log in first!");
-//            return;
-//        }
-//
-//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//
-//        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-//                .format(new Date());
-//
-//        DatabaseReference ref = FirebaseDatabase.getInstance()
-//                .getReference("users")
-//                .child(userId)
-//                .child("calendar")
-//                .child(today);
-//
-//        ref.setValue(status).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                ruleText.setText("Saved for today ✅");
-//            } else {
-//                ruleText.setText("Failed to save ❌");
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//
-//        View view = inflater.inflate(R.layout.fragment_home, container, false);
-//
-//        ruleText = view.findViewById(R.id.ruleText);
-//        generateRule = view.findViewById(R.id.generateRule);
-//
-//        generateRule.setOnClickListener(v -> loadUserAndGenerateRule());
-//
-//        return view;
-//
-//        btnFollowed = view.findViewById(R.id.btnFollowed);
-//        btnNotFollowed = view.findViewById(R.id.btnNotFollowed);
-//
-//        btnFollowed.setOnClickListener(v -> saveDayStatus("green"));
-//        btnNotFollowed.setOnClickListener(v -> saveDayStatus("red"));
-//    }
-//
-//    private void loadUserAndGenerateRule() {
-//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-//            ruleText.setText("Please log in first!");
-//            return;
-//        }
-//
-//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        DatabaseReference ref = FirebaseDatabase.getInstance()
-//                .getReference("users")
-//                .child(userId)
-//                .child("profile");
-//
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    UserProfile profile = snapshot.getValue(UserProfile.class);
-//                    if (profile != null) {
-//                        String prompt = "User goal: " + profile.getGoal() +
-//                                ". Habits: " + profile.getHabit() +
-//                                ". Give ONE short, aesthetic, self-improvement rule.";
-//                        callGeminiAPI(prompt);
-//                    } else {
-//                        ruleText.setText("Profile data missing. Please update your account.");
-//                    }
-//                } else {
-//                    ruleText.setText("Profile not found. Please fill your account info.");
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                ruleText.setText("Error loading profile: " + error.getMessage());
-//            }
-//        });
-//    }
-//
-//    private void callGeminiAPI(String prompt) {
-//        OkHttpClient client = new OkHttpClient();
-//        String apiKey = "AIzaSyDZZJfYnshwt6ZmUkL-SHgluWbeuQj2v2Q";
-//        String url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=" + apiKey;
-//
-//        try {
-//            JSONObject json = new JSONObject();
-//            JSONObject part = new JSONObject();
-//            part.put("text", prompt);
-//
-//            JSONObject content = new JSONObject();
-//            content.put("parts", new org.json.JSONArray().put(part));
-//
-//            json.put("contents", new org.json.JSONArray().put(content));
-//
-//            MediaType JSON = MediaType.get("application/json; charset=utf-8");
-//            RequestBody body = RequestBody.create(json.toString(), JSON);
-//
-//            Request request = new Request.Builder()
-//                    .url(url)
-//                    .post(body)
-//                    .build();
-//
-//            client.newCall(request).enqueue(new Callback() {
-//                @Override
-//                public void onFailure(Call call, IOException e) {
-//                    e.printStackTrace();
-//                    requireActivity().runOnUiThread(() ->
-//                            ruleText.setText("Failed to generate rule: " + e.getMessage()));
-//                }
-//
-//                @Override
-//                public void onResponse(Call call, Response response) throws IOException {
-//                    if (response.isSuccessful()) {
-//                        String res = response.body().string();
-//                        try {
-//                            JSONObject obj = new JSONObject(res);
-//                            String text = obj.getJSONArray("candidates")
-//                                    .getJSONObject(0)
-//                                    .getJSONObject("content")
-//                                    .getJSONArray("parts")
-//                                    .getJSONObject(0)
-//                                    .getString("text");
-//
-//                            requireActivity().runOnUiThread(() -> ruleText.setText(text));
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                            requireActivity().runOnUiThread(() ->
-//                                    ruleText.setText("Failed to parse AI response."));
-//                        }
-//                    } else {
-//                        requireActivity().runOnUiThread(() ->
-//                                ruleText.setText("AI request failed: " + response.code()));
-//                    }
-//                }
-//            });
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            ruleText.setText("Error creating AI request: " + e.getMessage());
-//        }
-//    }
-//}
-////
-////
-////package com.example.ruleoftheday333.fragments;
-////
-////import android.os.Bundle;
-////import androidx.fragment.app.Fragment;
-////import android.view.LayoutInflater;
-////import android.view.View;
-////import android.view.ViewGroup;
-////import android.widget.Button;
-////import android.widget.TextView;
-////import com.example.ruleoftheday333.R;
-////import com.example.ruleoftheday333.UserProfile;
-////import com.google.firebase.auth.FirebaseAuth;
-////import com.google.firebase.database.*;
-////        import okhttp3.*;
-////        import org.json.JSONObject;
-////import java.io.IOException;
-////import java.text.SimpleDateFormat;
-////import java.util.Date;
-////import java.util.Locale;
-////
-////public class HomeFragment extends Fragment {
-////
-////    TextView ruleText;
-////    Button generateRule;
-////
-////    public HomeFragment() {}
-////
-////    @Override
-////    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-////                             Bundle savedInstanceState) {
-////
-////        View view = inflater.inflate(R.layout.fragment_home, container, false);
-////
-////        ruleText = view.findViewById(R.id.ruleText);
-////        generateRule = view.findViewById(R.id.generateRule);
-////
-////        generateRule.setOnClickListener(v -> loadRule());
-////
-////        return view;
-////    }
-////
-////    private void loadRule() {
-////        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-////            ruleText.setText("Please log in first!");
-////            return;
-////        }
-////
-////        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-////        String todayKey = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date());
-////
-////        // Reference to today's rule
-////        DatabaseReference ruleRef = FirebaseDatabase.getInstance()
-////                .getReference("users")
-////                .child(userId)
-////                .child("todayRule")
-////                .child(todayKey);
-////
-////        // Check if today's rule already exists
-////        ruleRef.addListenerForSingleValueEvent(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(DataSnapshot snapshot) {
-////                if (snapshot.exists()) {
-////                    String savedRule = snapshot.getValue(String.class);
-////                    ruleText.setText(savedRule);
-////                } else {
-////                    // Generate new rule from AI
-////                    loadUserAndGenerateRule(userId, ruleRef);
-////                }
-////            }
-////
-////            @Override
-////            public void onCancelled(DatabaseError error) {
-////                ruleText.setText("Error loading rule: " + error.getMessage());
-////            }
-////        });
-////    }
-////
-////    private void loadUserAndGenerateRule(String userId, DatabaseReference ruleRef) {
-////        DatabaseReference profileRef = FirebaseDatabase.getInstance()
-////                .getReference("users")
-////                .child(userId)
-////                .child("profile");
-////
-////        profileRef.addListenerForSingleValueEvent(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(DataSnapshot snapshot) {
-////                if (snapshot.exists()) {
-////                    UserProfile profile = snapshot.getValue(UserProfile.class);
-////                    if (profile != null) {
-////                        String prompt = "User goal: " + profile.getGoal() +
-////                                ". Habits: " + profile.getHabit() +
-////                                ". Give ONE short, aesthetic, self-improvement rule.";
-////                        callGeminiAPI(prompt, ruleRef);
-////                    } else {
-////                        ruleText.setText("Profile data missing. Please update your account.");
-////                    }
-////                } else {
-////                    ruleText.setText("Profile not found. Please fill your account info.");
-////                }
-////            }
-////
-////            @Override
-////            public void onCancelled(DatabaseError error) {
-////                ruleText.setText("Error loading profile: " + error.getMessage());
-////            }
-////        });
-////    }
-////
-////    private void callGeminiAPI(String prompt, DatabaseReference ruleRef) {
-////        OkHttpClient client = new OkHttpClient();
-////        String apiKey = "YOUR_API_KEY_HERE"; // <-- replace with your Gemini key
-////        String url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=" + apiKey;
-////
-////        try {
-////            JSONObject json = new JSONObject();
-////            JSONObject part = new JSONObject();
-////            part.put("text", prompt);
-////
-////            JSONObject content = new JSONObject();
-////            content.put("parts", new org.json.JSONArray().put(part));
-////
-////            json.put("contents", new org.json.JSONArray().put(content));
-////
-////            MediaType JSON = MediaType.get("application/json; charset=utf-8");
-////            RequestBody body = RequestBody.create(json.toString(), JSON);
-////
-////            Request request = new Request.Builder()
-////                    .url(url)
-////                    .post(body)
-////                    .build();
-////
-////            client.newCall(request).enqueue(new Callback() {
-////                @Override
-////                public void onFailure(Call call, IOException e) {
-////                    e.printStackTrace();
-////                    requireActivity().runOnUiThread(() ->
-////                            ruleText.setText("Failed to generate rule: " + e.getMessage()));
-////                }
-////
-////                @Override
-////                public void onResponse(Call call, Response response) throws IOException {
-////                    if (response.isSuccessful()) {
-////                        String res = response.body().string();
-////                        try {
-////                            JSONObject obj = new JSONObject(res);
-////                            String text = obj.getJSONArray("candidates")
-////                                    .getJSONObject(0)
-////                                    .getJSONObject("content")
-////                                    .getJSONArray("parts")
-////                                    .getJSONObject(0)
-////                                    .getString("text");
-////
-////                            // Save today's rule in Firebase
-////                            ruleRef.setValue(text);
-////
-////                            // Update UI
-////                            requireActivity().runOnUiThread(() -> ruleText.setText(text));
-////
-////                        } catch (Exception e) {
-////                            e.printStackTrace();
-////                            requireActivity().runOnUiThread(() ->
-////                                    ruleText.setText("Failed to parse AI response."));
-////                        }
-////                    } else {
-////                        requireActivity().runOnUiThread(() ->
-////                                ruleText.setText("AI request failed: " + response.code()));
-////                    }
-////                }
-////            });
-////
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////            requireActivity().runOnUiThread(() ->
-////                    ruleText.setText("Error creating AI request: " + e.getMessage()));
-////        }
-////    }
-////}
-
-//package com.example.ruleoftheday333.fragments;
-//
-//import android.os.Bundle;
-//import androidx.fragment.app.Fragment;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.Button;
-//import android.widget.TextView;
-//import android.widget.Toast;
-//
-//import com.example.ruleoftheday333.R;
-//import com.example.ruleoftheday333.UserProfile;
-//import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.database.*;
-//
-//import okhttp3.*;
-//import org.json.JSONObject;
-//
-//import java.io.IOException;
-//import java.text.SimpleDateFormat;
-//import java.util.Date;
-//import java.util.Locale;
-//
-//public class HomeFragment extends Fragment {
-//
-//    TextView ruleText;
-//    Button generateRule, btnFollowed, btnNotFollowed;
-//
-//    public HomeFragment() {}
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//
-//        View view = inflater.inflate(R.layout.fragment_home, container, false);
-//
-//        ruleText = view.findViewById(R.id.ruleText);
-//        generateRule = view.findViewById(R.id.generateRule);
-//        btnFollowed = view.findViewById(R.id.btnFollowed);
-//        btnNotFollowed = view.findViewById(R.id.btnNotFollowed);
-//
-//        generateRule.setOnClickListener(v -> loadUserAndGenerateRule());
-//
-//        btnFollowed.setOnClickListener(v -> saveDayStatus("green"));
-//        btnNotFollowed.setOnClickListener(v -> saveDayStatus("red"));
-//
-//        return view;
-//    }
-//
-//    private void saveDayStatus(String status) {
-//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-//            Toast.makeText(getContext(), "Please log in first!", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//
-//        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-//                .format(new Date());
-//
-//        DatabaseReference ref = FirebaseDatabase.getInstance()
-//                .getReference("users")
-//                .child(userId)
-//                .child("calendar")
-//                .child(today);
-//
-//        ref.setValue(status).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                Toast.makeText(getContext(), "Saved for today ✅", Toast.LENGTH_SHORT).show();
-//
-//                // disable buttons after selection (nice UX)
-//                btnFollowed.setEnabled(false);
-//                btnNotFollowed.setEnabled(false);
-//            } else {
-//                Toast.makeText(getContext(), "Failed to save ❌", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    private void loadUserAndGenerateRule() {
-//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-//            ruleText.setText("Please log in first!");
-//            return;
-//        }
-//
-//        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        DatabaseReference ref = FirebaseDatabase.getInstance()
-//                .getReference("users")
-//                .child(userId)
-//                .child("profile");
-//
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    UserProfile profile = snapshot.getValue(UserProfile.class);
-//                    if (profile != null) {
-//                        String prompt = "User goal: " + profile.getGoal() +
-//                                ". Habits: " + profile.getHabit() +
-//                                ". Give ONE short, aesthetic, self-improvement rule.";
-//                        callGeminiAPI(prompt);
-//                    } else {
-//                        ruleText.setText("Profile data missing.");
-//                    }
-//                } else {
-//                    ruleText.setText("Profile not found.");
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                ruleText.setText("Error: " + error.getMessage());
-//            }
-//        });
-//    }
-//
-//    private void callGeminiAPI(String prompt) {
-//        OkHttpClient client = new OkHttpClient();
-//
-//        String apiKey = "YOUR_API_KEY_HERE"; // ⚠️ move this to a secure place later
-//        String url = "https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=" + apiKey;
-//
-//        try {
-//            JSONObject json = new JSONObject();
-//            JSONObject part = new JSONObject();
-//            part.put("text", prompt);
-//
-//            JSONObject content = new JSONObject();
-//            content.put("parts", new org.json.JSONArray().put(part));
-//
-//            json.put("contents", new org.json.JSONArray().put(content));
-//
-//            RequestBody body = RequestBody.create(
-//                    json.toString(),
-//                    MediaType.get("application/json; charset=utf-8")
-//            );
-//
-//            Request request = new Request.Builder()
-//                    .url(url)
-//                    .post(body)
-//                    .build();
-//
-//            client.newCall(request).enqueue(new Callback() {
-//                @Override
-//                public void onFailure(Call call, IOException e) {
-//                    requireActivity().runOnUiThread(() ->
-//                            ruleText.setText("Failed to generate rule"));
-//                }
-//
-//                @Override
-//                public void onResponse(Call call, Response response) throws IOException {
-//                    if (response.isSuccessful()) {
-//                        String res = response.body().string();
-//                        try {
-//                            JSONObject obj = new JSONObject(res);
-//                            String text = obj.getJSONArray("candidates")
-//                                    .getJSONObject(0)
-//                                    .getJSONObject("content")
-//                                    .getJSONArray("parts")
-//                                    .getJSONObject(0)
-//                                    .getString("text");
-//
-//                            requireActivity().runOnUiThread(() -> ruleText.setText(text));
-//                        } catch (Exception e) {
-//                            requireActivity().runOnUiThread(() ->
-//                                    ruleText.setText("Parsing error"));
-//                        }
-//                    }
-//                }
-//            });
-//
-//        } catch (Exception e) {
-//            ruleText.setText("Error creating request");
-//        }
-//    }
-//}
-
 package com.example.ruleoftheday333.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
 import com.example.ruleoftheday333.R;
+import com.example.ruleoftheday333.itunes.ItunesPreviewHelper;
+import com.example.ruleoftheday333.spotify.SpotifyHelper;
+import com.example.ruleoftheday333.spotify.SpotifyTrack;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
+
+import com.google.ai.client.generativeai.GenerativeModel;
+import com.google.ai.client.generativeai.java.GenerativeModelFutures;
+import com.google.ai.client.generativeai.type.Content;
+import com.google.ai.client.generativeai.type.GenerateContentResponse;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
-import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HomeFragment extends Fragment {
 
-    TextView ruleText;
-    Button generateRule, btnFollowed, btnNotFollowed;
+    private TextView ruleText;
+    private Button generateRule, btnFollowed, btnNotFollowed;
+    private LinearLayout matchedSongsContainer;
+    private ExoPlayer exoPlayer;
+    private PlayerView playerView;
 
-    // Hardcoded list of aesthetic self-improvement rules
-    private final String[] RULES = {
-            "Drink a glass of water first thing in the morning.",
-            "Spend 10 minutes journaling your thoughts.",
-            "Take a 15-minute walk outside.",
-            "Declutter one small area of your room.",
-            "Write down three things you're grateful for.",
-            "Avoid social media for one hour.",
-            "Read a page of a book you've been avoiding.",
-            "Compliment someone sincerely today.",
-            "Try a new healthy recipe.",
-            "Meditate for 5 minutes.",
-            "Stretch for 10 minutes.",
-            "Plan tomorrow before going to bed.",
-            "Listen to a song that makes you happy.",
-            "Smile at yourself in the mirror.",
-            "Learn one new word today."
-    };
+    // Fixed: 4 threads so Spotify + iTunes calls don't block each other
+    private ExecutorService executorService = Executors.newFixedThreadPool(4);
+    private int currentRuleTemp = 50;
+
+    private static final String GEMINI_API_KEY = "AIzaSyBKfL2laBbVg2tD0n7TZyvbA6F36rGlYMo";
 
     public HomeFragment() {}
 
@@ -993,31 +68,270 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        ruleText = view.findViewById(R.id.ruleText);
-        generateRule = view.findViewById(R.id.generateRule);
-        btnFollowed = view.findViewById(R.id.btnFollowed);
+        ruleText       = view.findViewById(R.id.ruleText);
+        generateRule   = view.findViewById(R.id.generateRule);
+        btnFollowed    = view.findViewById(R.id.btnFollowed);
         btnNotFollowed = view.findViewById(R.id.btnNotFollowed);
 
-        generateRule.setOnClickListener(v -> generateRandomRule());
+        matchedSongsContainer = new LinearLayout(getContext());
+        matchedSongsContainer.setOrientation(LinearLayout.VERTICAL);
+        ((LinearLayout) view.findViewById(R.id.rvMatchedSongs).getParent())
+                .addView(matchedSongsContainer);
 
+        playerView = new PlayerView(getContext());
+        exoPlayer  = new ExoPlayer.Builder(getContext()).build();
+        playerView.setPlayer(exoPlayer);
+        ((LinearLayout) view.findViewById(R.id.rvMatchedSongs).getParent())
+                .addView(playerView);
+
+        generateRule.setOnClickListener(v -> generateAIRule());
         btnFollowed.setOnClickListener(v -> saveDayStatus("green"));
         btnNotFollowed.setOnClickListener(v -> saveDayStatus("red"));
 
         return view;
     }
 
-    private void generateRandomRule() {
+    private void generateAIRule() {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             ruleText.setText("Please log in first!");
             return;
         }
 
-        // Randomly pick a rule from the list
-        Random random = new Random();
-        int index = random.nextInt(RULES.length);
-        String selectedRule = RULES[index];
+        ruleText.setText("✨ Generating your rule...");
+        generateRule.setEnabled(false);
+        matchedSongsContainer.removeAllViews();
+        exoPlayer.stop();
 
-        ruleText.setText(selectedRule);
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseDatabase.getInstance("https://ruleoftheday333-default-rtdb.firebaseio.com")
+                .getReference("users")
+                .child(userId)
+                .child("profile")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        String goal  = snapshot.child("goal").getValue(String.class);
+                        String habit = snapshot.child("habit").getValue(String.class);
+
+                        if (goal  == null || goal.isEmpty())  goal  = "general self-improvement";
+                        if (habit == null || habit.isEmpty()) habit = "building better daily habits";
+
+                        generateRuleWithAI(goal, habit);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        generateRuleWithAI("general self-improvement", "building better daily habits");
+                    }
+                });
+    }
+
+    private void generateRuleWithAI(String goal, String habit) {
+        executorService.execute(() -> {
+
+            String prompt =
+                    "The user's main goal is: " + goal + ".\n" +
+                            "The habit they want to work on is: " + habit + ".\n\n" +
+                            "Generate a short, personalized daily rule that helps them work toward this goal. " +
+                            "Respond in EXACTLY this format on three separate lines, nothing else:\n" +
+                            "RULE: <one sentence, personalized to their goal>\n" +
+                            "TEMP: <a number 10-90: 10=very calm, 50=balanced, 90=high energy>\n" +
+                            "MUSIC: <a short mood/genre phrase for Spotify, e.g. 'calm focus', 'upbeat pop', 'jazz morning'>";
+
+            GenerativeModel gm = new GenerativeModel("gemini-2.0-flash", GEMINI_API_KEY);
+            GenerativeModelFutures model = GenerativeModelFutures.from(gm);
+
+            Content content = new Content.Builder()
+                    .addText(prompt)
+                    .build();
+
+            ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+
+            Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+                @Override
+                public void onSuccess(GenerateContentResponse result) {
+                    String raw = result.getText().trim();
+
+                    String ruleStr  = extractLine(raw, "RULE:");
+                    String tempStr  = extractLine(raw, "TEMP:");
+                    String musicStr = extractLine(raw, "MUSIC:");
+
+                    int temp = 50;
+                    try { temp = Integer.parseInt(tempStr.trim()); } catch (Exception ignored) {}
+                    final int    finalTemp  = Math.max(10, Math.min(90, temp));
+                    final String finalRule  = ruleStr.isEmpty()  ? raw     : ruleStr;
+                    final String finalMusic = musicStr.isEmpty() ? "chill" : musicStr;
+
+                    requireActivity().runOnUiThread(() -> {
+                        currentRuleTemp = finalTemp;
+                        ruleText.setText(finalRule + "\n\n🔥 Energy: " + finalTemp);
+                        generateRule.setEnabled(true);
+                        loadSongsAsync(finalMusic, finalTemp);
+                    });
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    android.util.Log.e("GeminiError", "API call failed: " + t.getMessage(), t);
+                    requireActivity().runOnUiThread(() -> {
+                        ruleText.setText("⚠️ Error: " + t.getMessage());
+                        generateRule.setEnabled(true);
+                    });
+                }
+            }, executorService);
+        });
+    }
+
+    private void loadSongsAsync(String searchTerm, int ruleTemp) {
+        executorService.execute(() -> {
+
+            // Fetch from Spotify with a 10-second timeout (set in SpotifyHelper)
+            List<SpotifyTrack> spotifyTracks = SpotifyHelper.searchTracks(searchTerm, 10);
+
+            if (spotifyTracks == null || spotifyTracks.isEmpty()) {
+                requireActivity().runOnUiThread(() ->
+                        Toast.makeText(getContext(),
+                                "No songs found on Spotify 😕", Toast.LENGTH_SHORT).show());
+                return;
+            }
+
+            // Fixed: snapshot the original order BEFORE sorting
+            // so indexOf() gives stable results
+            final List<SpotifyTrack> original = new ArrayList<>(spotifyTracks);
+            int n = original.size();
+
+            spotifyTracks.sort((a, b) -> {
+                int idxA    = original.indexOf(a);
+                int idxB    = original.indexOf(b);
+                int energyA = 80 - (idxA * 60 / Math.max(n - 1, 1));
+                int energyB = 80 - (idxB * 60 / Math.max(n - 1, 1));
+                return Math.abs(energyA - ruleTemp) - Math.abs(energyB - ruleTemp);
+            });
+
+            // Fetch iTunes previews for top 3 — each on a separate thread
+            // so one slow/failed iTunes call doesn't block the others
+            int limit = Math.min(3, spotifyTracks.size());
+            for (int i = 0; i < limit; i++) {
+                final SpotifyTrack track = spotifyTracks.get(i);
+                executorService.execute(() -> {
+                    String previewUrl = ItunesPreviewHelper.fetchPreviewUrl(
+                            track.trackName, track.artistName);
+                    final String finalPreview = previewUrl;
+                    requireActivity().runOnUiThread(() -> addSongCard(track, finalPreview));
+                });
+            }
+        });
+    }
+
+    private void addSongCard(SpotifyTrack track, String previewUrl) {
+        LinearLayout card = new LinearLayout(getContext());
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setPadding(16, 16, 16, 16);
+        card.setBackgroundResource(R.drawable.song_card_background);
+
+        LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        cardParams.bottomMargin = 16;
+        card.setLayoutParams(cardParams);
+
+        ImageView cover = new ImageView(getContext());
+        LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(150, 150);
+        imgParams.setMarginEnd(16);
+        cover.setLayoutParams(imgParams);
+        cover.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(this)
+                .load(track.albumArtUrl)
+                .placeholder(R.drawable.placeholder_album_foreground)
+                .into(cover);
+
+        LinearLayout info = new LinearLayout(getContext());
+        info.setOrientation(LinearLayout.VERTICAL);
+        info.setLayoutParams(new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView title = new TextView(getContext());
+        title.setText(track.trackName);
+        title.setTextSize(16);
+        title.setTextColor(0xFFAD1457);
+
+        TextView artist = new TextView(getContext());
+        artist.setText(track.artistName);
+        artist.setTextSize(14);
+        artist.setTextColor(0xFF880E4F);
+
+        LinearLayout btnRow = new LinearLayout(getContext());
+        btnRow.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        rowParams.topMargin = 8;
+        btnRow.setLayoutParams(rowParams);
+
+        Button previewBtn = new Button(getContext());
+        LinearLayout.LayoutParams previewParams = new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        previewParams.setMarginEnd(8);
+        previewBtn.setLayoutParams(previewParams);
+        previewBtn.setTextColor(0xFFFFFFFF);
+        previewBtn.setTextSize(12);
+
+        if (previewUrl != null) {
+            previewBtn.setText("▶ Preview");
+            previewBtn.setBackgroundColor(0xFFF48FB1);
+            previewBtn.setOnClickListener(v -> playPreview(previewUrl));
+        } else {
+            previewBtn.setText("No Preview");
+            previewBtn.setBackgroundColor(0xFFCCCCCC);
+            previewBtn.setEnabled(false);
+        }
+
+        Button spotifyBtn = new Button(getContext());
+        spotifyBtn.setLayoutParams(new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        spotifyBtn.setText("🎵 Spotify");
+        spotifyBtn.setBackgroundColor(0xFF1DB954);
+        spotifyBtn.setTextColor(0xFFFFFFFF);
+        spotifyBtn.setTextSize(12);
+        spotifyBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(track.spotifyUrl));
+            startActivity(intent);
+        });
+
+        btnRow.addView(previewBtn);
+        btnRow.addView(spotifyBtn);
+
+        info.addView(title);
+        info.addView(artist);
+        info.addView(btnRow);
+
+        card.addView(cover);
+        card.addView(info);
+        matchedSongsContainer.addView(card);
+    }
+
+    private void playPreview(String previewUrl) {
+        if (previewUrl == null || previewUrl.isEmpty()) return;
+        exoPlayer.setMediaItem(MediaItem.fromUri(Uri.parse(previewUrl)));
+        exoPlayer.prepare();
+        exoPlayer.play();
+    }
+
+    private String extractLine(String text, String prefix) {
+        for (String line : text.split("\n")) {
+            if (line.startsWith(prefix)) {
+                return line.substring(prefix.length()).trim();
+            }
+        }
+        return "";
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        exoPlayer.release();
+        executorService.shutdownNow();
     }
 
     private void saveDayStatus(String status) {
@@ -1027,9 +341,7 @@ public class HomeFragment extends Fragment {
         }
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                .format(new Date());
+        String today  = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("users")
@@ -1040,8 +352,6 @@ public class HomeFragment extends Fragment {
         ref.setValue(status).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(getContext(), "Saved for today ✅", Toast.LENGTH_SHORT).show();
-
-                // disable buttons after selection (nice UX)
                 btnFollowed.setEnabled(false);
                 btnNotFollowed.setEnabled(false);
             } else {

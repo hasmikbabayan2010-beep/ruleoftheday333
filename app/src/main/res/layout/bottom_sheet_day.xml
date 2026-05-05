@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#FFF0F5">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Drag handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:background="#F48FB1"
+        android:backgroundTint="#F48FB1"/>
+
+    <TextView
+        android:id="@+id/tvSheetDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2025-01-01"
+        android:textSize="13sp"
+        android:textColor="#AD1457"
+        android:fontFamily="sans-serif"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvSheetStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="✅ Rule followed!"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="#880E4F"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvSheetNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Great job keeping your rule today 🌸"
+        android:textSize="15sp"
+        android:textColor="#7B5060"
+        android:lineSpacingMultiplier="1.4"
+        android:layout_marginBottom="16dp"/>
+
+</LinearLayout>

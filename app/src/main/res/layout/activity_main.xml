@@ -18,94 +18,24 @@
 <!--        android:id="@+id/bottom_nav"-->
 <!--        android:layout_width="0dp"-->
 <!--        android:layout_height="wrap_content"-->
+<!--        android:background="#FFFFFF"-->
 <!--        app:menu="@menu/bottom_menu"-->
+<!--        app:itemIconTint="@color/nav_item_color_other"-->
+<!--        app:itemTextColor="@color/nav_item_color_other"-->
+<!--        app:labelVisibilityMode="labeled"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"/>-->
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         app:menu="@menu/bottom_menu"
-        app:itemIconTint="@color/nav_item_color"
-        app:itemTextColor="@color/nav_item_color"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<androidx.constraintlayout.widget.ConstraintLayout-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:padding="24dp"-->
-<!--    tools:context=".MainActivity">-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/titleText"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Rule of the Day"-->
-<!--        android:textSize="26sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/ruleText"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Press the button to generate today's rule"-->
-<!--        android:textSize="18sp"-->
-<!--        android:gravity="center"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/titleText"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
-
-<!--    <Button-->
-<!--        android:id="@+id/buttonGenerateRule"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Generate Rule"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/ruleText"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
-
-<!--    <Button-->
-<!--        android:id="@+id/buttonFollowed"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="I Followed It"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/buttonGenerateRule"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
-
-<!--    <Button-->
-<!--        android:id="@+id/buttonSkipped"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="I Skipped It"-->
-<!--        android:layout_marginTop="12dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/buttonFollowed"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
-
-<!--    <CalendarView-->
-<!--        android:id="@+id/calendarView"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/buttonSkipped"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
-
-<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

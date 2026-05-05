@@ -1,286 +1,318 @@
-////package com.example.ruleoftheday333.fragments;
-////
-////import android.content.res.Configuration;
-////import android.os.Bundle;
-////
-////import androidx.fragment.app.Fragment;
-////
-////import android.view.LayoutInflater;
-////import android.view.View;
-////import android.view.ViewGroup;
-////
-////import com.google.firebase.database.FirebaseDatabase;
-////import com.google.firebase.database.DatabaseReference;
-////import com.google.firebase.database.ValueEventListener;
-////import com.google.firebase.database.DataSnapshot;
-////import com.google.firebase.database.DatabaseError;
-////
-////import com.example.ruleoftheday333.R;
-////
-////import java.util.Locale;
-////
-/////**
-//// * A simple {@link Fragment} subclass.
-//// * Use the {@link SettingsFragment#newInstance} factory method to
-//// * create an instance of this fragment.
-//// */
-////public class SettingsFragment extends Fragment {
-////
-////    // TODO: Rename parameter arguments, choose names that match
-////    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-////    private static final String ARG_PARAM1 = "param1";
-////    private static final String ARG_PARAM2 = "param2";
-////
-////    // TODO: Rename and change types of parameters
-////    private String mParam1;
-////    private String mParam2;
-////
-////    public SettingsFragment() {
-////        // Required empty public constructor
-////    }
-////
-////    /**
-////     * Use this factory method to create a new instance of
-////     * this fragment using the provided parameters.
-////     *
-////     * @param param1 Parameter 1.
-////     * @param param2 Parameter 2.
-////     * @return A new instance of fragment SettingsFragment.
-////     */
-////    // TODO: Rename and change types and number of parameters
-////    public static SettingsFragment newInstance(String param1, String param2) {
-////        SettingsFragment fragment = new SettingsFragment();
-////        Bundle args = new Bundle();
-////        args.putString(ARG_PARAM1, param1);
-////        args.putString(ARG_PARAM2, param2);
-////        fragment.setArguments(args);
-////        return fragment;
-////    }
-////
-////    @Override
-////    public void onCreate(Bundle savedInstanceState) {
-////        super.onCreate(savedInstanceState);
-////        if (getArguments() != null) {
-////            mParam1 = getArguments().getString(ARG_PARAM1);
-////            mParam2 = getArguments().getString(ARG_PARAM2);
-////        }
-////    }
-////
-////    @Override
-////    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-////                             Bundle savedInstanceState) {
-////        // Inflate the layout for this fragment
-////        return inflater.inflate(R.layout.fragment_settings, container, false);
-////    }
-////
-////    public void setLocale(String langCode) {
-////        Locale locale = new Locale(langCode);
-////        Locale.setDefault(locale);
-////        Configuration config = getResources().getConfiguration();
-////        config.setLocale(locale);
-////        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-////
-////        // Refresh the fragment/activity
-////        getActivity().recreate();
-////    }
-////    setLocale("ru"); // switch to Russian
-////    setLocale("zh"); // switch to Chinese
-////    setLocale("en"); // switch to English
-////}
-//
-//package com.example.ruleoftheday333.fragments;
-//
-//import android.content.res.Configuration;
-//import android.os.Bundle;
-//
-//import androidx.fragment.app.Fragment;
-//
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//
-//import com.example.ruleoftheday333.R;
-//
-//import java.util.Locale;
-//
-//public class SettingsFragment extends Fragment {
-//
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-//
-//    private String mParam1;
-//    private String mParam2;
-//
-//    public SettingsFragment() {
-//        // Required empty public constructor
-//    }
-//
-//    public static SettingsFragment newInstance(String param1, String param2) {
-//        SettingsFragment fragment = new SettingsFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//    }
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_settings, container, false);
-//    }
-//    // Example inside your fragment after the view is created
-//    @Override
-//    public void onViewCreated(View view, Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        // Example: switch to Russian
-//        view.findViewById(R.id.btn_russian).setOnClickListener(v -> setLocale("ru"));
-//
-//        // Example: switch to Chinese
-//        view.findViewById(R.id.btn_chinese).setOnClickListener(v -> setLocale("zh"));
-//
-//        // Example: switch to English
-//        view.findViewById(R.id.btn_english).setOnClickListener(v -> setLocale("en"));
-//
-//        // Switch to Light Mode
-//        view.findViewById(R.id.btn_light_mode).setOnClickListener(v -> setThemeMode(false));
-//
-//// Switch to Dark Mode
-//        view.findViewById(R.id.btn_dark_mode).setOnClickListener(v -> setThemeMode(true));
-//    }
-//    /**
-//     * Switches the app language dynamically.
-//     * Call this method from a button click or other UI event, NOT in the class body.
-//     *
-//     * @param langCode "en", "ru", or "zh"
-//     */
-//    public void setLocale(String langCode) {
-//        Locale locale = new Locale(langCode);
-//        Locale.setDefault(locale);
-//        Configuration config = getResources().getConfiguration();
-//        config.setLocale(locale);
-//        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-//
-//        // Refresh the activity so new strings are loaded
-//        if (getActivity() != null) {
-//            getActivity().recreate();
-//        }
-//    }
-//}
 package com.example.ruleoftheday333.fragments;
 
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.ruleoftheday333.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
+import com.example.ruleoftheday333.ui.login.LoginActivity;
 
 import java.util.Locale;
 
 public class SettingsFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // Track expanded state
+    private boolean languageExpanded = false;
+    private boolean themeExpanded = false;
 
-    private String mParam1;
-    private String mParam2;
+    // Track current selections
+    private String currentLang = "en";
+    private boolean isDarkMode = false;
 
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
-
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public SettingsFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
+// ─── Sign Out + Rule + Reset ──────────────────────────────────────────────
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // --- LANGUAGE SWITCHING ---
-        view.findViewById(R.id.btn_russian).setOnClickListener(v -> setLocale("ru"));
-        view.findViewById(R.id.btn_chinese).setOnClickListener(v -> setLocale("zh"));
-        view.findViewById(R.id.btn_english).setOnClickListener(v -> setLocale("en"));
-
-        // --- THEME SWITCHING ---
-        view.findViewById(R.id.btn_light_mode).setOnClickListener(v -> setThemeMode(false));
-        view.findViewById(R.id.btn_dark_mode).setOnClickListener(v -> setThemeMode(true));
+    private void setupExtras(View view) {
+        loadCurrentRule(view);
+        setupEditRule(view);
+        setupSignOut(view);
+        setupResetCalendar(view);
     }
 
-    /**
-     * Switches the app language dynamically.
-     * @param langCode "en", "ru", or "zh"
-     */
-    private void setLocale(String langCode) {
-        Locale locale = new Locale(langCode);
-        Locale.setDefault(locale);
-        Configuration config = getResources().getConfiguration();
-        config.setLocale(locale);
-        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    private void loadCurrentRule(View view) {
+        TextView tvRule = view.findViewById(R.id.tvCurrentRule);
+        String uid = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
+        if (uid == null) return;
 
-        // Refresh the activity so new strings are loaded
-        if (getActivity() != null) {
-            getActivity().recreate();
+        FirebaseDatabase.getInstance()
+                .getReference("users").child(uid).child("profile").child("goal")
+                .addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot snap) {
+                        String rule = snap.getValue(String.class);
+                        tvRule.setText(rule != null ? rule : "No rule set yet 🌸");
+                    }
+                    @Override
+                    public void onCancelled(@NonNull com.google.firebase.database.DatabaseError e) {}
+                });
+    }
+
+    private void setupEditRule(View view) {
+        view.findViewById(R.id.tvEditRule).setOnClickListener(v -> {
+            String uid = FirebaseAuth.getInstance().getCurrentUser() != null
+                    ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
+            if (uid == null) return;
+
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(requireContext());
+            builder.setTitle("Edit your rule 🎯");
+
+            android.widget.EditText input = new android.widget.EditText(requireContext());
+            input.setHint("e.g. drink 2L of water");
+            TextView tvRule = view.findViewById(R.id.tvCurrentRule);
+            input.setText(tvRule.getText().toString());
+            input.setPadding(48, 32, 48, 32);
+            builder.setView(input);
+
+            builder.setPositiveButton("Save 🌸", (dialog, which) -> {
+                String newRule = input.getText().toString().trim();
+                if (newRule.isEmpty()) return;
+                FirebaseDatabase.getInstance()
+                        .getReference("users").child(uid).child("profile").child("goal")
+                        .setValue(newRule)
+                        .addOnSuccessListener(unused -> tvRule.setText(newRule));
+            });
+            builder.setNegativeButton("Cancel", null);
+            builder.show();
+        });
+    }
+
+    private void setupSignOut(View view) {
+        view.findViewById(R.id.rowSignOut).setOnClickListener(v -> {
+            new android.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Sign out?")
+                    .setMessage("You'll need to log back in to access your data.")
+                    .setPositiveButton("Sign out", (dialog, which) -> {
+                        FirebaseAuth.getInstance().signOut();
+                        android.content.Intent intent = new android.content.Intent(
+                                requireActivity(),
+                                LoginActivity.class);
+                        intent.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+                                | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
+    }
+    private void setupResetCalendar(View view) {
+        view.findViewById(R.id.rowResetCalendar).setOnClickListener(v -> {
+            new android.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Reset calendar? 🗑️")
+                    .setMessage("This will permanently delete all your calendar data. This can't be undone.")
+                    .setPositiveButton("Yes, reset", (dialog, which) -> {
+                        String uid = FirebaseAuth.getInstance().getCurrentUser() != null
+                                ? FirebaseAuth.getInstance().getCurrentUser().getUid() : null;
+                        if (uid == null) return;
+
+                        FirebaseDatabase.getInstance()
+                                .getReference("users").child(uid).child("calendar")
+                                .removeValue()
+                                .addOnSuccessListener(unused -> {
+                                    android.widget.Toast.makeText(requireContext(),
+                                            "Calendar reset 🌸", android.widget.Toast.LENGTH_SHORT).show();
+                                });
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+        });
+    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // in onViewCreated, add this line:
+        setupExtras(view);
+        super.onViewCreated(view, savedInstanceState);
+
+        // Load saved prefs
+        SharedPreferences prefs = requireActivity().getSharedPreferences("app_settings", 0);
+        currentLang = prefs.getString("language", "en");
+        isDarkMode  = prefs.getBoolean("dark_mode", false);
+
+        setupProfileHeader(view);
+        setupLanguageDropdown(view, prefs);
+        setupThemeDropdown(view, prefs);
+    }
+
+    // ─── Profile Header ───────────────────────────────────────────────────────
+
+    private void setupProfileHeader(View view) {
+        TextView tvInitial = view.findViewById(R.id.tvInitial);
+        TextView tvEmail   = view.findViewById(R.id.tvEmail);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail() != null ? user.getEmail() : "user@email.com";
+            tvEmail.setText(email);
+            tvInitial.setText(String.valueOf(email.charAt(0)).toUpperCase());
         }
     }
 
-    /**
-     * Switches the app theme dynamically (light/dark).
-     * @param darkMode true for dark mode, false for light mode
-     */
-    private void setThemeMode(boolean darkMode) {
-        if (getActivity() == null) return;
+    // ─── Language Dropdown ────────────────────────────────────────────────────
 
-        // Save preference
-        SharedPreferences prefs = getActivity().getSharedPreferences("app_settings", 0);
-        prefs.edit().putBoolean("dark_mode", darkMode).apply();
+    private void setupLanguageDropdown(View view, SharedPreferences prefs) {
+        LinearLayout headerLang  = view.findViewById(R.id.headerLanguage);
+        LinearLayout contentLang = view.findViewById(R.id.contentLanguage);
+        ImageView    arrowLang   = view.findViewById(R.id.arrowLanguage);
+        TextView     tvLangValue = view.findViewById(R.id.tvLanguageValue);
 
-        // Apply theme
+        // Show current selection
+        tvLangValue.setText(getLangLabel(currentLang));
+
+        headerLang.setOnClickListener(v -> {
+            languageExpanded = !languageExpanded;
+            contentLang.setVisibility(languageExpanded ? View.VISIBLE : View.GONE);
+            rotateArrow(arrowLang, languageExpanded);
+        });
+
+        // Language rows
+        setupLangRow(view, R.id.rowEnglish,  "en",  tvLangValue, prefs);
+        setupLangRow(view, R.id.rowRussian,  "ru",  tvLangValue, prefs);
+        setupLangRow(view, R.id.rowChinese,  "zh",  tvLangValue, prefs);
+
+        // Highlight current
+        highlightLangRow(view, currentLang);
+    }
+
+    private void setupLangRow(View root, int rowId, String langCode,
+                              TextView tvValue, SharedPreferences prefs) {
+        root.findViewById(rowId).setOnClickListener(v -> {
+            currentLang = langCode;
+            tvValue.setText(getLangLabel(langCode));
+            prefs.edit().putString("language", langCode).apply();
+            highlightLangRow(root, langCode);
+
+            // Collapse
+            root.findViewById(R.id.contentLanguage).setVisibility(View.GONE);
+            rotateArrow(root.findViewById(R.id.arrowLanguage), false);
+            languageExpanded = false;
+
+            setLocale(langCode);
+        });
+    }
+
+    private void highlightLangRow(View root, String activeLang) {
+        int[] rowIds   = {R.id.rowEnglish, R.id.rowRussian, R.id.rowChinese};
+        String[] codes = {"en", "ru", "zh"};
+
+        for (int i = 0; i < rowIds.length; i++) {
+            View row       = root.findViewById(rowIds[i]);
+            ImageView tick = row.findViewWithTag("tick_" + codes[i]);
+            if (tick != null) tick.setVisibility(codes[i].equals(activeLang) ? View.VISIBLE : View.GONE);
+            row.setBackgroundResource(codes[i].equals(activeLang)
+                    ? R.drawable.row_selected_bg
+                    : R.drawable.row_normal_bg);
+        }
+    }
+
+    private String getLangLabel(String code) {
+        switch (code) {
+            case "ru": return "🇷🇺 Russian";
+            case "zh": return "🇨🇳 Chinese";
+            default:   return "🇬🇧 English";
+        }
+    }
+
+    // ─── Theme Dropdown ───────────────────────────────────────────────────────
+
+    private void setupThemeDropdown(View view, SharedPreferences prefs) {
+        LinearLayout headerTheme  = view.findViewById(R.id.headerTheme);
+        LinearLayout contentTheme = view.findViewById(R.id.contentTheme);
+        ImageView    arrowTheme   = view.findViewById(R.id.arrowTheme);
+        TextView     tvThemeValue = view.findViewById(R.id.tvThemeValue);
+
+        tvThemeValue.setText(isDarkMode ? "🌙 Dark" : "☀️ Light");
+
+        headerTheme.setOnClickListener(v -> {
+            themeExpanded = !themeExpanded;
+            contentTheme.setVisibility(themeExpanded ? View.VISIBLE : View.GONE);
+            rotateArrow(arrowTheme, themeExpanded);
+        });
+
+        view.findViewById(R.id.rowLight).setOnClickListener(v -> {
+            applyTheme(false, tvThemeValue, prefs);
+            collapseTheme(view);
+        });
+
+        view.findViewById(R.id.rowDark).setOnClickListener(v -> {
+            applyTheme(true, tvThemeValue, prefs);
+            collapseTheme(view);
+        });
+
+        highlightThemeRow(view, isDarkMode);
+    }
+
+    private void applyTheme(boolean dark, TextView tvValue, SharedPreferences prefs) {
+        isDarkMode = dark;
+        tvValue.setText(dark ? "🌙 Dark" : "☀️ Light");
+        prefs.edit().putBoolean("dark_mode", dark).apply();
+        highlightThemeRow(requireView(), dark);
         AppCompatDelegate.setDefaultNightMode(
-                darkMode ? AppCompatDelegate.MODE_NIGHT_YES
-                        : AppCompatDelegate.MODE_NIGHT_NO
-        );
+                dark ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        requireActivity().recreate();
+    }
 
-        // Recreate activity to apply changes immediately
-        getActivity().recreate();
+    private void highlightThemeRow(View root, boolean darkActive) {
+        View rowLight = root.findViewById(R.id.rowLight);
+        View rowDark  = root.findViewById(R.id.rowDark);
+
+        rowLight.setBackgroundResource(!darkActive ? R.drawable.row_selected_bg : R.drawable.row_normal_bg);
+        rowDark.setBackgroundResource(darkActive   ? R.drawable.row_selected_bg : R.drawable.row_normal_bg);
+
+        ImageView tickLight = rowLight.findViewWithTag("tick_light");
+        ImageView tickDark  = rowDark.findViewWithTag("tick_dark");
+        if (tickLight != null) tickLight.setVisibility(!darkActive ? View.VISIBLE : View.GONE);
+        if (tickDark  != null) tickDark.setVisibility(darkActive   ? View.VISIBLE : View.GONE);
+    }
+
+    private void collapseTheme(View view) {
+        view.findViewById(R.id.contentTheme).setVisibility(View.GONE);
+        rotateArrow(view.findViewById(R.id.arrowTheme), false);
+        themeExpanded = false;
+    }
+
+    // ─── Helpers ──────────────────────────────────────────────────────────────
+
+    private void rotateArrow(ImageView arrow, boolean expanded) {
+        float from = expanded ? 0f : 180f;
+        float to   = expanded ? 180f : 0f;
+        RotateAnimation rotate = new RotateAnimation(from, to,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(250);
+        rotate.setFillAfter(true);
+        arrow.startAnimation(rotate);
+    }
+
+    private void setLocale(String langCode) {
+        Locale locale = new Locale(langCode);
+        Locale.setDefault(locale);
+        Configuration config = requireContext().getResources().getConfiguration();
+        config.setLocale(locale);
+        requireContext().getResources().updateConfiguration(config,
+                requireContext().getResources().getDisplayMetrics());
+        requireActivity().recreate();
     }
 }
