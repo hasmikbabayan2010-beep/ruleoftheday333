@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import android.widget.TextView;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +28,9 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private EditText emailInput, passwordInput;
-    private Button loginButton, registerButton, googleButton;
+    private Button loginButton, googleButton;
+
+    private TextView registerButton;
     private ProgressBar loadingProgressBar;
 
     private GoogleSignInClient googleSignInClient;

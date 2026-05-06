@@ -1,8 +1,11 @@
 package com.example.ruleoftheday333.itunes;
 
+import android.content.Context;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -11,53 +14,82 @@ import java.net.URLEncoder;
 
 public class ItunesPreviewHelper {
 
-    // ──────────────────────────────────────────────────────────
-    // Searches iTunes for "trackName artistName", returns the
-    // previewUrl of the best match (or null if nothing found).
-    // This is called AFTER Spotify gives us the song name.
-    // ──────────────────────────────────────────────────────────
-    public static String fetchPreviewUrl(String trackName, String artistName) {
-        try {
-            // Combine track + artist for a precise iTunes search
-            String query = URLEncoder.encode(trackName + " " + artistName, "UTF-8");
-            URL url = new URL(
-                    "https://itunes.apple.com/search?term=" + query
-                            + "&media=music&limit=5");
+    public static String fetchPreviewUrl(Context context, String trackName, String artistName) {
+        HttpURLConnection conn = null;
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        try {
+            if (trackName == null || artistName == null) return null;
+
+            String key = (trackName + "_" + artistName).toLowerCase().trim();
+
+            // ✅ CACHE CHECK
+            String cached = PreviewCache.getPreview(context, key);
+            if (cached != null) {
+                return cached;
+            }
+
+            String query = URLEncoder.encode(trackName + " " + artistName, "UTF-8");
+
+            URL url = new URL(
+                    "https://itunes.apple.com/search?term=" + query +
+                            "&media=music&limit=5"
+            );
+
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
 
             BufferedReader br = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
+                    new InputStreamReader(conn.getInputStream())
+            );
+
             StringBuilder sb = new StringBuilder();
             String line;
-            while ((line = br.readLine()) != null) sb.append(line);
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
             br.close();
 
-            JSONObject root    = new JSONObject(sb.toString());
-            JSONArray  results = root.getJSONArray("results");
+            JSONObject root = new JSONObject(sb.toString());
+            JSONArray results = root.optJSONArray("results");
 
-            if (results.length() == 0) return null;
+            if (results == null || results.length() == 0) return null;
 
-            // Pick the result whose artist name most closely matches
+            String targetArtist = artistName.toLowerCase().trim();
+
+            // ✅ BEST MATCH FIRST
             for (int i = 0; i < results.length(); i++) {
-                JSONObject result = results.getJSONObject(i);
-                String     artist = result.optString("artistName", "");
-                String     preview = result.optString("previewUrl", "");
+                JSONObject obj = results.getJSONObject(i);
 
-                if (!preview.isEmpty() &&
-                        artist.toLowerCase().contains(artistName.toLowerCase())) {
-                    return preview;  // ✅ Good match with a preview
+                String artist = obj.optString("artistName", "").toLowerCase();
+                String preview = obj.optString("previewUrl", null);
+
+                if (preview != null && !preview.isEmpty()) {
+                    if (artist.contains(targetArtist) || targetArtist.contains(artist)) {
+                        PreviewCache.savePreview(context, key, preview);
+                        return preview;
+                    }
                 }
             }
 
-            // Fallback: just return first result's preview if it has one
-            String fallback = results.getJSONObject(0).optString("previewUrl", "");
-            return fallback.isEmpty() ? null : fallback;
+            // ✅ FALLBACK
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject obj = results.getJSONObject(i);
+                String preview = obj.optString("previewUrl", null);
+
+                if (preview != null && !preview.isEmpty()) {
+                    PreviewCache.savePreview(context, key, preview);
+                    return preview;
+                }
+            }
 
         } catch (Exception e) {
             Log.e("ItunesPreview", "Failed: " + e.getMessage(), e);
-            return null;
+        } finally {
+            if (conn != null) conn.disconnect();
         }
+
+        return null;
     }
 }

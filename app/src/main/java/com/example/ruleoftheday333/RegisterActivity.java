@@ -74,6 +74,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
@@ -90,7 +91,9 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private EditText emailInput, passwordInput;
-    private Button registerButton, backLoginButton;
+    private Button registerButton;
+    private TextView backLoginButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

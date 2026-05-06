@@ -23,6 +23,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     private Context context;
     private List<Song> songs;
     private MediaPlayer mediaPlayer;
+    private int currentlyPlayingPosition = -1;
 
     public SongAdapter(Context context, List<Song> songs) {
         this.context = context;
@@ -33,7 +34,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     @NonNull
     @Override
     public SongViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_song, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_song, parent, false);
         return new SongViewHolder(view);
     }
 
@@ -41,26 +43,50 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         Song song = songs.get(position);
 
-        holder.txtSong.setText(song.getName());
-        holder.txtArtist.setText(song.getArtist());
+        holder.txtSong.setText(song.getName() != null ? song.getName() : "Unknown");
+        holder.txtArtist.setText(song.getArtist() != null ? song.getArtist() : "Unknown");
 
-        // Load album cover using Glide
-        Glide.with(context)
-                .load(song.getAlbumCoverUrl())
+        // Load album cover safely
+        Glide.with(holder.itemView.getContext())
+                .load(song.getAlbumCoverUrl() != null ? song.getAlbumCoverUrl() : R.drawable.placeholder_album_foreground)
                 .placeholder(R.drawable.placeholder_album_foreground)
                 .into(holder.imgAlbum);
 
-        // Play 30-second preview on click
         holder.itemView.setOnClickListener(v -> {
             try {
+                // If same item clicked → toggle pause/play
+                if (currentlyPlayingPosition == position && mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                    return;
+                }
+
+                // Stop current playback safely
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.stop();
-                    mediaPlayer.reset();
                 }
+
+                mediaPlayer.reset();
+
+                if (song.getPreviewUrl() == null || song.getPreviewUrl().isEmpty()) {
+                    return;
+                }
+
                 mediaPlayer.setDataSource(song.getPreviewUrl());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
+
+                mediaPlayer.setOnPreparedListener(mp -> {
+                    mp.start();
+                    currentlyPlayingPosition = position;
+                });
+
+                mediaPlayer.setOnCompletionListener(mp -> {
+                    currentlyPlayingPosition = -1;
+                });
+
+                mediaPlayer.prepareAsync();
+
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
         });
@@ -68,7 +94,17 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     @Override
     public int getItemCount() {
-        return songs.size();
+        return songs != null ? songs.size() : 0;
+    }
+
+    public void releasePlayer() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     public static class SongViewHolder extends RecyclerView.ViewHolder {
