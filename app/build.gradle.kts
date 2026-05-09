@@ -157,7 +157,8 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.9.2")
 
     // AI
-    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+//    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    implementation("org.json:json:20231013")
 
     // Guava (keep only one)
     implementation("com.google.guava:guava:32.1.3-android")

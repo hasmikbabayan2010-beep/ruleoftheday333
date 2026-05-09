@@ -16,24 +16,23 @@ public class SpotifyHelper {
     private static final String CLIENT_ID     = "9eed91a4238d4e798eedb25aa6d790ee";
     private static final String CLIENT_SECRET = "f3c173c58d6b4c59843723bba80a0bb1";
 
-    // Holds a cached access token so we don't re-auth every request
     private static String cachedToken = null;
+    private static long   tokenExpiryMs = 0; // epoch ms when the token expires
 
-    // ──────────────────────────────────────────────────────────
-    // Step A: Get an access token using Client Credentials flow.
-    // Spotify's free "app-only" auth — no user login needed.
-    // ──────────────────────────────────────────────────────────
+    // ── Auth ─────────────────────────────────────────────────────────────────
     private static String getAccessToken() throws Exception {
-        if (cachedToken != null) return cachedToken; // reuse if we already have one
+        // Refresh if missing or within 60 seconds of expiry
+        if (cachedToken != null && System.currentTimeMillis() < tokenExpiryMs - 60_000) {
+            return cachedToken;
+        }
 
         URL url = new URL("https://accounts.spotify.com/api/token");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setConnectTimeout(8000);  // 8 seconds to connect
-        conn.setReadTimeout(8000);     // 8 seconds to read response
+        conn.setConnectTimeout(8000);
+        conn.setReadTimeout(8000);
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
 
-        // Basic Auth header: Base64(clientId:clientSecret)
         String credentials = CLIENT_ID + ":" + CLIENT_SECRET;
         String encoded = android.util.Base64.encodeToString(
                 credentials.getBytes(), android.util.Base64.NO_WRAP);
@@ -52,30 +51,26 @@ public class SpotifyHelper {
         while ((line = br.readLine()) != null) sb.append(line);
         br.close();
 
-        JSONObject json = new JSONObject(sb.toString());
-        cachedToken = json.getString("access_token");
+        JSONObject json  = new JSONObject(sb.toString());
+        cachedToken      = json.getString("access_token");
+        int expiresIn    = json.optInt("expires_in", 3600); // Spotify gives 3600s
+        tokenExpiryMs    = System.currentTimeMillis() + expiresIn * 1000L;
         return cachedToken;
     }
 
-    // ──────────────────────────────────────────────────────────
-    // Step B: Search Spotify for tracks matching the mood term.
-    // Returns a list of SpotifyTrack objects (name + artist).
-    // ──────────────────────────────────────────────────────────
+    // ── Mood-matched search (returns 10 results, caller picks indices 0,2,4) ─
     public static List<SpotifyTrack> searchTracks(String moodQuery, int limit) {
-        List<SpotifyTrack> tracks = new ArrayList<>();
         try {
             String token = getAccessToken();
-            String encodedQuery = URLEncoder.encode(moodQuery, "UTF-8");
-
-            // We add "year:2023-2025" to bias toward fresh releases
+            // year:2023-2025 biases toward recent music
             String fullQuery = URLEncoder.encode(moodQuery + " year:2023-2025", "UTF-8");
 
             URL url = new URL("https://api.spotify.com/v1/search?q="
                     + fullQuery + "&type=track&limit=" + limit + "&market=US");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(8000);  // 8 seconds to connect
-            conn.setReadTimeout(8000);     // 8 seconds to read response
+            conn.setConnectTimeout(8000);
+            conn.setReadTimeout(8000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
@@ -86,31 +81,85 @@ public class SpotifyHelper {
             while ((line = br.readLine()) != null) sb.append(line);
             br.close();
 
-            JSONObject root    = new JSONObject(sb.toString());
-            JSONArray  items   = root.getJSONObject("tracks").getJSONArray("items");
-
-            for (int i = 0; i < items.length(); i++) {
-                JSONObject track      = items.getJSONObject(i);
-                String     trackName  = track.getString("name");
-                String     artistName = track.getJSONArray("artists")
-                        .getJSONObject(0)
-                        .getString("name");
-                String     albumArt   = track.getJSONObject("album")
-                        .getJSONArray("images")
-                        .getJSONObject(0)   // first = largest
-                        .getString("url");
-                String     spotifyUrl = track.getJSONObject("external_urls")
-                        .getString("spotify");
-
-                tracks.add(new SpotifyTrack(trackName, artistName, albumArt, spotifyUrl));
-            }
+            return parseTracks(new JSONObject(sb.toString()));
 
         } catch (Exception e) {
-            Log.e("SpotifyHelper", "Search failed: " + e.getMessage(), e);
-            // If token expired (401), clear cache so next call re-authenticates
-            if (e.getMessage() != null && e.getMessage().contains("401")) {
-                cachedToken = null;
-            }
+            Log.e("SpotifyHelper", "searchTracks failed: " + e.getMessage(), e);
+            if (e.getMessage() != null && e.getMessage().contains("401")) { cachedToken = null; tokenExpiryMs = 0; }
+            return new ArrayList<>();
+        }
+    }
+
+    // ── Most-recent track: uses tag:new to force brand-new releases ───────────
+    // Guaranteed to be from the last few weeks regardless of mood match quality.
+    public static SpotifyTrack fetchMostRecentTrack(String moodQuery) {
+        try {
+            String token = getAccessToken();
+
+            // tag:new is Spotify's filter for albums released in the last 2 weeks
+            String fullQuery = URLEncoder.encode(moodQuery + " tag:new", "UTF-8");
+
+            URL url = new URL("https://api.spotify.com/v1/search?q="
+                    + fullQuery + "&type=track&limit=10&market=US");
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(8000);
+            conn.setReadTimeout(8000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) sb.append(line);
+            br.close();
+
+            List<SpotifyTrack> tracks = parseTracks(new JSONObject(sb.toString()));
+            if (tracks.isEmpty()) return null;
+
+            // Sort by release date descending — pick the absolute newest
+            tracks.sort((a, b) -> {
+                String da = a.releaseDate != null ? a.releaseDate : "";
+                String db = b.releaseDate != null ? b.releaseDate : "";
+                return db.compareTo(da);
+            });
+
+            return tracks.get(0);
+
+        } catch (Exception e) {
+            Log.e("SpotifyHelper", "fetchMostRecentTrack failed: " + e.getMessage(), e);
+            if (e.getMessage() != null && e.getMessage().contains("401")) { cachedToken = null; tokenExpiryMs = 0; }
+            return null;
+        }
+    }
+
+    // ── Shared JSON parser ────────────────────────────────────────────────────
+    private static List<SpotifyTrack> parseTracks(JSONObject root) throws Exception {
+        List<SpotifyTrack> tracks = new ArrayList<>();
+        JSONArray items = root.getJSONObject("tracks").getJSONArray("items");
+
+        for (int i = 0; i < items.length(); i++) {
+            JSONObject track = items.getJSONObject(i);
+
+            String trackName  = track.getString("name");
+            String artistName = track.getJSONArray("artists")
+                    .getJSONObject(0).getString("name");
+            String albumArt   = track.getJSONObject("album")
+                    .getJSONArray("images").getJSONObject(0).getString("url");
+            String spotifyUrl = track.getJSONObject("external_urls")
+                    .getString("spotify");
+
+            // Spotify preview_url — null for many tracks, iTunes is fallback
+            String previewUrl = track.isNull("preview_url")
+                    ? null : track.optString("preview_url", null);
+
+            String releaseDate = track.getJSONObject("album")
+                    .optString("release_date", "");
+
+            tracks.add(new SpotifyTrack(
+                    trackName, artistName, albumArt,
+                    spotifyUrl, previewUrl, releaseDate));
         }
         return tracks;
     }
