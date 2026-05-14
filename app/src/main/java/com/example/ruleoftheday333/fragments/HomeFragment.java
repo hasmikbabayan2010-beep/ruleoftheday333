@@ -7,6 +7,8 @@ import android.widget.*;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.ruleoftheday333.BuildConfig;
+
 import com.bumptech.glide.Glide;
 import com.example.ruleoftheday333.R;
 import com.example.ruleoftheday333.itunes.ItunesPreviewHelper;
@@ -63,7 +65,7 @@ public class HomeFragment extends Fragment {
     private int currentRuleTemp = 50; // temperature of the current rule (0-100)
 
     private final ExecutorService executor = Executors.newFixedThreadPool(3);
-
+    private static final String GROQ_API_KEY = BuildConfig.GROQ_API_KEY;
     // ⚠️ Put your Groq API key here
 //    private static final String GROQ_API_KEY = "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";
     private static final String GROQ_API_URL  = "https://api.groq.com/openai/v1/chat/completions";
