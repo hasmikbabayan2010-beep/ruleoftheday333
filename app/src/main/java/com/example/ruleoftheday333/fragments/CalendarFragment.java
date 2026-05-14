@@ -1,8 +1,12 @@
 package com.example.ruleoftheday333.fragments;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,21 +30,22 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class CalendarFragment extends Fragment {
 
     private MaterialCalendarView calendarView;
-    private TextView tvGreenCount, tvRedCount, tvMoodLabel;
+    private TextView tvGreenCount, tvRedCount, tvMoodLabel, tvStreak;
     private ProgressBar progressBar;
     private FrameLayout rootLayout;
 
-    // Store all day statuses for bottom sheet + background logic
     private final Map<String, String> allStatuses = new HashMap<>();
 
     public CalendarFragment() {}
@@ -51,33 +56,32 @@ public class CalendarFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-        calendarView  = view.findViewById(R.id.calendarView);
-        tvGreenCount  = view.findViewById(R.id.tvGreenCount);
-        tvRedCount    = view.findViewById(R.id.tvRedCount);
-        tvMoodLabel   = view.findViewById(R.id.tvMoodLabel);
-        progressBar   = view.findViewById(R.id.progressBar);
-        rootLayout    = view.findViewById(R.id.rootLayout);
+        calendarView = view.findViewById(R.id.calendarView);
+        tvGreenCount = view.findViewById(R.id.tvGreenCount);
+        tvRedCount   = view.findViewById(R.id.tvRedCount);
+        tvMoodLabel  = view.findViewById(R.id.tvMoodLabel);
+        progressBar  = view.findViewById(R.id.progressBar);
+        rootLayout   = view.findViewById(R.id.rootLayout);
+        tvStreak     = view.findViewById(R.id.tvStreak);
 
-        calendarView.setSelectionColor(Color.parseColor("#F48FB1")); // soft pink selection
-
+        calendarView.setSelectionColor(Color.parseColor("#F48FB1"));
         calendarView.addDecorator(new TodayDecorator());
 
-        // Tap a day → bottom sheet
         calendarView.setOnDateChangedListener((widget, date, selected) -> {
             if (!selected) return;
             String key = date.getYear() + "-"
                     + String.format("%02d", date.getMonth() + 1) + "-"
                     + String.format("%02d", date.getDay());
-            showDayBottomSheet(key, date);
+            showDayBottomSheet(key);
         });
 
         loadCalendarData();
         return view;
     }
 
-    // ─── Bottom Sheet ────────────────────────────────────────────────────────
+    // ─── Bottom Sheet ─────────────────────────────────────────────────────────
 
-    private void showDayBottomSheet(String dateKey, CalendarDay day) {
+    private void showDayBottomSheet(String dateKey) {
         BottomSheetDialog dialog = new BottomSheetDialog(requireContext(), R.style.PinkBottomSheet);
         View sheetView = LayoutInflater.from(requireContext())
                 .inflate(R.layout.bottom_sheet_day, null);
@@ -104,7 +108,7 @@ public class CalendarFragment extends Fragment {
         dialog.show();
     }
 
-    // ─── Firebase Load ───────────────────────────────────────────────────────
+    // ─── Firebase Load ────────────────────────────────────────────────────────
 
     private void loadCalendarData() {
         if (FirebaseAuth.getInstance().getCurrentUser() == null) return;
@@ -125,7 +129,7 @@ public class CalendarFragment extends Fragment {
                     String status = daySnap.getValue(String.class);
                     if (date == null || status == null) continue;
 
-                    allStatuses.put(date, status); // store for bottom sheet
+                    allStatuses.put(date, status);
 
                     String[] parts = date.split("-");
                     if (parts.length != 3) continue;
@@ -142,13 +146,16 @@ public class CalendarFragment extends Fragment {
                     } catch (NumberFormatException e) { e.printStackTrace(); }
                 }
 
-                // Decorators with emoji spans
-                calendarView.addDecorator(new EmojiDecorator(greenDays, "✅",
-                        ContextCompat.getColor(requireContext(), R.color.green)));
-                calendarView.addDecorator(new EmojiDecorator(redDays, "❌",
-                        ContextCompat.getColor(requireContext(), R.color.red)));
+                // Heatmap decorators — colored backgrounds + no emoji clutter
+                calendarView.addDecorator(new HeatmapDecorator(greenDays,
+                        Color.parseColor("#A5D6A7"),   // green fill
+                        Color.parseColor("#1B5E20"))); // green text
+                calendarView.addDecorator(new HeatmapDecorator(redDays,
+                        Color.parseColor("#EF9A9A"),   // red fill
+                        Color.parseColor("#B71C1C"))); // red text
 
-                updateStatsCard(greenCount, redCount);
+                int streak = calculateStreak();
+                updateStatsCard(greenCount, redCount, streak);
                 updateMoodBackground(greenCount, redCount);
             }
 
@@ -157,18 +164,51 @@ public class CalendarFragment extends Fragment {
         });
     }
 
-    // ─── Stats Card ──────────────────────────────────────────────────────────
+    // ─── Streak Calculation ───────────────────────────────────────────────────
+    // Counts how many consecutive green days up to today
 
-    private void updateStatsCard(int green, int red) {
+    private int calculateStreak() {
+        List<String> sortedDates = new ArrayList<>(allStatuses.keySet());
+        Collections.sort(sortedDates, Collections.reverseOrder()); // newest first
+
+        int streak = 0;
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+
+        for (String date : sortedDates) {
+            String expected = String.format("%d-%02d-%02d",
+                    cal.get(java.util.Calendar.YEAR),
+                    cal.get(java.util.Calendar.MONTH) + 1,
+                    cal.get(java.util.Calendar.DAY_OF_MONTH));
+
+            if (!date.equals(expected)) break; // gap in days — streak ends
+
+            String status = allStatuses.get(date);
+            if (!"green".equals(status)) break; // red day — streak ends
+
+            streak++;
+            cal.add(java.util.Calendar.DAY_OF_MONTH, -1); // go back one day
+        }
+        return streak;
+    }
+
+    // ─── Stats Card ───────────────────────────────────────────────────────────
+
+    private void updateStatsCard(int green, int red, int streak) {
         tvGreenCount.setText("✅ " + green + " days");
         tvRedCount.setText("❌ " + red + " days");
 
         int total = green + red;
         progressBar.setMax(total > 0 ? total : 1);
         progressBar.setProgress(green);
+
+        if (tvStreak != null) {
+            tvStreak.setText(streak > 0
+                    ? "🔥 " + streak + " day streak!"
+                    : "Start your streak today!");
+        }
     }
 
-    // ─── Mood Background ─────────────────────────────────────────────────────
+    // ─── Mood Background ──────────────────────────────────────────────────────
 
     private void updateMoodBackground(int green, int red) {
         int total = green + red;
@@ -180,22 +220,18 @@ public class CalendarFragment extends Fragment {
         String moodText;
 
         if (ratio >= 0.8f) {
-            // 🌸 Thriving — warm pink bloom
             startColor = Color.parseColor("#FCE4EC");
             endColor   = Color.parseColor("#F8BBD0");
             moodText   = "🌸 You're thriving!";
         } else if (ratio >= 0.5f) {
-            // 🌷 Growing — soft lavender-pink
             startColor = Color.parseColor("#F3E5F5");
             endColor   = Color.parseColor("#EDE7F6");
             moodText   = "🌷 Keep going, you're growing!";
         } else if (ratio >= 0.3f) {
-            // 🌙 Struggling — muted mauve
             startColor = Color.parseColor("#EDE0E8");
             endColor   = Color.parseColor("#D7CCD6");
             moodText   = "🌙 It's okay, be gentle with yourself.";
         } else {
-            // 💜 Rough patch — deep dusty rose
             startColor = Color.parseColor("#D9C5CF");
             endColor   = Color.parseColor("#C9B8C4");
             moodText   = "💜 Every day is a new chance.";
@@ -203,48 +239,51 @@ public class CalendarFragment extends Fragment {
 
         GradientDrawable gradient = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{startColor, endColor}
-        );
+                new int[]{startColor, endColor});
         rootLayout.setBackground(gradient);
         tvMoodLabel.setText(moodText);
     }
 
-    // ─── Decorators ──────────────────────────────────────────────────────────
+    // ─── Decorators ───────────────────────────────────────────────────────────
 
-    public static class TodayDecorator implements DayViewDecorator {
-        private final CalendarDay today = CalendarDay.today();
+    /** Heatmap-style decorator: colored circle background + colored date text */
+    public static class HeatmapDecorator implements DayViewDecorator {
+        private final Set<CalendarDay> dates;
+        private final GradientDrawable background;
+        private final int textColor;
 
-        @Override public boolean shouldDecorate(CalendarDay day) { return day.equals(today); }
+        public HeatmapDecorator(Set<CalendarDay> dates, int bgColor, int textColor) {
+            this.dates     = dates;
+            this.textColor = textColor;
+
+            background = new GradientDrawable();
+            background.setShape(GradientDrawable.OVAL);
+            background.setColor(bgColor);
+            background.setSize(80, 80);
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) { return dates.contains(day); }
 
         @Override
         public void decorate(DayViewFacade view) {
-            view.addSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD));
+            view.setBackgroundDrawable(background);
+            view.addSpan(new ForegroundColorSpan(textColor));
+            view.addSpan(new StyleSpan(Typeface.BOLD));
         }
     }
 
-    public static class EmojiDecorator implements DayViewDecorator {
-        private final Set<CalendarDay> dates;
-        private final GradientDrawable drawable;
-        private final String emoji;
+    /** Bold underline for today */
+    public static class TodayDecorator implements DayViewDecorator {
+        private final CalendarDay today = CalendarDay.today();
 
-        public EmojiDecorator(Set<CalendarDay> dates, String emoji, int color) {
-            this.dates = dates;
-            this.emoji = emoji;
-
-            drawable = new GradientDrawable();
-            drawable.setShape(GradientDrawable.OVAL);
-            drawable.setColor(color);
-            drawable.setAlpha(180); // slightly transparent — softer look
-            drawable.setSize(60, 60);
-        }
-
-        @Override public boolean shouldDecorate(CalendarDay day) { return dates.contains(day); }
+        @Override
+        public boolean shouldDecorate(CalendarDay day) { return day.equals(today); }
 
         @Override
         public void decorate(DayViewFacade view) {
-            view.setBackgroundDrawable(drawable);
-            // Emoji as text above the number
-            view.addSpan(new android.text.style.RelativeSizeSpan(0.5f)); // smaller emoji
+            view.addSpan(new StyleSpan(Typeface.BOLD));
+            view.addSpan(new android.text.style.UnderlineSpan());
         }
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,8 +40,7 @@
             android:layout_marginTop="12dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="#FFFFFFDD"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
+            app:cardBackgroundColor="#FFFFFFDD">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,6 +48,19 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <!-- Streak -->
+                <TextView
+                    android:id="@+id/tvStreak"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🔥 Start your streak today!"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#AD1457"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"/>
+
+                <!-- Green / Red counts -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -77,6 +90,7 @@
 
                 </LinearLayout>
 
+                <!-- Progress bar -->
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="@android:style/Widget.ProgressBar.Horizontal"
@@ -87,6 +101,41 @@
                     android:progressBackgroundTint="#FFCDD2"
                     android:max="100"
                     android:progress="0"/>
+
+                <!-- Legend -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp">
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/legend_circle_green"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Followed"
+                        android:textSize="12sp"
+                        android:textColor="#388E3C"
+                        android:layout_marginEnd="16dp"/>
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:background="@drawable/legend_circle_red"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Missed"
+                        android:textSize="12sp"
+                        android:textColor="#C62828"/>
+
+                </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

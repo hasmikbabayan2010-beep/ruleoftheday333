@@ -14,22 +14,21 @@ import java.util.List;
 
 public class SpotifyHelper {
     private static final String CLIENT_ID     = "9eed91a4238d4e798eedb25aa6d790ee";
-    private static final String CLIENT_SECRET = "f3c173c58d6b4c59843723bba80a0bb1";
+    private static final String CLIENT_SECRET = "381355c3d4ea4dc8a72c7f3c478ab94d";
 
-    private static String cachedToken = null;
-    private static long   tokenExpiryMs = 0; // epoch ms when the token expires
+    private static String cachedToken  = null;
+    private static long   tokenExpiryMs = 0;
 
     // ── Auth ─────────────────────────────────────────────────────────────────
     private static String getAccessToken() throws Exception {
-        // Refresh if missing or within 60 seconds of expiry
         if (cachedToken != null && System.currentTimeMillis() < tokenExpiryMs - 60_000) {
             return cachedToken;
         }
 
         URL url = new URL("https://accounts.spotify.com/api/token");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setConnectTimeout(8000);
-        conn.setReadTimeout(8000);
+        conn.setConnectTimeout(20000);
+        conn.setReadTimeout(20000);
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
 
@@ -51,26 +50,25 @@ public class SpotifyHelper {
         while ((line = br.readLine()) != null) sb.append(line);
         br.close();
 
-        JSONObject json  = new JSONObject(sb.toString());
-        cachedToken      = json.getString("access_token");
-        int expiresIn    = json.optInt("expires_in", 3600); // Spotify gives 3600s
-        tokenExpiryMs    = System.currentTimeMillis() + expiresIn * 1000L;
+        JSONObject json = new JSONObject(sb.toString());
+        cachedToken     = json.getString("access_token");
+        int expiresIn   = json.optInt("expires_in", 3600);
+        tokenExpiryMs   = System.currentTimeMillis() + expiresIn * 1000L;
         return cachedToken;
     }
 
-    // ── Mood-matched search (returns 10 results, caller picks indices 0,2,4) ─
+    // ── Mood-matched search ───────────────────────────────────────────────────
     public static List<SpotifyTrack> searchTracks(String moodQuery, int limit) {
         try {
-            String token = getAccessToken();
-            // year:2023-2025 biases toward recent music
+            String token     = getAccessToken();
             String fullQuery = URLEncoder.encode(moodQuery + " year:2023-2025", "UTF-8");
 
             URL url = new URL("https://api.spotify.com/v1/search?q="
                     + fullQuery + "&type=track&limit=" + limit + "&market=US");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(8000);
-            conn.setReadTimeout(8000);
+            conn.setConnectTimeout(20000);
+            conn.setReadTimeout(20000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
@@ -85,26 +83,25 @@ public class SpotifyHelper {
 
         } catch (Exception e) {
             Log.e("SpotifyHelper", "searchTracks failed: " + e.getMessage(), e);
-            if (e.getMessage() != null && e.getMessage().contains("401")) { cachedToken = null; tokenExpiryMs = 0; }
+            if (e.getMessage() != null && e.getMessage().contains("401")) {
+                cachedToken = null; tokenExpiryMs = 0;
+            }
             return new ArrayList<>();
         }
     }
 
-    // ── Most-recent track: uses tag:new to force brand-new releases ───────────
-    // Guaranteed to be from the last few weeks regardless of mood match quality.
+    // ── Most-recent track (tag:new = released in last 2 weeks) ───────────────
     public static SpotifyTrack fetchMostRecentTrack(String moodQuery) {
         try {
-            String token = getAccessToken();
-
-            // tag:new is Spotify's filter for albums released in the last 2 weeks
+            String token     = getAccessToken();
             String fullQuery = URLEncoder.encode(moodQuery + " tag:new", "UTF-8");
 
             URL url = new URL("https://api.spotify.com/v1/search?q="
                     + fullQuery + "&type=track&limit=10&market=US");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(8000);
-            conn.setReadTimeout(8000);
+            conn.setConnectTimeout(20000);
+            conn.setReadTimeout(20000);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
@@ -129,7 +126,9 @@ public class SpotifyHelper {
 
         } catch (Exception e) {
             Log.e("SpotifyHelper", "fetchMostRecentTrack failed: " + e.getMessage(), e);
-            if (e.getMessage() != null && e.getMessage().contains("401")) { cachedToken = null; tokenExpiryMs = 0; }
+            if (e.getMessage() != null && e.getMessage().contains("401")) {
+                cachedToken = null; tokenExpiryMs = 0;
+            }
             return null;
         }
     }
@@ -150,10 +149,8 @@ public class SpotifyHelper {
             String spotifyUrl = track.getJSONObject("external_urls")
                     .getString("spotify");
 
-            // Spotify preview_url — null for many tracks, iTunes is fallback
-            String previewUrl = track.isNull("preview_url")
+            String previewUrl  = track.isNull("preview_url")
                     ? null : track.optString("preview_url", null);
-
             String releaseDate = track.getJSONObject("album")
                     .optString("release_date", "");
 

@@ -21,6 +21,69 @@
             android:textColor="#111111"
             android:layout_marginBottom="16dp" />
 
+        <!-- Mood Check-in -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="How are you feeling today?"
+            android:textSize="15sp"
+            android:textColor="#555555"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnMoodTired"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="😴 Tired"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:textColor="#AD1457"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btnMoodOkay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="😐 Okay"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:textColor="#AD1457"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btnMoodGreat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="😊 Great"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:textColor="#AD1457"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginEnd="4dp"/>
+
+            <Button
+                android:id="@+id/btnMoodHyped"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="🔥 Hyped"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                android:textColor="#AD1457"
+                android:backgroundTint="#FFFFFF"/>
+
+        </LinearLayout>
         <!-- Rule Card -->
         <TextView
             android:id="@+id/ruleText"
@@ -34,6 +97,15 @@
             android:elevation="2dp"
             android:layout_marginBottom="24dp"
             android:textAlignment="center" />
+        <Button
+            android:id="@+id/btnRateRule"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="⭐ Rate this rule"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#F48FB1"
+            android:layout_marginBottom="12dp" />
 
         <!-- Generate Button -->
         <Button
@@ -84,6 +156,30 @@
             </ScrollView>
 
         </LinearLayout>
+
+        <!-- Notes input -->
+        <EditText
+            android:id="@+id/notesInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="✏️ Add a note to share..."
+            android:inputType="textMultiLine"
+            android:maxLines="3"
+            android:padding="16dp"
+            android:background="#22000000"
+            android:textColor="#111111"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Share button -->
+        <Button
+            android:id="@+id/btnShare"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="🎴 Share My Rule"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#C44FD6"
+            android:layout_marginBottom="24dp" />
 
         <!-- Section label for Followed buttons -->
         <TextView

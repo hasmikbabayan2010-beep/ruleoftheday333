@@ -29,7 +29,11 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map;
 import java.util.concurrent.*;
+
+import com.example.ruleoftheday333.share.ShareCardRenderer;
+import com.example.ruleoftheday333.share.ShareHelper;
 
 public class HomeFragment extends Fragment {
 
@@ -39,25 +43,29 @@ public class HomeFragment extends Fragment {
 
     private ExoPlayer exoPlayer;
     private Button currentPlayingBtn;
+    private Button rateRuleBtn;
+    private int    lastRating = 0; // 0 = not yet rated
+
+    // Mood check-in
+    private String selectedMood = ""; // "Tired" | "Okay" | "Great" | "Hyped"
+    private Button lastMoodBtn  = null;
+
+    // Rule history tracking
+    private final List<String> todaySongNames = new ArrayList<>();
+
+    // Share card state — updated as rule/songs load
+    private String lastRuleText   = "";
+    private String lastSongName   = "";
+    private String lastArtistName = "";
+    private String lastAlbumArtUrl= "";
+    private int    currentStreak  = 0;
 
     private int currentRuleTemp = 50; // temperature of the current rule (0-100)
 
     private final ExecutorService executor = Executors.newFixedThreadPool(3);
 
     // ⚠️ Put your Groq API key here
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private static final String GROQ_API_KEY = "YOUR_GROQ_KEY_HERE";
-=======
-    private static final String GROQ_API_KEY = "ESTEX GREL APIY AMEN ANGAM VOR ASHXATI";
->>>>>>> 952a867 (wleDVXLQIEFD)
-=======
-    //GROQI APIY NERQEVY GREL CHMORANAL
-    //AI API
-    //GROQ
-    //DONT FORGET
-//    private static final String GROQ_API_KEY = "ESTEX GREL APIY AMEN ANGAM VOR ASHXATI";
->>>>>>> d9cbea9 (wleDVXLQIEFD)
+//    private static final String GROQ_API_KEY = "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";
     private static final String GROQ_API_URL  = "https://api.groq.com/openai/v1/chat/completions";
     private static final String GROQ_MODEL    = "llama-3.1-8b-instant";
 
@@ -84,6 +92,40 @@ public class HomeFragment extends Fragment {
         btnNotFollowed        = view.findViewById(R.id.btnNotFollowed);
         matchedSongsContainer = view.findViewById(R.id.rvMatchedSongs);
 
+        // Notes + share button are in fragment_home.xml — just wire them up
+        EditText notesInput = view.findViewById(R.id.notesInput);
+        Button shareBtn = view.findViewById(R.id.btnShare);
+        shareBtn.setOnClickListener(v -> {
+            String note = notesInput.getText().toString().trim();
+            generateAndShareCard(note);
+        });
+
+        rateRuleBtn = view.findViewById(R.id.btnRateRule);
+        rateRuleBtn.setOnClickListener(v -> showRatingDialog());
+
+        // Mood buttons
+        int[] moodIds = {R.id.btnMoodTired, R.id.btnMoodOkay, R.id.btnMoodGreat, R.id.btnMoodHyped};
+        String[] moods = {"Tired", "Okay", "Great", "Hyped"};
+        for (int i = 0; i < moodIds.length; i++) {
+            Button moodBtn = view.findViewById(moodIds[i]);
+            String mood = moods[i];
+            moodBtn.setOnClickListener(v -> {
+                // Deselect previous
+                if (lastMoodBtn != null) {
+                    lastMoodBtn.setBackgroundTintList(
+                            android.content.res.ColorStateList.valueOf(0xFFFFFFFF));
+                    lastMoodBtn.setTextColor(0xFFAD1457);
+                }
+                // Select this one
+                moodBtn.setBackgroundTintList(
+                        android.content.res.ColorStateList.valueOf(0xFFF48FB1));
+                moodBtn.setTextColor(0xFFFFFFFF);
+                selectedMood = mood;
+                lastMoodBtn  = moodBtn;
+                saveMood(mood);
+            });
+        }
+
         // Headless ExoPlayer — no PlayerView needed for audio-only
         exoPlayer = new ExoPlayer.Builder(requireContext()).build();
 
@@ -108,6 +150,12 @@ public class HomeFragment extends Fragment {
 
         matchedSongsContainer.removeAllViews();
         currentPlayingBtn = null;
+        lastSongName = "";
+        lastArtistName = "";
+        lastAlbumArtUrl = "";
+        todaySongNames.clear();
+        lastRating = 0;
+        if (rateRuleBtn != null) rateRuleBtn.setText("⭐ Rate this rule");
 
         if (exoPlayer != null) {
             exoPlayer.stop();
@@ -125,23 +173,32 @@ public class HomeFragment extends Fragment {
                         String habit = snapshot.child("habit").getValue(String.class);
                         if (goal  == null) goal  = "self-improvement";
                         if (habit == null) habit = "better habits";
-                        generateRuleWithGroq(goal, habit);
+                        final String finalGoal  = goal;
+                        final String finalHabit = habit;
+                        // Fetch last 5 ratings to personalize Groq prompt
+                        fetchRecentRatings(finalGoal, finalHabit, selectedMood);
                     }
                     @Override
                     public void onCancelled(DatabaseError error) {
-                        generateRuleWithGroq("self-improvement", "better habits");
+                        generateRuleWithGroq("self-improvement", "better habits", "", selectedMood);
                     }
                 });
     }
 
     // ─── Step 2: Groq generates rule + temperature + music mood ──────────────
 
-    private void generateRuleWithGroq(String goal, String habit) {
+    private void generateRuleWithGroq(String goal, String habit, String ratingContext, String mood) {
         executor.execute(() -> {
             try {
                 String userMessage =
                         "Goal: " + goal + "\n" +
-                                "Habit: " + habit + "\n\n" +
+                                "Habit: " + habit + "\n" +
+                                (mood.isEmpty() ? "" : "User mood right now: " + mood + ". " +
+                                        "If mood is Tired, give a gentle low-energy rule and calm music. " +
+                                        "If mood is Okay, give a balanced rule and chill music. " +
+                                        "If mood is Great, give an uplifting rule and upbeat music. " +
+                                        "If mood is Hyped, give a bold challenging rule and energetic music.\n") +
+                                (ratingContext.isEmpty() ? "" : ratingContext + "\n") + "\n" +
                                 "Give me one short daily rule to follow, a temperature (integer 0-100 " +
                                 "representing energy level: 0=very calm, 100=very energetic), " +
                                 "and a music genre/mood that fits that energy.\n" +
@@ -212,8 +269,10 @@ public class HomeFragment extends Fragment {
                 requireActivity().runOnUiThread(() -> {
                     if (!isAdded()) return;
                     currentRuleTemp = ruleTemp;
-                    ruleText.setText(rule.isEmpty() ? rawText : rule);
+                    lastRuleText = rule.isEmpty() ? rawText : rule;
+                    ruleText.setText(lastRuleText);
                     generateRule.setEnabled(true);
+                    saveRuleToHistory(lastRuleText);
                     if (!music.isEmpty()) loadSongs(music);
                 });
 
@@ -283,6 +342,16 @@ public class HomeFragment extends Fragment {
 
     private void addSongCard(SpotifyTrack track, String previewUrl) {
         if (!isAdded()) return;
+
+        // Save first song's info for share card
+        if (lastSongName.isEmpty()) {
+            lastSongName    = track.trackName;
+            lastArtistName  = track.artistName;
+            lastAlbumArtUrl = track.albumArtUrl;
+        }
+        // Track all song names for history
+        todaySongNames.add(track.trackName + " – " + track.artistName);
+        saveSongsToHistory(todaySongNames);
 
         LinearLayout card = new LinearLayout(getContext());
         card.setOrientation(LinearLayout.HORIZONTAL);
@@ -395,6 +464,184 @@ public class HomeFragment extends Fragment {
                 .child("calendar")
                 .child(today)
                 .setValue(status);
+    }
+
+    // ─── Share card ───────────────────────────────────────────────────────────
+
+    private void generateAndShareCard(String userNote) {
+        if (lastRuleText.isEmpty()) {
+            android.widget.Toast.makeText(getContext(),
+                    "Generate a rule first!", android.widget.Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        android.widget.Toast.makeText(getContext(),
+                "Creating share card...", android.widget.Toast.LENGTH_SHORT).show();
+
+        executor.execute(() -> {
+            try {
+                android.graphics.Bitmap card = ShareCardRenderer.render(
+                        requireContext(),
+                        "Rule of the Day",
+                        lastRuleText,
+                        lastSongName,
+                        lastArtistName,
+                        lastAlbumArtUrl,
+                        currentStreak,
+                        userNote
+                );
+
+                String filename = "rule_" + System.currentTimeMillis();
+                ShareHelper.saveAndShare(requireContext(), card, filename);
+
+            } catch (Exception e) {
+                if (!isAdded()) return;
+                requireActivity().runOnUiThread(() ->
+                        android.widget.Toast.makeText(getContext(),
+                                "Share failed: " + e.getMessage(),
+                                android.widget.Toast.LENGTH_SHORT).show());
+            }
+        });
+    }
+
+    // ─── Ratings ─────────────────────────────────────────────────────────────
+
+    private void fetchRecentRatings(String goal, String habit, String mood) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) { generateRuleWithGroq(goal, habit, "", mood); return; }
+
+        FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(user.getUid())
+                .child("ratings")
+                .orderByKey()
+                .limitToLast(5)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        StringBuilder ratingContext = new StringBuilder();
+                        int count = 0;
+                        for (DataSnapshot s : snapshot.getChildren()) {
+                            Integer rating = s.getValue(Integer.class);
+                            if (rating != null) {
+                                ratingContext.append(rating).append("/5, ");
+                                count++;
+                            }
+                        }
+                        String context = count > 0
+                                ? "The user's last " + count + " rule ratings were: "
+                                + ratingContext.toString().replaceAll(", $", "") + ". "
+                                + "If ratings are low (1-2), make the rule easier and more fun. "
+                                + "If ratings are high (4-5), make the rule more challenging."
+                                : "";
+                        generateRuleWithGroq(goal, habit, context, mood);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        generateRuleWithGroq(goal, habit, "", mood);
+                    }
+                });
+    }
+
+    private void showRatingDialog() {
+        if (lastRuleText.isEmpty()) {
+            Toast.makeText(getContext(), "Generate a rule first!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Build a simple star rating dialog
+        android.app.AlertDialog.Builder builder =
+                new android.app.AlertDialog.Builder(requireContext());
+        builder.setTitle("Rate today's rule");
+
+        LinearLayout layout = new LinearLayout(getContext());
+        layout.setOrientation(LinearLayout.HORIZONTAL);
+        layout.setGravity(android.view.Gravity.CENTER);
+        layout.setPadding(32, 32, 32, 16);
+
+        Button[] stars = new Button[5];
+        int[] selectedRating = {lastRating > 0 ? lastRating : 0};
+
+        for (int i = 0; i < 5; i++) {
+            Button star = new Button(getContext());
+            star.setText(i < selectedRating[0] ? "⭐" : "☆");
+            star.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+            star.setTextSize(28);
+            stars[i] = star;
+            final int rating = i + 1;
+            star.setOnClickListener(v -> {
+                selectedRating[0] = rating;
+                for (int j = 0; j < 5; j++) {
+                    stars[j].setText(j < rating ? "⭐" : "☆");
+                }
+            });
+            layout.addView(star);
+        }
+
+        builder.setView(layout);
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            if (selectedRating[0] > 0) {
+                lastRating = selectedRating[0];
+                rateRuleBtn.setText("⭐ ".repeat(lastRating).trim());
+                saveRating(lastRating);
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void saveRating(int rating) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(user.getUid())
+                .child("ratings")
+                .child(today)
+                .setValue(rating);
+    }
+
+    // ─── History saving ──────────────────────────────────────────────────────
+
+    private void saveRuleToHistory(String rule) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(user.getUid())
+                .child("rules")
+                .child(today)
+                .setValue(rule);
+    }
+
+    private void saveSongsToHistory(List<String> songs) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        Map<String, Object> songMap = new HashMap<>();
+        for (int i = 0; i < songs.size(); i++) {
+            songMap.put(String.valueOf(i), songs.get(i));
+        }
+        FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(user.getUid())
+                .child("songs")
+                .child(today)
+                .setValue(songMap);
+    }
+
+    private void saveMood(String mood) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(user.getUid())
+                .child("moods")
+                .child(today)
+                .setValue(mood);
     }
 
     @Override
