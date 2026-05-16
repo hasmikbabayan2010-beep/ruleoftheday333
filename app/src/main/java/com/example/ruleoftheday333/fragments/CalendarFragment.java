@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.ruleoftheday333.R;
+import com.example.ruleoftheday333.ui.login.ThemeManager;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +32,10 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import android.widget.LinearLayout;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,7 +51,10 @@ public class CalendarFragment extends Fragment {
     private ProgressBar progressBar;
     private FrameLayout rootLayout;
 
-    private final Map<String, String> allStatuses = new HashMap<>();
+    private final Map<String, String> allStatuses  = new HashMap<>();
+    private final Map<String, Integer> allRatings   = new HashMap<>();
+    private LinearLayout weeklyStatsContainer;
+    private LinearLayout chartContainer;
 
     public CalendarFragment() {}
 
@@ -62,7 +70,9 @@ public class CalendarFragment extends Fragment {
         tvMoodLabel  = view.findViewById(R.id.tvMoodLabel);
         progressBar  = view.findViewById(R.id.progressBar);
         rootLayout   = view.findViewById(R.id.rootLayout);
-        tvStreak     = view.findViewById(R.id.tvStreak);
+        tvStreak             = view.findViewById(R.id.tvStreak);
+        weeklyStatsContainer = view.findViewById(R.id.weeklyStatsContainer);
+        chartContainer       = view.findViewById(R.id.chartContainer);
 
         calendarView.setSelectionColor(Color.parseColor("#F48FB1"));
         calendarView.addDecorator(new TodayDecorator());
@@ -76,6 +86,8 @@ public class CalendarFragment extends Fragment {
         });
 
         loadCalendarData();
+
+        ThemeManager.apply(requireContext(), view);
         return view;
     }
 
@@ -117,6 +129,20 @@ public class CalendarFragment extends Fragment {
         DatabaseReference ref = FirebaseDatabase.getInstance()
                 .getReference("users").child(userId).child("calendar");
 
+        // Also load ratings for weekly avg
+        DatabaseReference ratingsRef = FirebaseDatabase.getInstance()
+                .getReference("users").child(userId).child("ratings");
+        ratingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot d : snapshot.getChildren()) {
+                    Integer r = d.getValue(Integer.class);
+                    if (d.getKey() != null && r != null) allRatings.put(d.getKey(), r);
+                }
+            }
+            @Override public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -157,6 +183,8 @@ public class CalendarFragment extends Fragment {
                 int streak = calculateStreak();
                 updateStatsCard(greenCount, redCount, streak);
                 updateMoodBackground(greenCount, redCount);
+                buildWeeklyStats();
+                buildProgressChart();
             }
 
             @Override
@@ -245,6 +273,289 @@ public class CalendarFragment extends Fragment {
     }
 
     // ─── Decorators ───────────────────────────────────────────────────────────
+
+    // ─── Progress Chart (last 4 weeks) ───────────────────────────────────────
+
+    private void buildProgressChart() {
+        if (chartContainer == null || !isAdded()) return;
+        chartContainer.removeAllViews();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+
+        // Find the most recent Monday
+        cal.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
+
+        // Collect data for last 4 weeks (newest = week 4, oldest = week 1)
+        int[] greenCounts = new int[4];
+        int[] redCounts   = new int[4];
+        String[] weekLabels = new String[4];
+        SimpleDateFormat monthDay = new SimpleDateFormat("MMM d", Locale.getDefault());
+
+        for (int w = 3; w >= 0; w--) {
+            java.util.Calendar weekStart = (java.util.Calendar) cal.clone();
+            weekStart.add(java.util.Calendar.WEEK_OF_YEAR, w - 3);
+            weekLabels[3 - w] = monthDay.format(weekStart.getTime());
+
+            for (int d = 0; d < 7; d++) {
+                String date = sdf.format(weekStart.getTime());
+                String status = allStatuses.get(date);
+                if ("green".equals(status)) greenCounts[3 - w]++;
+                else if ("red".equals(status)) redCounts[3 - w]++;
+                weekStart.add(java.util.Calendar.DAY_OF_MONTH, 1);
+            }
+        }
+
+        // Find max for scaling
+        int maxTotal = 7; // max possible per week
+
+        // Chart title
+        TextView title = new TextView(getContext());
+        title.setText("📈 Last 4 Weeks");
+        title.setTextSize(13);
+        title.setTypeface(null, Typeface.BOLD);
+        title.setTextColor(Color.parseColor("#AD1457"));
+        title.setPadding(0, 0, 0, 12);
+        chartContainer.addView(title);
+
+        // Chart area
+        LinearLayout chartArea = new LinearLayout(getContext());
+        chartArea.setOrientation(LinearLayout.HORIZONTAL);
+        chartArea.setGravity(android.view.Gravity.BOTTOM);
+        LinearLayout.LayoutParams chartParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 300);
+        chartArea.setLayoutParams(chartParams);
+
+        for (int i = 0; i < 4; i++) {
+            LinearLayout barGroup = new LinearLayout(getContext());
+            barGroup.setOrientation(LinearLayout.VERTICAL);
+            barGroup.setGravity(android.view.Gravity.BOTTOM | android.view.Gravity.CENTER_HORIZONTAL);
+            LinearLayout.LayoutParams groupParams = new LinearLayout.LayoutParams(
+                    0, LinearLayout.LayoutParams.MATCH_PARENT, 1f);
+            groupParams.setMargins(8, 0, 8, 0);
+            barGroup.setLayoutParams(groupParams);
+
+            int green = greenCounts[i];
+            int red   = redCounts[i];
+            int empty = maxTotal - green - red;
+
+            // Count label on top
+            TextView countLabel = new TextView(getContext());
+            countLabel.setText(green + "/" + (green + red));
+            countLabel.setTextSize(10);
+            countLabel.setTextColor(Color.parseColor("#888888"));
+            countLabel.setGravity(android.view.Gravity.CENTER);
+            barGroup.addView(countLabel);
+
+            // Stacked bar column
+            LinearLayout barCol = new LinearLayout(getContext());
+            barCol.setOrientation(LinearLayout.VERTICAL);
+            barCol.setGravity(android.view.Gravity.BOTTOM);
+            LinearLayout.LayoutParams barColParams = new LinearLayout.LayoutParams(
+                    40, LinearLayout.LayoutParams.MATCH_PARENT);
+            barCol.setLayoutParams(barColParams);
+
+            // Empty space on top (unlogged days)
+            if (empty > 0) {
+                View emptySegment = new View(getContext());
+                LinearLayout.LayoutParams ep = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, 0, empty);
+                emptySegment.setLayoutParams(ep);
+                barCol.addView(emptySegment);
+            }
+
+            // Red segment
+            if (red > 0) {
+                View redSegment = new View(getContext());
+                LinearLayout.LayoutParams rp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, 0, red);
+                GradientDrawable redBg = new GradientDrawable();
+                redBg.setColor(Color.parseColor("#EF9A9A"));
+                redSegment.setBackground(redBg);
+                redSegment.setLayoutParams(rp);
+                barCol.addView(redSegment);
+            }
+
+            // Green segment (bottom)
+            if (green > 0) {
+                View greenSegment = new View(getContext());
+                LinearLayout.LayoutParams gp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, 0, green);
+                GradientDrawable greenBg = new GradientDrawable();
+                greenBg.setCornerRadii(new float[]{6, 6, 6, 6, 0, 0, 0, 0}); // round top
+                greenBg.setColor(Color.parseColor("#A5D6A7"));
+                greenSegment.setBackground(greenBg);
+                greenSegment.setLayoutParams(gp);
+                barCol.addView(greenSegment);
+            }
+
+            barGroup.addView(barCol);
+            chartArea.addView(barGroup);
+        }
+
+        chartContainer.addView(chartArea);
+
+        // Week labels row
+        LinearLayout labelsRow = new LinearLayout(getContext());
+        labelsRow.setOrientation(LinearLayout.HORIZONTAL);
+        LinearLayout.LayoutParams labelsParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        labelsParams.setMargins(0, 6, 0, 0);
+        labelsRow.setLayoutParams(labelsParams);
+
+        for (int i = 0; i < 4; i++) {
+            TextView lbl = new TextView(getContext());
+            lbl.setText(weekLabels[i]);
+            lbl.setTextSize(10);
+            lbl.setTextColor(Color.parseColor("#888888"));
+            lbl.setGravity(android.view.Gravity.CENTER);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            lbl.setLayoutParams(lp);
+            labelsRow.addView(lbl);
+        }
+        chartContainer.addView(labelsRow);
+
+        // Legend
+        LinearLayout legend = new LinearLayout(getContext());
+        legend.setOrientation(LinearLayout.HORIZONTAL);
+        legend.setGravity(android.view.Gravity.CENTER);
+        LinearLayout.LayoutParams legendParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        legendParams.setMargins(0, 12, 0, 0);
+        legend.setLayoutParams(legendParams);
+
+        legend.addView(makeLegendDot("#A5D6A7"));
+        legend.addView(makeLegendText(" Followed   "));
+        legend.addView(makeLegendDot("#EF9A9A"));
+        legend.addView(makeLegendText(" Missed"));
+        chartContainer.addView(legend);
+    }
+
+    private View makeLegendDot(String color) {
+        View dot = new View(getContext());
+        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(14, 14);
+        p.setMargins(0, 4, 0, 0);
+        dot.setLayoutParams(p);
+        GradientDrawable bg = new GradientDrawable();
+        bg.setShape(GradientDrawable.OVAL);
+        bg.setColor(Color.parseColor(color));
+        dot.setBackground(bg);
+        return dot;
+    }
+
+    private TextView makeLegendText(String text) {
+        TextView tv = new TextView(getContext());
+        tv.setText(text);
+        tv.setTextSize(11);
+        tv.setTextColor(Color.parseColor("#888888"));
+        return tv;
+    }
+
+    // ─── Weekly Stats ─────────────────────────────────────────────────────────
+
+    private void buildWeeklyStats() {
+        if (weeklyStatsContainer == null || !isAdded()) return;
+        weeklyStatsContainer.removeAllViews();
+
+        // Get Monday of current week
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String[] dayNames = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+
+        int weekGreen = 0, weekRed = 0, ratingSum = 0, ratingCount = 0;
+        List<String> weekDates = new ArrayList<>();
+
+        for (int i = 0; i < 7; i++) {
+            weekDates.add(sdf.format(cal.getTime()));
+            cal.add(java.util.Calendar.DAY_OF_MONTH, 1);
+        }
+
+        // Summary row — day cells
+        LinearLayout daysRow = new LinearLayout(getContext());
+        daysRow.setOrientation(LinearLayout.HORIZONTAL);
+        daysRow.setGravity(android.view.Gravity.CENTER);
+        LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        rowParams.setMargins(0, 0, 0, 12);
+        daysRow.setLayoutParams(rowParams);
+
+        java.util.Calendar today = java.util.Calendar.getInstance();
+        String todayStr = sdf.format(today.getTime());
+
+        for (int i = 0; i < 7; i++) {
+            String date   = weekDates.get(i);
+            String status = allStatuses.get(date);
+
+            LinearLayout cell = new LinearLayout(getContext());
+            cell.setOrientation(LinearLayout.VERTICAL);
+            cell.setGravity(android.view.Gravity.CENTER);
+            LinearLayout.LayoutParams cellParams = new LinearLayout.LayoutParams(
+                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            cell.setLayoutParams(cellParams);
+
+            // Day name
+            android.widget.TextView tvDay = new android.widget.TextView(getContext());
+            tvDay.setText(dayNames[i]);
+            tvDay.setTextSize(11);
+            tvDay.setGravity(android.view.Gravity.CENTER);
+            tvDay.setTextColor(date.equals(todayStr) ? Color.parseColor("#AD1457") : Color.parseColor("#888888"));
+            if (date.equals(todayStr))
+                tvDay.setTypeface(null, Typeface.BOLD);
+            cell.addView(tvDay);
+
+            // Status circle
+            android.view.View circle = new android.view.View(getContext());
+            LinearLayout.LayoutParams circleParams = new LinearLayout.LayoutParams(36, 36);
+            circleParams.setMargins(4, 6, 4, 4);
+            circle.setLayoutParams(circleParams);
+
+            GradientDrawable bg = new GradientDrawable();
+            bg.setShape(GradientDrawable.OVAL);
+            if ("green".equals(status)) {
+                bg.setColor(Color.parseColor("#A5D6A7"));
+                weekGreen++;
+            } else if ("red".equals(status)) {
+                bg.setColor(Color.parseColor("#EF9A9A"));
+                weekRed++;
+            } else {
+                bg.setColor(Color.parseColor("#E0E0E0")); // no data
+            }
+            circle.setBackground(bg);
+            cell.addView(circle);
+
+            // Status emoji under circle
+            android.widget.TextView tvEmoji = new android.widget.TextView(getContext());
+            tvEmoji.setText("green".equals(status) ? "✅" : "red".equals(status) ? "❌" : "");
+            tvEmoji.setTextSize(10);
+            tvEmoji.setGravity(android.view.Gravity.CENTER);
+            cell.addView(tvEmoji);
+
+            daysRow.addView(cell);
+
+            // Weekly rating
+            Integer r = allRatings.get(date);
+            if (r != null) { ratingSum += r; ratingCount++; }
+        }
+
+        weeklyStatsContainer.addView(daysRow);
+
+        // Summary text
+        android.widget.TextView tvSummary = new android.widget.TextView(getContext());
+        String avgRating = ratingCount > 0
+                ? String.format(Locale.getDefault(), "  ·  ⭐ %.1f avg", (double) ratingSum / ratingCount)
+                : "";
+        tvSummary.setText("✅ " + weekGreen + "  ❌ " + weekRed + "  ⬜ " + (7 - weekGreen - weekRed) + avgRating);
+        tvSummary.setTextSize(13);
+        tvSummary.setTextColor(Color.parseColor("#AD1457"));
+        tvSummary.setGravity(android.view.Gravity.CENTER);
+        tvSummary.setTypeface(null, Typeface.BOLD);
+        weeklyStatsContainer.addView(tvSummary);
+    }
 
     /** Heatmap-style decorator: colored circle background + colored date text */
     public static class HeatmapDecorator implements DayViewDecorator {

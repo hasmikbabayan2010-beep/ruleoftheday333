@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- ── Profile Header ── -->
+        <!-- Profile Header -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,15 +19,12 @@
             app:cardCornerRadius="24dp"
             app:cardElevation="4dp"
             app:cardBackgroundColor="#FFFFFF">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="20dp"
                 android:gravity="center_vertical">
-
-                <!-- Avatar circle -->
                 <FrameLayout
                     android:layout_width="56dp"
                     android:layout_height="56dp"
@@ -42,14 +39,12 @@
                         android:textColor="#FFFFFF"
                         android:fontFamily="sans-serif-medium"/>
                 </FrameLayout>
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:layout_marginStart="14dp">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,21 +52,18 @@
                         android:textSize="12sp"
                         android:textColor="#F48FB1"
                         android:fontFamily="sans-serif-medium"/>
-
                     <TextView
                         android:id="@+id/tvEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="user@email.com"
                         android:textSize="14sp"
-                        android:textColor="#5D4037"
-                        android:fontFamily="sans-serif"/>
+                        android:textColor="#5D4037"/>
                 </LinearLayout>
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- ── Language Dropdown Card ── -->
+        <!-- Language Dropdown -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,13 +71,10 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
             app:cardBackgroundColor="#FFFFFF">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <!-- Header row (tap to expand) -->
                 <LinearLayout
                     android:id="@+id/headerLanguage"
                     android:layout_width="match_parent"
@@ -95,41 +84,20 @@
                     android:paddingStart="18dp"
                     android:paddingEnd="18dp"
                     android:background="?attr/selectableItemBackground">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🌍"
-                        android:textSize="20sp"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Language"
-                        android:textSize="15sp"
-                        android:textColor="#5D4037"
-                        android:fontFamily="sans-serif-medium"
-                        android:layout_marginStart="12dp"/>
-
-                    <TextView
-                        android:id="@+id/tvLanguageValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🇬🇧 English"
-                        android:textSize="13sp"
-                        android:textColor="#F48FB1"
-                        android:layout_marginEnd="8dp"/>
-
-                    <ImageView
-                        android:id="@+id/arrowLanguage"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/ic_arrow_down"
-                        app:tint="#F48FB1"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="🌍" android:textSize="20sp"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="Language"
+                        android:textSize="15sp" android:textColor="#5D4037"
+                        android:fontFamily="sans-serif-medium" android:layout_marginStart="12dp"/>
+                    <TextView android:id="@+id/tvLanguageValue"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="🇬🇧 English" android:textSize="13sp"
+                        android:textColor="#F48FB1" android:layout_marginEnd="8dp"/>
+                    <ImageView android:id="@+id/arrowLanguage"
+                        android:layout_width="18dp" android:layout_height="18dp"
+                        android:src="@drawable/ic_arrow_down" app:tint="#F48FB1"/>
                 </LinearLayout>
-
-                <!-- Expandable content -->
                 <LinearLayout
                     android:id="@+id/contentLanguage"
                     android:layout_width="match_parent"
@@ -137,87 +105,55 @@
                     android:orientation="vertical"
                     android:visibility="gone"
                     android:paddingBottom="8dp">
-
-                    <!-- English row -->
-                    <LinearLayout
-                        android:id="@+id/rowEnglish"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="18dp"
+                    <LinearLayout android:id="@+id/rowEnglish"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:paddingStart="52dp" android:paddingEnd="18dp"
                         android:background="@drawable/row_normal_bg">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="🇬🇧  English"
-                            android:textSize="14sp"
-                            android:textColor="#5D4037"/>
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/ic_check_pink"
-                            android:tag="tick_en"
-                            android:visibility="gone"/>
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="🇬🇧  English"
+                            android:textSize="14sp" android:textColor="#5D4037"/>
+                        <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                            android:src="@drawable/ic_check_pink" android:tag="tick_en" android:visibility="gone"/>
                     </LinearLayout>
-
-                    <!-- Russian row -->
-                    <LinearLayout
-                        android:id="@+id/rowRussian"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="18dp"
+                    <LinearLayout android:id="@+id/rowRussian"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:paddingStart="52dp" android:paddingEnd="18dp"
                         android:background="@drawable/row_normal_bg">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="🇷🇺  Russian"
-                            android:textSize="14sp"
-                            android:textColor="#5D4037"/>
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/ic_check_pink"
-                            android:tag="tick_ru"
-                            android:visibility="gone"/>
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="🇷🇺  Russian"
+                            android:textSize="14sp" android:textColor="#5D4037"/>
+                        <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                            android:src="@drawable/ic_check_pink" android:tag="tick_ru" android:visibility="gone"/>
                     </LinearLayout>
-
-                    <!-- Chinese row -->
-                    <LinearLayout
-                        android:id="@+id/rowChinese"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="18dp"
+                    <LinearLayout android:id="@+id/rowChinese"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:paddingStart="52dp" android:paddingEnd="18dp"
                         android:background="@drawable/row_normal_bg">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="🇨🇳  Chinese"
-                            android:textSize="14sp"
-                            android:textColor="#5D4037"/>
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/ic_check_pink"
-                            android:tag="tick_zh"
-                            android:visibility="gone"/>
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="🇨🇳  Chinese"
+                            android:textSize="14sp" android:textColor="#5D4037"/>
+                        <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                            android:src="@drawable/ic_check_pink" android:tag="tick_zh" android:visibility="gone"/>
                     </LinearLayout>
-
+                    <LinearLayout android:id="@+id/rowArmenian"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:paddingStart="52dp" android:paddingEnd="18dp"
+                        android:background="@drawable/row_normal_bg">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                            android:layout_weight="1" android:text="🇦🇲  Հայերեն"
+                            android:textSize="14sp" android:textColor="#5D4037"/>
+                        <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                            android:src="@drawable/ic_check_pink" android:tag="tick_hy" android:visibility="gone"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- ── Theme Dropdown Card ── -->
+        <!-- Theme Dropdown -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -225,13 +161,10 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
             app:cardBackgroundColor="#FFFFFF">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <!-- Header -->
                 <LinearLayout
                     android:id="@+id/headerTheme"
                     android:layout_width="match_parent"
@@ -241,101 +174,32 @@
                     android:paddingStart="18dp"
                     android:paddingEnd="18dp"
                     android:background="?attr/selectableItemBackground">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="🎨"
-                        android:textSize="20sp"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Theme"
-                        android:textSize="15sp"
-                        android:textColor="#5D4037"
-                        android:fontFamily="sans-serif-medium"
-                        android:layout_marginStart="12dp"/>
-
-                    <TextView
-                        android:id="@+id/tvThemeValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="☀️ Light"
-                        android:textSize="13sp"
-                        android:textColor="#F48FB1"
-                        android:layout_marginEnd="8dp"/>
-
-                    <ImageView
-                        android:id="@+id/arrowTheme"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/ic_arrow_down"
-                        app:tint="#F48FB1"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="🎨" android:textSize="20sp"/>
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="Theme"
+                        android:textSize="15sp" android:textColor="#5D4037"
+                        android:fontFamily="sans-serif-medium" android:layout_marginStart="12dp"/>
+                    <TextView android:id="@+id/tvThemeValue"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="🌸 Pink" android:textSize="13sp"
+                        android:textColor="#F48FB1" android:layout_marginEnd="8dp"/>
+                    <ImageView android:id="@+id/arrowTheme"
+                        android:layout_width="18dp" android:layout_height="18dp"
+                        android:src="@drawable/ic_arrow_down" app:tint="#F48FB1"/>
                 </LinearLayout>
-
-                <!-- Expandable content -->
+                <!-- Theme rows built programmatically in SettingsFragment -->
                 <LinearLayout
                     android:id="@+id/contentTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone"
-                    android:paddingBottom="8dp">
-
-                    <LinearLayout
-                        android:id="@+id/rowLight"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="18dp"
-                        android:background="@drawable/row_normal_bg">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="☀️  Light"
-                            android:textSize="14sp"
-                            android:textColor="#5D4037"/>
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/ic_check_pink"
-                            android:tag="tick_light"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/rowDark"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:paddingEnd="18dp"
-                        android:background="@drawable/row_normal_bg">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="🌙  Dark"
-                            android:textSize="14sp"
-                            android:textColor="#5D4037"/>
-                        <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/ic_check_pink"
-                            android:tag="tick_dark"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:paddingBottom="8dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-        <!-- ── My Current Rule Card ── -->
+
+        <!-- My Current Rule -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -343,47 +207,29 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
             app:cardBackgroundColor="#FFFFFF">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="18dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🎯  My Current Rule"
-                    android:textSize="13sp"
-                    android:textColor="#F48FB1"
-                    android:fontFamily="sans-serif-medium"
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="🎯  My Current Rule" android:textSize="13sp"
+                    android:textColor="#F48FB1" android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="8dp"/>
-
-                <TextView
-                    android:id="@+id/tvCurrentRule"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Loading..."
-                    android:textSize="16sp"
-                    android:textColor="#5D4037"
-                    android:fontFamily="sans-serif-medium"
+                <TextView android:id="@+id/tvCurrentRule"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Loading..." android:textSize="16sp"
+                    android:textColor="#5D4037" android:fontFamily="sans-serif-medium"
                     android:lineSpacingMultiplier="1.3"/>
-
-                <TextView
-                    android:id="@+id/tvEditRule"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="✏️ Edit"
-                    android:textSize="12sp"
-                    android:textColor="#CE93D8"
-                    android:layout_marginTop="8dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:padding="4dp"/>
-
+                <TextView android:id="@+id/tvEditRule"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="✏️ Edit" android:textSize="12sp"
+                    android:textColor="#CE93D8" android:layout_marginTop="8dp"
+                    android:background="?attr/selectableItemBackground" android:padding="4dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- ── Sign Out Button ── -->
+        <!-- Sign Out -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -391,7 +237,6 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
             app:cardBackgroundColor="#FFFFFF">
-
             <LinearLayout
                 android:id="@+id/rowSignOut"
                 android:layout_width="match_parent"
@@ -401,34 +246,19 @@
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp"
                 android:background="?attr/selectableItemBackground">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🚪"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Sign Out"
-                    android:textSize="15sp"
-                    android:textColor="#E91E63"
-                    android:fontFamily="sans-serif-medium"
-                    android:layout_marginStart="12dp"/>
-
-                <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_arrow_down"
-                    android:rotation="-90"
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="🚪" android:textSize="20sp"/>
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:text="Sign Out"
+                    android:textSize="15sp" android:textColor="#E91E63"
+                    android:fontFamily="sans-serif-medium" android:layout_marginStart="12dp"/>
+                <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                    android:src="@drawable/ic_arrow_down" android:rotation="-90"
                     app:tint="#F48FB1"/>
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- ── Danger Zone ── -->
+        <!-- Danger Zone -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -436,22 +266,15 @@
             app:cardCornerRadius="20dp"
             app:cardElevation="3dp"
             app:cardBackgroundColor="#FFF8F8">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="18dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="⚠️  Danger Zone"
-                    android:textSize="13sp"
-                    android:textColor="#E57373"
-                    android:fontFamily="sans-serif-medium"
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="⚠️  Danger Zone" android:textSize="13sp"
+                    android:textColor="#E57373" android:fontFamily="sans-serif-medium"
                     android:layout_marginBottom="12dp"/>
-
                 <LinearLayout
                     android:id="@+id/rowResetCalendar"
                     android:layout_width="match_parent"
@@ -461,25 +284,15 @@
                     android:background="@drawable/row_danger_bg"
                     android:paddingStart="14dp"
                     android:paddingEnd="14dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="🗑️  Reset calendar data"
-                        android:textSize="14sp"
-                        android:textColor="#C62828"/>
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/ic_arrow_down"
-                        android:rotation="-90"
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:layout_weight="1" android:text="🗑️  Reset calendar data"
+                        android:textSize="14sp" android:textColor="#C62828"/>
+                    <ImageView android:layout_width="18dp" android:layout_height="18dp"
+                        android:src="@drawable/ic_arrow_down" android:rotation="-90"
                         app:tint="#E57373"/>
-
                 </LinearLayout>
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 </ScrollView>

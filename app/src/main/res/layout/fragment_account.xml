@@ -336,7 +336,92 @@
                     android:textColor="#FFFFFF"
                     android:background="?attr/selectableItemBackground"/>
 
+
             </androidx.cardview.widget.CardView>
+
+
+
+            <!-- ── AI Advice Card ── -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <!-- Section label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="💡  Get AI Advice"
+                        android:textSize="12sp"
+                        android:textColor="#F48FB1"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginBottom="8dp"/>
+
+                    <!-- Preference input -->
+                    <EditText
+                        android:id="@+id/advicePreferenceInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="How do you want the advice? (e.g. bullet points, short, detailed...)"
+                        android:padding="12dp"
+                        android:background="@drawable/input_bg"
+                        android:textColor="#5D4037"
+                        android:textColorHint="#BDBDBD"
+                        android:textSize="14sp"
+                        android:inputType="textMultiLine"
+                        android:maxLines="2"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- Advice button -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:cardCornerRadius="32dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="#C44FD6"
+                        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+                        <Button
+                            android:id="@+id/btnGetAdvice"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:text="Wanna get an advice? 💡"
+                            android:textAllCaps="false"
+                            android:textSize="15sp"
+                            android:textColor="#FFFFFF"
+                            android:background="?attr/selectableItemBackground"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Advice result -->
+                    <TextView
+                        android:id="@+id/tvAdviceResult"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="14sp"
+                        android:textColor="#4A148C"
+                        android:lineSpacingMultiplier="1.4"
+                        android:padding="12dp"
+                        android:background="#F3E5F5"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+
             <!-- ── Rule History Dropdown ── -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

@@ -1,4 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App -->
+    <string name="app_name">RuleOfTheDay</string>
+
+    <!-- Login -->
+    <string name="title_activity_login">登录</string>
+    <string name="prompt_email">输入邮箱</string>
+    <string name="prompt_password">输入密码</string>
+    <string name="login_empty_fields">请输入邮箱和密码</string>
+    <string name="login_failed_generic">登录失败，请重试。</string>
+    <string name="login_failed">登录失败</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_sign_in_short">登录</string>
+
+    <!-- Register -->
+    <string name="register_title">创建账户</string>
+    <string name="email_hint">邮箱</string>
+    <string name="password_hint">密码</string>
+    <string name="already_have_account">已有账户？登录</string>
+
+    <!-- Validation -->
+    <string name="invalid_username">无效用户名</string>
+    <string name="invalid_password">密码无效（至少6个字符）</string>
+
+    <!-- Home Fragment -->
+    <string name="hello_blank_fragment">你好，空白片段</string>
+    <string name="generate_rule_text">生成今天的规则</string>
+    <string name="generate_rule_placeholder">生成今天的规则</string>
+    <string name="generate_rule_button">生成规则</string>
+    <string name="btn_generate_rule">生成规则</string>
+    <string name="btn_followed">已遵守 ✅</string>
+    <string name="btn_not_followed">未遵守 ❌</string>
+    <string name="mood_question">今天感觉如何？</string>
+    <string name="mood_tired">😴 疲惫</string>
+    <string name="mood_okay">😐 一般</string>
+    <string name="mood_great">😊 很好</string>
+    <string name="mood_hyped">🔥 充满活力</string>
+    <string name="matched_songs">🎵 匹配歌曲</string>
+    <string name="share_rule">🎴 分享我的规则</string>
+    <string name="note_hint">✏️ 添加备注...</string>
+    <string name="rate_rule">⭐ 评价规则</string>
+    <string name="generating">✨ 生成中...</string>
+    <string name="no_songs_found">未找到歌曲</string>
+    <string name="please_login">请先登录！</string>
+
+    <!-- Account Fragment -->
+    <string name="hint_goal">你的目标（例如：健身）</string>
+    <string name="hint_habit">你的习惯（例如：懒惰、活跃）</string>
+    <string name="save_button">保存</string>
+    <string name="toast_fill_fields">请填写所有字段</string>
+    <string name="toast_user_not_logged_in">用户未登录！</string>
+    <string name="toast_saved">个人资料已保存！</string>
+    <string name="toast_error">错误: </string>
+    <string name="profile_title">我的资料</string>
+    <string name="profile_subtitle">你的规则塑造你的一天 🌷</string>
+    <string name="your_goal">🎯 你的目标</string>
+    <string name="your_habit">💤 你目前的习惯</string>
+    <string name="rule_difficulty">⚡ 规则难度</string>
+    <string name="about_you">🌸 关于你</string>
+    <string name="hours_per_day">⏱️ 每天用于目标的小时数</string>
+    <string name="age_range">🎂 年龄段</string>
+    <string name="have_kids">👶 有孩子吗？</string>
+    <string name="have_pets">🐾 有宠物吗？</string>
+    <string name="living_city">🏙️ 住在城市吗？</string>
+    <string name="work_from_home">🏠 在家工作吗？</string>
+    <string name="save_profile">保存资料 🌸</string>
+    <string name="get_advice">想要建议吗？ 💡</string>
+    <string name="advice_hint">你想要什么样的建议？（例如要点、简短、详细...）</string>
+    <string name="get_ai_advice">💡 获取AI建议</string>
+    <string name="rule_history">📖 规则历史</string>
+    <string name="no_history">还没有规则历史 — 开始生成吧！ 🌸</string>
+
+    <!-- Calendar Fragment -->
+    <string name="mood_loading">🌸 加载心情中...</string>
+    <string name="this_week">📅 本周</string>
+    <string name="last_4_weeks">📈 最近4周</string>
+    <string name="streak_start">今天开始你的连续记录！</string>
+
+    <!-- Settings Fragment -->
+    <string name="language">语言</string>
+    <string name="settings">设置</string>
+    <string name="theme">主题</string>
+    <string name="privacy">隐私</string>
+    <string name="english">English</string>
+    <string name="russian">Русский</string>
+    <string name="chinese">中文</string>
+    <string name="armenian">Հայերեն</string>
+    <string name="light_mode">浅色模式</string>
+    <string name="dark_mode">深色模式</string>
+    <string name="my_current_rule">🎯 我当前的规则</string>
+    <string name="sign_out">退出登录</string>
+    <string name="danger_zone">⚠️ 危险区域</string>
+    <string name="reset_calendar">🗑️ 重置日历数据</string>
+    <string name="sign_out_confirm">退出后需要重新登录才能访问数据。</string>
+    <string name="reset_confirm">这将永久删除所有日历数据，无法撤销。</string>
+
+    <!-- Goals / Rules -->
     <string name="start">开始</string>
     <string name="stop">停止</string>
     <string name="generate_rule">生成规则</string>
@@ -16,24 +113,13 @@
     <string name="feedback_well_done">干得好！</string>
     <string name="feedback_keep_going">继续努力！</string>
     <string name="feedback_try_again">明天再试</string>
-    <string name="hello_blank_fragment">你好，空白片段</string>
-    <string name="hint_goal">你的目标（例如：健身）</string>
-    <string name="hint_habit">你的习惯（例如：懒惰、活跃）</string>
-    <string name="save_button">保存</string>
-    <string name="toast_fill_fields">请填写所有字段</string>
-    <string name="toast_user_not_logged_in">用户未登录！</string>
-    <string name="toast_saved">个人资料已保存！</string>
-    <string name="toast_error">错误: </string>
-    <string name="generate_rule_placeholder">生成今天的规则</string>
-    <string name="generate_rule_button">生成规则</string>
+
     <!-- Navbar -->
     <string name="nav_home">主页</string>
     <string name="nav_calendar">日历</string>
     <string name="nav_account">账户</string>
     <string name="nav_settings">设置</string>
 
-    <!-- Buttons -->
-    <string name="btn_followed">已遵守 ✅</string>
-    <string name="btn_not_followed">未遵守 ❌</string>
-    <string name="btn_generate_rule">生成规则</string>
+    <!-- Google Sign-In -->
+    <string name="default_web_client_id">173962283423-k6i44hcqmlu4kq87tlfb5ppmc768ns6v.apps.googleusercontent.com</string>
 </resources>

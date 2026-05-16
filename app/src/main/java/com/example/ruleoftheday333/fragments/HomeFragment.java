@@ -7,14 +7,13 @@ import android.widget.*;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.ruleoftheday333.BuildConfig;
-
 import com.bumptech.glide.Glide;
 import com.example.ruleoftheday333.R;
 import com.example.ruleoftheday333.itunes.ItunesPreviewHelper;
 import com.example.ruleoftheday333.spotify.SpotifyHelper;
 import com.example.ruleoftheday333.spotify.SpotifyTrack;
 
+import com.example.ruleoftheday333.ui.login.ThemeManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
@@ -65,13 +64,14 @@ public class HomeFragment extends Fragment {
     private int currentRuleTemp = 50; // temperature of the current rule (0-100)
 
     private final ExecutorService executor = Executors.newFixedThreadPool(3);
-    private static final String GROQ_API_KEY = BuildConfig.GROQ_API_KEY;
+
     // ⚠️ Put your Groq API key here
-//    private static final String GROQ_API_KEY = "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";
+    private static final String GROQ_API_KEY = "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";
     private static final String GROQ_API_URL  = "https://api.groq.com/openai/v1/chat/completions";
     private static final String GROQ_MODEL    = "llama-3.1-8b-instant";
 
     // Helper: a Spotify track paired with a random temperature for sorting
+
     private static class SongWithTemp {
         SpotifyTrack track;
         int temperature;
@@ -135,6 +135,8 @@ public class HomeFragment extends Fragment {
         btnFollowed.setOnClickListener(v -> saveDayStatus("green"));
         btnNotFollowed.setOnClickListener(v -> saveDayStatus("red"));
 
+
+        ThemeManager.apply(requireContext(), view);
         return view;
     }
 
@@ -431,9 +433,30 @@ public class HomeFragment extends Fragment {
             btn.setEnabled(false);
         }
 
+        // Open in Spotify button
+        Button spotifyBtn = new Button(getContext());
+        spotifyBtn.setText("🎵");
+        spotifyBtn.setBackgroundColor(android.graphics.Color.parseColor("#1DB954")); // Spotify green
+        spotifyBtn.setTextColor(0xFFFFFFFF);
+        spotifyBtn.setTextSize(16);
+        LinearLayout.LayoutParams spotifyParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        spotifyParams.setMarginStart(8);
+        spotifyBtn.setLayoutParams(spotifyParams);
+        spotifyBtn.setOnClickListener(v -> {
+            if (track.spotifyUrl != null && !track.spotifyUrl.isEmpty()) {
+                android.content.Intent intent = new android.content.Intent(
+                        android.content.Intent.ACTION_VIEW,
+                        android.net.Uri.parse(track.spotifyUrl));
+                startActivity(intent);
+            }
+        });
+
         card.addView(cover);
         card.addView(textCol);
         card.addView(btn);
+        card.addView(spotifyBtn);
         matchedSongsContainer.addView(card);
     }
 

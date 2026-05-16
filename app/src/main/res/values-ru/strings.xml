@@ -1,4 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App -->
+    <string name="app_name">RuleOfTheDay</string>
+
+    <!-- Login -->
+    <string name="title_activity_login">Вход</string>
+    <string name="prompt_email">Введите email</string>
+    <string name="prompt_password">Введите пароль</string>
+    <string name="login_empty_fields">Пожалуйста, введите email и пароль</string>
+    <string name="login_failed_generic">Ошибка входа. Попробуйте ещё раз.</string>
+    <string name="login_failed">Ошибка входа</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="action_sign_in_short">Войти</string>
+
+    <!-- Register -->
+    <string name="register_title">Создать аккаунт</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Пароль</string>
+    <string name="already_have_account">Уже есть аккаунт? Войти</string>
+
+    <!-- Validation -->
+    <string name="invalid_username">Неверное имя пользователя</string>
+    <string name="invalid_password">Неверный пароль (мин. 6 символов)</string>
+
+    <!-- Home Fragment -->
+    <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
+    <string name="generate_rule_text">Сгенерировать правило на сегодня</string>
+    <string name="generate_rule_placeholder">Сгенерируйте правило на сегодня</string>
+    <string name="generate_rule_button">Сгенерировать правило</string>
+    <string name="btn_generate_rule">Сгенерировать правило</string>
+    <string name="btn_followed">Правило выполнено ✅</string>
+    <string name="btn_not_followed">Не выполнено ❌</string>
+    <string name="mood_question">Как вы себя чувствуете сегодня?</string>
+    <string name="mood_tired">😴 Устал</string>
+    <string name="mood_okay">😐 Нормально</string>
+    <string name="mood_great">😊 Отлично</string>
+    <string name="mood_hyped">🔥 Заряжен</string>
+    <string name="matched_songs">🎵 Подобранные песни</string>
+    <string name="share_rule">🎴 Поделиться правилом</string>
+    <string name="note_hint">✏️ Добавьте заметку...</string>
+    <string name="rate_rule">⭐ Оценить правило</string>
+    <string name="generating">✨ Генерирую...</string>
+    <string name="no_songs_found">Песни не найдены</string>
+    <string name="please_login">Пожалуйста, войдите в систему!</string>
+
+    <!-- Account Fragment -->
+    <string name="hint_goal">Ваша цель (например, стать в форме)</string>
+    <string name="hint_habit">Ваши привычки (например, ленивый, активный)</string>
+    <string name="save_button">Сохранить</string>
+    <string name="toast_fill_fields">Пожалуйста, заполните все поля</string>
+    <string name="toast_user_not_logged_in">Пользователь не вошёл в систему!</string>
+    <string name="toast_saved">Профиль сохранён!</string>
+    <string name="toast_error">Ошибка: </string>
+    <string name="profile_title">Мой профиль</string>
+    <string name="profile_subtitle">Ваше правило формирует ваш день 🌷</string>
+    <string name="your_goal">🎯 Ваша цель</string>
+    <string name="your_habit">💤 Ваша текущая привычка</string>
+    <string name="rule_difficulty">⚡ Сложность правила</string>
+    <string name="about_you">🌸 О вас</string>
+    <string name="hours_per_day">⏱️ Часов в день на цель</string>
+    <string name="age_range">🎂 Возрастная группа</string>
+    <string name="have_kids">👶 Есть дети?</string>
+    <string name="have_pets">🐾 Есть питомцы?</string>
+    <string name="living_city">🏙️ Живёте в городе?</string>
+    <string name="work_from_home">🏠 Работаете из дома?</string>
+    <string name="save_profile">Сохранить профиль 🌸</string>
+    <string name="get_advice">Хотите совет? 💡</string>
+    <string name="advice_hint">Как вы хотите получить совет? (например, кратко, подробно...)</string>
+    <string name="get_ai_advice">💡 Получить совет от ИИ</string>
+    <string name="rule_history">📖 История правил</string>
+    <string name="no_history">История пуста — начните генерировать! 🌸</string>
+
+    <!-- Calendar Fragment -->
+    <string name="mood_loading">🌸 Загружаем настроение...</string>
+    <string name="this_week">📅 Эта неделя</string>
+    <string name="last_4_weeks">📈 Последние 4 недели</string>
+    <string name="streak_start">Начните серию сегодня!</string>
+
+    <!-- Settings Fragment -->
+    <string name="language">Язык</string>
+    <string name="settings">Настройки</string>
+    <string name="theme">Тема</string>
+    <string name="privacy">Конфиденциальность</string>
+    <string name="english">English</string>
+    <string name="russian">Русский</string>
+    <string name="chinese">中文</string>
+    <string name="armenian">Հայերեն</string>
+    <string name="light_mode">Светлая тема</string>
+    <string name="dark_mode">Тёмная тема</string>
+    <string name="my_current_rule">🎯 Моё текущее правило</string>
+    <string name="sign_out">Выйти</string>
+    <string name="danger_zone">⚠️ Опасная зона</string>
+    <string name="reset_calendar">🗑️ Сбросить данные календаря</string>
+    <string name="sign_out_confirm">Вам придётся войти снова для доступа к данным.</string>
+    <string name="reset_confirm">Это навсегда удалит все данные календаря. Отменить нельзя.</string>
+
+    <!-- Goals / Rules -->
     <string name="start">Начать</string>
     <string name="stop">Остановить</string>
     <string name="generate_rule">Сгенерировать правило</string>
@@ -16,25 +113,13 @@
     <string name="feedback_well_done">Отлично!</string>
     <string name="feedback_keep_going">Продолжайте!</string>
     <string name="feedback_try_again">Попробуйте завтра</string>
-    <string name="hello_blank_fragment">Привет, пустой фрагмент</string>
-    <string name="hint_goal">Ваша цель (например, стать в форме)</string>
-    <string name="hint_habit">Ваши привычки (например, ленивый, активный)</string>
-    <string name="save_button">Сохранить</string>
-    <string name="toast_fill_fields">Пожалуйста, заполните все поля</string>
-    <string name="toast_user_not_logged_in">Пользователь не вошел в систему!</string>
-    <string name="toast_saved">Профиль сохранен!</string>
-    <string name="toast_error">Ошибка: </string>
-    <string name="generate_rule_placeholder">Сгенерируйте правило на сегодня</string>
-    <string name="generate_rule_button">Сгенерировать правило</string>
+
     <!-- Navbar -->
     <string name="nav_home">Главная</string>
     <string name="nav_calendar">Календарь</string>
     <string name="nav_account">Аккаунт</string>
     <string name="nav_settings">Настройки</string>
 
-    <!-- Buttons -->
-    <string name="btn_followed">Правило выполнено ✅</string>
-    <string name="btn_not_followed">Не выполнено ❌</string>
-    <string name="btn_generate_rule">Сгенерировать правило</string>
-
+    <!-- Google Sign-In -->
+    <string name="default_web_client_id">173962283423-k6i44hcqmlu4kq87tlfb5ppmc768ns6v.apps.googleusercontent.com</string>
 </resources>

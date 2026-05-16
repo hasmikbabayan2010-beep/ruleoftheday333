@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">RuleOfTheDay</string>
+
+    <!-- Login -->
+    <string name="title_activity_login">Մուտք</string>
+    <string name="prompt_email">Մուտքագրեք էլ. փոստ</string>
+    <string name="prompt_password">Մուտքագրեք գաղտնաբառ</string>
+    <string name="login_empty_fields">Խնդրում ենք մուտքագրել էլ. փոստ և գաղտնաբառ</string>
+    <string name="login_failed_generic">Մուտքը ձախողվեց: Փորձեք կրկին:</string>
+    <string name="login_failed">Մուտքը ձախողվեց</string>
+    <string name="action_sign_in">Մուտք</string>
+    <string name="action_sign_in_short">Մուտք</string>
+
+    <!-- Register -->
+    <string name="register_title">Ստեղծել հաշիվ</string>
+    <string name="email_hint">Էլ. փոստ</string>
+    <string name="password_hint">Գաղտնաբառ</string>
+    <string name="already_have_account">Արդեն հաշիվ ունե՞ք: Մուտք</string>
+
+    <!-- Validation -->
+    <string name="invalid_username">Անվավեր օգտանուն</string>
+    <string name="invalid_password">Անվավեր գաղտնաբառ (նվազ. 6 նիշ)</string>
+
+    <!-- Home Fragment -->
+    <string name="hello_blank_fragment">Բարև, դատարկ հատված</string>
+    <string name="generate_rule_text">Ստեղծել այսօրվա կանոնը</string>
+    <string name="generate_rule_placeholder">Ստեղծեք այսօրվա կանոնը</string>
+    <string name="generate_rule_button">Ստեղծել կանոն</string>
+    <string name="btn_generate_rule">Ստեղծել կանոն</string>
+    <string name="btn_followed">Կանոնը կատարված է ✅</string>
+    <string name="btn_not_followed">Կանոնը չի կատարվել ❌</string>
+    <string name="mood_question">Ինչպե՞ս եք զգում այսօր:</string>
+    <string name="mood_tired">😴 Հոգնած</string>
+    <string name="mood_okay">😐 Նորմալ</string>
+    <string name="mood_great">😊 Հիանալի</string>
+    <string name="mood_hyped">🔥 Եռանդուն</string>
+    <string name="matched_songs">🎵 Ընտրված երգեր</string>
+    <string name="share_rule">🎴 Կիսվել կանոնով</string>
+    <string name="note_hint">✏️ Ավելացրեք գրառում...</string>
+    <string name="rate_rule">⭐ Գնահատել կանոնը</string>
+    <string name="generating">✨ Ստեղծվում է...</string>
+    <string name="no_songs_found">Երգեր չեն գտնվել</string>
+    <string name="please_login">Խնդրում ենք մուտք գործել!</string>
+
+    <!-- Account Fragment -->
+    <string name="hint_goal">Ձեր նպատակը (օր.՝ ֆիզ. պատրաստություն)</string>
+    <string name="hint_habit">Ձեր սովորությունները (օր.՝ ծուլություն, ակտիվ)</string>
+    <string name="save_button">Պահպանել</string>
+    <string name="toast_fill_fields">Խնդրում ենք լրացնել բոլոր դաշտերը</string>
+    <string name="toast_user_not_logged_in">Օգտատերը մուտք չի գործել!</string>
+    <string name="toast_saved">Պրոֆիլը պահպանված է!</string>
+    <string name="toast_error">Սխալ՝ </string>
+    <string name="profile_title">Իմ պրոֆիլը</string>
+    <string name="profile_subtitle">Ձեր կանոնը ձևավորում է ձեր օրը 🌷</string>
+    <string name="your_goal">🎯 Ձեր նպատակը</string>
+    <string name="your_habit">💤 Ձեր ներկա սովորությունը</string>
+    <string name="rule_difficulty">⚡ Կանոնի դժվարություն</string>
+    <string name="about_you">🌸 Ձեր մասին</string>
+    <string name="hours_per_day">⏱️ Ժամ/օր նպատակի համար</string>
+    <string name="age_range">🎂 Տարիքային խումբ</string>
+    <string name="have_kids">👶 Երեխաներ ունե՞ք:</string>
+    <string name="have_pets">🐾 Կենդանիներ ունե՞ք:</string>
+    <string name="living_city">🏙️ Քաղաքո՞ւմ եք ապրում:</string>
+    <string name="work_from_home">🏠 Տնից եք աշխատո՞ւմ:</string>
+    <string name="save_profile">Պահպանել պրոֆիլը 🌸</string>
+    <string name="get_advice">Ուզո՞ւմ եք խորհուրդ: 💡</string>
+    <string name="advice_hint">Ինչպե՞ս եք ուզում ստանալ խորհուրդ (օր.՝ կետերով, կարճ...)</string>
+    <string name="get_ai_advice">💡 Ստանալ ԱԲ խորհուրդ</string>
+    <string name="rule_history">📖 Կանոնների պատմություն</string>
+    <string name="no_history">Պատմություն չկա — սկսեք ստեղծել: 🌸</string>
+
+    <!-- Calendar Fragment -->
+    <string name="mood_loading">🌸 Բեռնվում է տրամադրությունը...</string>
+    <string name="this_week">📅 Այս շաբաթ</string>
+    <string name="last_4_weeks">📈 Վերջին 4 շաբաթ</string>
+    <string name="streak_start">Սկսեք ձեր շարքը այսօր:</string>
+
+    <!-- Settings Fragment -->
+    <string name="language">Լեզու</string>
+    <string name="settings">Կարգավորումներ</string>
+    <string name="theme">Թեմա</string>
+    <string name="privacy">Գաղտնիություն</string>
+    <string name="english">English</string>
+    <string name="russian">Русский</string>
+    <string name="chinese">中文</string>
+    <string name="armenian">Հայերեն</string>
+    <string name="light_mode">Բաց թեմա</string>
+    <string name="dark_mode">Մուգ թեմա</string>
+    <string name="my_current_rule">🎯 Իմ ընթացիկ կանոնը</string>
+    <string name="sign_out">Ելք</string>
+    <string name="danger_zone">⚠️ Վտանգ</string>
+    <string name="reset_calendar">🗑️ Վերականգնել օրացույցի տվյալները</string>
+    <string name="sign_out_confirm">Ելքից հետո պետք կլինի կրկին մուտք գործել:</string>
+    <string name="reset_confirm">Սա կջնջի բոլոր օրացույցի տվյալները: Հնարավոր չէ հետ կանգնել:</string>
+
+    <!-- Goals / Rules -->
+    <string name="start">Սկսել</string>
+    <string name="stop">Դադարեցնել</string>
+    <string name="generate_rule">Ստեղծել կանոն</string>
+    <string name="goal">Նպատակ</string>
+    <string name="habit">Սովորություն</string>
+    <string name="frequency">Հաճախականություն</string>
+    <string name="priority">Առաջնահերթություն</string>
+    <string name="enter_goal">Մուտքագրեք ձեր նպատակը</string>
+    <string name="enter_habit">Մուտքագրեք սովորություն</string>
+    <string name="rule_drink_water">Այսօր խմեք 2 լիտր ջուր</string>
+    <string name="rule_read_book">Կարդացեք 30 րոպե</string>
+    <string name="rule_no_sugar">Առանց շաքարի այսօր</string>
+    <string name="rule_walk">Գնացեք զբոսնելու</string>
+    <string name="rule_journal">Գրառում կատարեք օրագրում</string>
+    <string name="feedback_well_done">Հիանալի:</string>
+    <string name="feedback_keep_going">Շարունակեք:</string>
+    <string name="feedback_try_again">Փորձեք վաղը</string>
+
+    <!-- Navbar -->
+    <string name="nav_home">Գլխավոր</string>
+    <string name="nav_calendar">Օրացույց</string>
+    <string name="nav_account">Հաշիվ</string>
+    <string name="nav_settings">Կարգավորումներ</string>
+
+    <!-- Google Sign-In -->
+    <string name="default_web_client_id">173962283423-k6i44hcqmlu4kq87tlfb5ppmc768ns6v.apps.googleusercontent.com</string>
+</resources>

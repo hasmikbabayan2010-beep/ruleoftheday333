@@ -1,2 +1,4 @@
 /build
 local.properties
+app/src/main/java/com/example/ruleoftheday333/fragments/HomeFragment.java
+app/src/main/java/com/example/ruleoftheday333/fragments/AccountFragment.java
