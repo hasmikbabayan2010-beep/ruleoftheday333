@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
     private final ExecutorService executor = Executors.newFixedThreadPool(3);
 
     // ⚠️ Put your Groq API key here
-    private static final String GROQ_API_KEY = "YOUR_GROQ_KEY_HERE";
+    private static final String GROQ_API_KEY = "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";
     private static final String GROQ_API_URL  = "https://api.groq.com/openai/v1/chat/completions";
     private static final String GROQ_MODEL    = "llama-3.1-8b-instant";
 
