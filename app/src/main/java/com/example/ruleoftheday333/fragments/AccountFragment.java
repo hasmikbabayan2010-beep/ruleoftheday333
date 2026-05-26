@@ -656,7 +656,7 @@ public class AccountFragment extends Fragment {
         try {
             java.util.Properties props = new java.util.Properties();
             // Try to read from assets or return placeholder
-            return "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";
+            return "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";
         } catch (Exception e) {
             return "";
         }
